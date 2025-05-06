@@ -15,15 +15,19 @@ export function AppLayout({ children }: AppLayoutProps) {
   React.useEffect(() => {
     if (isMobile) {
       setCollapsed(true);
+    } else {
+      setCollapsed(false);
     }
   }, [isMobile]);
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row bg-gray-50">
+    <div className="min-h-screen flex bg-gray-50">
       <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
-      <div className={`flex-1 transition-all duration-300 ${collapsed ? "md:ml-0" : "md:ml-0"}`}>
+      <div className="flex-1 flex flex-col w-full">
         <Header collapsed={collapsed} setCollapsed={setCollapsed} />
-        <main className="p-4 md:p-6 lg:p-8 pb-24 max-w-screen-2xl mx-auto">{children}</main>
+        <main className="p-4 md:p-6 lg:p-8 pb-24 max-w-screen-2xl mx-auto w-full">
+          {children}
+        </main>
       </div>
     </div>
   );
