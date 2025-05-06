@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -8,12 +9,24 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import { VoiceConfig } from "@/components/agents/VoiceConfig";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Phone, PhoneOutgoing, Plus } from "lucide-react";
+import { Phone, PhoneOutgoing, Plus, Link as LinkIcon, ExternalLink, Webhook } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
 
 export function AgentForm() {
   const [callType, setCallType] = useState("inbound");
+  const { toast } = useToast();
+  
+  const handleCopyApiLink = () => {
+    const apiLink = `https://api.voico.ai/v1/calls/agent-1/trigger`;
+    navigator.clipboard.writeText(apiLink).then(() => {
+      toast({
+        title: "API link copied",
+        description: "The API link has been copied to your clipboard",
+      });
+    });
+  };
 
   return (
     <Tabs defaultValue="general" className="w-full">
@@ -67,6 +80,40 @@ export function AgentForm() {
                 </div>
               </RadioGroup>
             </div>
+            
+            {callType === "outbound" && (
+              <div className="p-4 bg-voico-blue-50 rounded-md border border-voico-blue-200 space-y-4">
+                <h3 className="font-medium text-voico-blue-800 flex items-center gap-2">
+                  <Webhook className="h-4 w-4" />
+                  API Trigger Link
+                </h3>
+                <p className="text-sm text-gray-700">Use this API link to trigger outbound calls from external platforms like Make.com or n8n.</p>
+                
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <Input 
+                    readOnly 
+                    value="https://api.voico.ai/v1/calls/agent-1/trigger" 
+                    className="font-mono text-sm bg-white flex-1"
+                  />
+                  <Button onClick={handleCopyApiLink} className="bg-voico-blue-800 hover:bg-voico-blue-700">
+                    <LinkIcon className="mr-2 h-4 w-4" />
+                    Copy API Link
+                  </Button>
+                </div>
+                
+                <div className="flex items-center justify-between pt-2 text-sm">
+                  <span className="text-voico-blue-800">
+                    Documentation
+                  </span>
+                  <Button variant="link" className="h-auto p-0" asChild>
+                    <a href="https://docs.voico.ai/api" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-voico-blue-800">
+                      View API Docs
+                      <ExternalLink className="h-3 w-3" />
+                    </a>
+                  </Button>
+                </div>
+              </div>
+            )}
             
             <div className="space-y-2">
               <Label htmlFor="greeting">Greeting Message</Label>
