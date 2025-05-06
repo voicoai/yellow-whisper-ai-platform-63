@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
-import { Phone, Settings, Plus } from "lucide-react";
+import { Phone, PhoneOutgoing, Settings, Plus } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 interface Agent {
@@ -14,6 +14,7 @@ interface Agent {
   avgDuration: string;
   costPerMinute: number;
   languages: string[];
+  callType: "inbound" | "outbound";
 }
 
 export function AgentsList() {
@@ -29,7 +30,8 @@ export function AgentsList() {
       callCount: 87,
       avgDuration: "3m 22s",
       costPerMinute: 0.06,
-      languages: ["English"]
+      languages: ["English"],
+      callType: "inbound"
     },
     {
       id: "agent-2",
@@ -39,7 +41,8 @@ export function AgentsList() {
       callCount: 42,
       avgDuration: "2m 47s",
       costPerMinute: 0.05,
-      languages: ["English", "German"]
+      languages: ["English", "German"],
+      callType: "outbound"
     },
     {
       id: "agent-3",
@@ -49,7 +52,8 @@ export function AgentsList() {
       callCount: 56,
       avgDuration: "4m 12s",
       costPerMinute: 0.06,
-      languages: ["English"]
+      languages: ["English"],
+      callType: "inbound"
     }
   ];
 
@@ -66,8 +70,25 @@ export function AgentsList() {
         {agents.map((agent) => (
           <Card key={agent.id} className="border border-gray-200 hover:shadow-md transition-shadow h-full flex flex-col">
             <CardHeader>
-              <CardTitle className="text-lg">{agent.name}</CardTitle>
-              <CardDescription className="line-clamp-2">{agent.role}</CardDescription>
+              <div className="flex justify-between items-start">
+                <div>
+                  <CardTitle className="text-lg">{agent.name}</CardTitle>
+                  <CardDescription className="line-clamp-2">{agent.role}</CardDescription>
+                </div>
+                <div className="inline-flex items-center px-2 py-1 rounded bg-voico-blue-50 text-voico-blue-800">
+                  {agent.callType === "inbound" ? (
+                    <div className="flex items-center text-xs font-medium">
+                      <Phone className="h-3 w-3 mr-1" />
+                      Inbound
+                    </div>
+                  ) : (
+                    <div className="flex items-center text-xs font-medium">
+                      <PhoneOutgoing className="h-3 w-3 mr-1" />
+                      Outbound
+                    </div>
+                  )}
+                </div>
+              </div>
             </CardHeader>
             <CardContent className="space-y-4 flex-grow">
               <div className="flex items-center space-x-2">

@@ -8,8 +8,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { VoiceConfig } from "@/components/agents/VoiceConfig";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Phone, PhoneOutgoing } from "lucide-react";
+import { useState } from "react";
 
 export function AgentForm() {
+  const [callType, setCallType] = useState("inbound");
+
   return (
     <Tabs defaultValue="general" className="w-full">
       <TabsList className="grid grid-cols-5 mb-8">
@@ -36,6 +41,32 @@ export function AgentForm() {
                 <Label htmlFor="role">Role Description</Label>
                 <Input id="role" placeholder="Handles general inquiries" />
               </div>
+            </div>
+            
+            <div className="space-y-2">
+              <Label>Call Direction</Label>
+              <RadioGroup 
+                value={callType} 
+                onValueChange={setCallType}
+                className="flex flex-col space-y-3 pt-2"
+              >
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="inbound" id="inbound" />
+                  <Label htmlFor="inbound" className="flex items-center">
+                    <Phone className="mr-2 h-4 w-4" />
+                    <span>Inbound Calls</span>
+                    <span className="ml-2 text-xs text-gray-500">(Agent receives calls from customers)</span>
+                  </Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="outbound" id="outbound" />
+                  <Label htmlFor="outbound" className="flex items-center">
+                    <PhoneOutgoing className="mr-2 h-4 w-4" />
+                    <span>Outbound Calls</span>
+                    <span className="ml-2 text-xs text-gray-500">(Agent makes calls to customers)</span>
+                  </Label>
+                </div>
+              </RadioGroup>
             </div>
             
             <div className="space-y-2">
