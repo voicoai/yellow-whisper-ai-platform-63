@@ -1,6 +1,6 @@
 
 import { Link, useLocation } from "react-router-dom";
-import { Phone, Users, List, BarChart3, PhoneCall, Settings } from "lucide-react";
+import { Phone, Users, List, BarChart3, PhoneCall, Settings, CreditCard } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -40,6 +40,10 @@ export function Sidebar({
     name: "Team",
     path: "/team",
     icon: Settings
+  }, {
+    name: "Account Settings",
+    path: "/account-settings",
+    icon: CreditCard
   }];
 
   return (

@@ -12,6 +12,7 @@ import AgentDetail from "./pages/AgentDetail";
 import Telephony from "./pages/Telephony";
 import CallHistory from "./pages/CallHistory";
 import Team from "./pages/Team";
+import AccountSettings from "./pages/AccountSettings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -29,6 +30,7 @@ const App = () => (
           <Route path="/telephony" element={<Telephony />} />
           <Route path="/call-history" element={<CallHistory />} />
           <Route path="/team" element={<Team />} />
+          <Route path="/account-settings" element={<AccountSettings />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
