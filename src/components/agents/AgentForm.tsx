@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -8,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import { VoiceConfig } from "@/components/agents/VoiceConfig";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Phone, PhoneOutgoing, Plus, Link as LinkIcon, ExternalLink, Webhook, BookOpen } from "lucide-react";
+import { Phone, PhoneOutgoing, Plus, Link as LinkIcon, ExternalLink, Webhook, BookOpen, FileText } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
