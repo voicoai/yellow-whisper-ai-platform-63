@@ -9,6 +9,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Agents from "./pages/Agents";
 import AgentDetail from "./pages/AgentDetail";
+import KnowledgeBases from "./pages/KnowledgeBases";
 import Telephony from "./pages/Telephony";
 import CallHistory from "./pages/CallHistory";
 import Team from "./pages/Team";
@@ -28,6 +29,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/agents" element={<Agents />} />
           <Route path="/agents/:id" element={<AgentDetail />} />
+          <Route path="/knowledge-bases" element={<KnowledgeBases />} />
           <Route path="/telephony" element={<Telephony />} />
           <Route path="/call-history" element={<CallHistory />} />
           <Route path="/team" element={<Team />} />

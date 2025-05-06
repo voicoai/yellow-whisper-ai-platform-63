@@ -1,6 +1,5 @@
-
 import { Link, useLocation } from "react-router-dom";
-import { Phone, Users, List, BarChart3, PhoneCall, Settings, CreditCard, Webhook } from "lucide-react";
+import { Phone, Users, List, BarChart3, PhoneCall, Settings, CreditCard, Webhook, BookOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -28,6 +27,10 @@ export function Sidebar({
     name: "Agents",
     path: "/agents",
     icon: Users
+  }, {
+    name: "Knowledge Bases",
+    path: "/knowledge-bases",
+    icon: BookOpen
   }, {
     name: "Telephony",
     path: "/telephony",

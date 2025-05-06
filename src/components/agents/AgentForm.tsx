@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -9,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import { VoiceConfig } from "@/components/agents/VoiceConfig";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Phone, PhoneOutgoing, Plus, Link as LinkIcon, ExternalLink, Webhook } from "lucide-react";
+import { Phone, PhoneOutgoing, Plus, Link as LinkIcon, ExternalLink, Webhook, BookOpen } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
@@ -30,10 +29,11 @@ export function AgentForm() {
 
   return (
     <Tabs defaultValue="general" className="w-full">
-      <TabsList className="grid grid-cols-4 mb-8">
+      <TabsList className="grid grid-cols-5 mb-8">
         <TabsTrigger value="general">General</TabsTrigger>
         <TabsTrigger value="prompt">Prompt</TabsTrigger>
         <TabsTrigger value="voice">Voice</TabsTrigger>
+        <TabsTrigger value="knowledge">Knowledge</TabsTrigger>
         <TabsTrigger value="integrations">Integrations</TabsTrigger>
       </TabsList>
       
@@ -189,6 +189,63 @@ export function AgentForm() {
       
       <TabsContent value="voice">
         <VoiceConfig />
+      </TabsContent>
+      
+      <TabsContent value="knowledge">
+        <Card>
+          <CardHeader>
+            <CardTitle>Knowledge Bases</CardTitle>
+            <CardDescription>Connect knowledge bases to make your agent smarter</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <Card className="border-2 border-primary">
+                <CardHeader className="pb-3">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="bg-muted p-2 rounded-md">
+                      <FileText className="h-4 w-4 text-voico-yellow-500" />
+                    </div>
+                    <div className="text-xs text-muted-foreground px-2 py-1 rounded-full bg-muted">
+                      3 sources
+                    </div>
+                  </div>
+                  <CardTitle className="text-base">Product Documentation</CardTitle>
+                  <CardDescription className="text-sm line-clamp-2">Documentation for our SaaS product</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex justify-end">
+                    <Button variant="ghost" size="sm" className="text-destructive">
+                      Disconnect
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+              
+              <Card className="border-dashed flex flex-col items-center justify-center py-8">
+                <div className="mb-2 bg-muted p-3 rounded-full">
+                  <BookOpen className="h-6 w-6 text-muted-foreground" />
+                </div>
+                <h3 className="font-medium text-base mb-1">Add Knowledge</h3>
+                <p className="text-sm text-muted-foreground text-center px-4 mb-4">
+                  Connect existing or create new knowledge bases
+                </p>
+                <div className="flex gap-2">
+                  <Button variant="outline" size="sm" asChild>
+                    <Link to="/knowledge-bases">
+                      Browse Existing
+                    </Link>
+                  </Button>
+                  <Button size="sm" className="bg-voico-blue-800 hover:bg-voico-blue-700" asChild>
+                    <Link to="/knowledge-bases?tab=create">
+                      <Plus className="h-4 w-4 mr-1" />
+                      Create New
+                    </Link>
+                  </Button>
+                </div>
+              </Card>
+            </div>
+          </CardContent>
+        </Card>
       </TabsContent>
       
       <TabsContent value="integrations">
