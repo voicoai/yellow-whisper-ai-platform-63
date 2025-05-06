@@ -1,7 +1,9 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export function SpendingWidget() {
+  const isMobile = useIsMobile();
   const monthlyData = [
     { day: 1, amount: 1.2 },
     { day: 2, amount: 0.8 },
@@ -35,11 +37,14 @@ export function SpendingWidget() {
     { day: 30, amount: 1.1 },
   ];
 
+  // For mobile, show less data points
+  const displayData = isMobile ? monthlyData.filter((_, i) => i % 2 === 0) : monthlyData;
+
   const maxAmount = Math.max(...monthlyData.map(d => d.amount));
   const totalSpending = monthlyData.reduce((sum, day) => sum + day.amount, 0).toFixed(2);
 
   return (
-    <Card>
+    <Card className="h-full">
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
           <div>
@@ -54,14 +59,14 @@ export function SpendingWidget() {
       </CardHeader>
       <CardContent className="pt-0">
         <div className="h-36 flex items-end space-x-1 mt-4">
-          {monthlyData.map((day, i) => (
+          {displayData.map((day, i) => (
             <div 
               key={i}
               className="flex-1 group relative"
               style={{ height: `${(day.amount / maxAmount) * 100}%`, minHeight: '1px' }}
             >
               <div 
-                className={`w-full bg-voico-blue-800/70 hover:bg-voico-blue-800 transition-all rounded-t-sm`}
+                className="w-full bg-voico-blue-800/70 hover:bg-voico-blue-800 transition-all rounded-t-sm"
                 style={{ height: '100%' }}
               ></div>
               <div className="opacity-0 group-hover:opacity-100 absolute -top-8 left-1/2 transform -translate-x-1/2 bg-voico-blue-900 text-white text-xs px-1.5 py-0.5 rounded whitespace-nowrap">

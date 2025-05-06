@@ -84,6 +84,26 @@
   body {
     @apply bg-background text-foreground;
   }
+  
+  /* Improve scrolling experience */
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Better focus styles for accessibility */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-voico-blue-800;
+  }
+  
+  /* Improve touch targets on mobile */
+  button, 
+  [role="button"], 
+  a.button, 
+  input[type="submit"], 
+  input[type="button"], 
+  input[type="reset"] {
+    @apply min-h-10 min-w-10;
+  }
 }
 
 @layer components {
@@ -100,7 +120,7 @@
   }
   
   .voico-stats-card {
-    @apply bg-white rounded-lg border border-voico-yellow-200 p-4 flex flex-col shadow-sm;
+    @apply bg-white rounded-lg border border-voico-yellow-200 p-4 flex flex-col shadow-sm hover:shadow-md transition-shadow;
   }
   
   .voico-stats-value {

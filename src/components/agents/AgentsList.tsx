@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Phone, Settings, Plus } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface Agent {
   id: string;
@@ -16,6 +17,8 @@ interface Agent {
 }
 
 export function AgentsList() {
+  const isMobile = useIsMobile();
+  
   // Sample data - in a real app this would come from an API
   const agents: Agent[] = [
     {
@@ -52,21 +55,21 @@ export function AgentsList() {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <h2 className="text-2xl font-semibold text-gray-800">Your AI Agents</h2>
-        <Button className="bg-voico-blue-800 hover:bg-voico-blue-700">
+        <Button className="bg-voico-blue-800 hover:bg-voico-blue-700 w-full sm:w-auto">
           <Plus className="mr-2 h-4 w-4" /> Create Agent
         </Button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {agents.map((agent) => (
-          <Card key={agent.id} className="border border-gray-200 hover:shadow-md transition-shadow">
+          <Card key={agent.id} className="border border-gray-200 hover:shadow-md transition-shadow h-full flex flex-col">
             <CardHeader>
-              <CardTitle>{agent.name}</CardTitle>
-              <CardDescription>{agent.role}</CardDescription>
+              <CardTitle className="text-lg">{agent.name}</CardTitle>
+              <CardDescription className="line-clamp-2">{agent.role}</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-4 flex-grow">
               <div className="flex items-center space-x-2">
                 <Phone className="h-4 w-4 text-gray-400" />
                 <span className="text-sm">{agent.phoneNumber}</span>
@@ -96,8 +99,8 @@ export function AgentsList() {
                 </div>
               </div>
             </CardContent>
-            <CardFooter className="flex justify-between">
-              <Button variant="ghost" size="sm" asChild>
+            <CardFooter className="flex justify-between pt-2 border-t">
+              <Button variant="ghost" size="sm" asChild className="text-voico-blue-800">
                 <Link to={`/agents/${agent.id}`}>View Details</Link>
               </Button>
               <Button variant="outline" size="icon" className="h-8 w-8">

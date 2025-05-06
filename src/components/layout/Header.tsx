@@ -1,5 +1,5 @@
 
-import { Bell, Settings, User } from "lucide-react";
+import { Bell, Settings, User, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "react-router-dom";
 import {
@@ -30,24 +30,25 @@ export function Header({ collapsed, setCollapsed }: HeaderProps) {
   };
 
   return (
-    <header className="bg-white border-b border-gray-200 py-2 px-4 flex items-center justify-between h-16">
+    <header className="bg-white border-b border-gray-200 py-3 px-4 md:px-6 flex items-center justify-between h-16 sticky top-0 z-10 shadow-sm">
       <div className="flex items-center">
         <button
           onClick={() => setCollapsed(!collapsed)}
-          className="md:hidden mr-2 p-2 rounded-md hover:bg-gray-100"
+          className="mr-3 p-2 rounded-md hover:bg-gray-100 transition-colors"
+          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
         >
-          <Settings size={20} />
+          <Menu size={20} />
         </button>
         <h1 className="text-xl font-semibold text-gray-800">{getPageTitle()}</h1>
       </div>
-      <div className="flex items-center space-x-2">
-        <Button variant="ghost" size="icon" className="relative">
+      <div className="flex items-center gap-2">
+        <Button variant="ghost" size="icon" className="relative" aria-label="Notifications">
           <Bell size={20} />
           <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
         </Button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="rounded-full">
+            <Button variant="ghost" size="icon" className="rounded-full" aria-label="User menu">
               <User size={20} />
             </Button>
           </DropdownMenuTrigger>
