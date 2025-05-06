@@ -8,8 +8,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import { VoiceConfig } from "@/components/agents/VoiceConfig";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Phone, PhoneOutgoing } from "lucide-react";
+import { Phone, PhoneOutgoing, Plus } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export function AgentForm() {
   const [callType, setCallType] = useState("inbound");
@@ -147,48 +148,20 @@ export function AgentForm() {
         <Card>
           <CardHeader>
             <CardTitle>Integrations</CardTitle>
-            <CardDescription>Connect your agent to external services</CardDescription>
+            <CardDescription>Connected services for this agent</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
-            <div className="space-y-2">
-              <Label>Calendar Integration</Label>
-              <div className="p-4 border border-gray-200 rounded-md flex justify-between items-center">
-                <div>
-                  <h4 className="font-medium">Cal.com</h4>
-                  <p className="text-sm text-gray-500">Allow agent to schedule appointments</p>
-                </div>
-                <Button variant="outline">Connect</Button>
-              </div>
+            <div className="bg-voico-yellow-50 rounded-md border border-voico-yellow-200 p-4 mb-6">
+              <h3 className="font-medium text-voico-blue-800">No integrations connected</h3>
+              <p className="text-sm text-gray-700 my-2">This agent doesn't have any integrations connected yet.</p>
             </div>
             
-            <div className="space-y-2">
-              <Label>Workflow Automation</Label>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="p-4 border border-gray-200 rounded-md flex justify-between items-center">
-                  <div>
-                    <h4 className="font-medium">Make.com</h4>
-                    <p className="text-sm text-gray-500">Trigger automated workflows</p>
-                  </div>
-                  <Button variant="outline">Connect</Button>
-                </div>
-                <div className="p-4 border border-gray-200 rounded-md flex justify-between items-center">
-                  <div>
-                    <h4 className="font-medium">n8n</h4>
-                    <p className="text-sm text-gray-500">Connect to your automation nodes</p>
-                  </div>
-                  <Button variant="outline">Connect</Button>
-                </div>
-              </div>
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="webhook">Webhook URL</Label>
-              <div className="flex space-x-2">
-                <Input id="webhook" placeholder="https://your-webhook.com/voico-endpoint" />
-                <Button variant="outline">Test</Button>
-              </div>
-              <p className="text-xs text-gray-500 mt-1">This webhook will be triggered on call events</p>
-            </div>
+            <Button asChild className="bg-voico-blue-800 hover:bg-voico-blue-700">
+              <Link to="/integrations">
+                <Plus className="mr-2 h-4 w-4" />
+                Connect Integration
+              </Link>
+            </Button>
           </CardContent>
         </Card>
       </TabsContent>
