@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,6 +62,33 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// VOICO brand colors
+				voico: {
+					yellow: {
+						50: '#FFFDF5',
+						100: '#FFF9E6',
+						200: '#FFF3CC',
+						300: '#FFEDB3',
+						400: '#FFE799',
+						500: '#FFE180',
+						600: '#FFD54D',
+						700: '#FFCA1A',
+						800: '#E6B400',
+						900: '#B38C00',
+					},
+					blue: {
+						50: '#EEF1F8',
+						100: '#D1DAF0',
+						200: '#A3B7E0',
+						300: '#7594D1',
+						400: '#4771C2',
+						500: '#345DA1',
+						600: '#294A80',
+						700: '#1E3760',
+						800: '#1E3A8A',
+						900: '#0F1D40',
+					}
 				}
 			},
 			borderRadius: {
