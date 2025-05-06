@@ -1,5 +1,5 @@
 
-import { Clock, Phone } from "lucide-react";
+import { Clock, Phone, Users } from "lucide-react";
 
 export function DashboardStats() {
   return (
