@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
+import { Input } from "@/components/ui/input";
 
 export function VoiceConfig() {
   const [isAdvancedOpen, setIsAdvancedOpen] = useState(false);
@@ -29,6 +30,20 @@ export function VoiceConfig() {
               <SelectItem value="roger">Roger (Male, Friendly)</SelectItem>
               <SelectItem value="sarah">Sarah (Female, Casual)</SelectItem>
               <SelectItem value="george">George (Male, Authoritative)</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        
+        <div className="space-y-2">
+          <Label htmlFor="languages">Supported Languages</Label>
+          <Select defaultValue="en">
+            <SelectTrigger id="languages">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="en">English</SelectItem>
+              <SelectItem value="de">German</SelectItem>
+              <SelectItem value="en-de">English & German</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -111,6 +126,15 @@ export function VoiceConfig() {
                 <span>Slower</span>
                 <span>Faster</span>
               </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="max-duration">Maximum Call Duration</Label>
+              <div className="flex items-center space-x-3">
+                <Input id="max-duration" type="number" defaultValue="10" />
+                <span>minutes</span>
+              </div>
+              <p className="text-xs text-gray-500 mt-1">Calls longer than this will be automatically ended</p>
             </div>
           </CollapsibleContent>
         </Collapsible>

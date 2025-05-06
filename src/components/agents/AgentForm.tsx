@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -152,30 +151,6 @@ export function AgentForm() {
             <CardDescription>Set boundaries for your agent's operation</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <Label htmlFor="max-duration">Maximum Call Duration</Label>
-                <div className="flex items-center space-x-3">
-                  <Input id="max-duration" type="number" defaultValue="10" />
-                  <span>minutes</span>
-                </div>
-                <p className="text-xs text-gray-500 mt-1">Calls longer than this will be automatically ended</p>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="languages">Supported Languages</Label>
-                <Select defaultValue="en">
-                  <SelectTrigger id="languages">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="en">English</SelectItem>
-                    <SelectItem value="de">German</SelectItem>
-                    <SelectItem value="en-de">English & German</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-            
             <div className="space-y-2">
               <Label>Agent Capabilities</Label>
               <div className="space-y-3 pt-2">
