@@ -16,11 +16,10 @@ export function AgentForm() {
 
   return (
     <Tabs defaultValue="general" className="w-full">
-      <TabsList className="grid grid-cols-5 mb-8">
+      <TabsList className="grid grid-cols-4 mb-8">
         <TabsTrigger value="general">General</TabsTrigger>
         <TabsTrigger value="prompt">Prompt</TabsTrigger>
         <TabsTrigger value="voice">Voice</TabsTrigger>
-        <TabsTrigger value="limits">Limits</TabsTrigger>
         <TabsTrigger value="integrations">Integrations</TabsTrigger>
       </TabsList>
       
@@ -142,34 +141,6 @@ export function AgentForm() {
       
       <TabsContent value="voice">
         <VoiceConfig />
-      </TabsContent>
-      
-      <TabsContent value="limits">
-        <Card>
-          <CardHeader>
-            <CardTitle>Limits and Constraints</CardTitle>
-            <CardDescription>Set boundaries for your agent's operation</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="space-y-2">
-              <Label>Agent Capabilities</Label>
-              <div className="space-y-3 pt-2">
-                <div className="flex items-center space-x-3">
-                  <Switch id="can-transfer" />
-                  <Label htmlFor="can-transfer">Can transfer to human</Label>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <Switch id="can-sms" />
-                  <Label htmlFor="can-sms">Can send SMS follow-ups</Label>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <Switch id="can-book" />
-                  <Label htmlFor="can-book">Can book calendar appointments</Label>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
       </TabsContent>
       
       <TabsContent value="integrations">
