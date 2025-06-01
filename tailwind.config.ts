@@ -63,7 +63,7 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				// VOICO brand colors - updated to use #FFE16C
+				// VOICO brand colors - harmonized with #FFE16C
 				voico: {
 					yellow: {
 						50: '#FFFEF7',
@@ -72,22 +72,22 @@ export default {
 						300: '#FFF3B3',
 						400: '#FFEC99',
 						500: '#FFE16C', // Main brand color
-						600: '#FFD700',
+						600: '#F5D85A',
 						700: '#E6C200',
 						800: '#CCAC00',
 						900: '#B39700',
 					},
-					blue: {
-						50: '#1E293B',
-						100: '#334155',
-						200: '#475569',
-						300: '#64748B',
-						400: '#94A3B8',
-						500: '#CBD5E1',
-						600: '#E2E8F0',
-						700: '#F1F5F9',
-						800: '#F8FAFC',
-						900: '#FFFFFF',
+					dark: {
+						50: '#0f172a',
+						100: '#1e293b',
+						200: '#334155',
+						300: '#475569',
+						400: '#64748b',
+						500: '#94a3b8',
+						600: '#cbd5e1',
+						700: '#e2e8f0',
+						800: '#f1f5f9',
+						900: '#f8fafc',
 					}
 				}
 			},

@@ -30,32 +30,32 @@ export function Header({ collapsed, setCollapsed }: HeaderProps) {
   };
 
   return (
-    <header className="bg-white border-b border-gray-200 py-3 px-4 md:px-6 flex items-center justify-between h-16 sticky top-0 z-10 shadow-sm">
+    <header className="header-glass py-3 px-4 md:px-6 flex items-center justify-between h-16 sticky top-0 z-10">
       <div className="flex items-center">
         <button
           onClick={() => setCollapsed(!collapsed)}
-          className="mr-3 p-2 rounded-md hover:bg-gray-100 transition-colors"
+          className="mr-3 p-2 rounded-md glass-button transition-all duration-300"
           aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
         >
-          <Menu size={20} />
+          <Menu size={20} className="text-foreground" />
         </button>
-        <h1 className="text-xl font-semibold text-gray-800">{getPageTitle()}</h1>
+        <h1 className="text-xl font-semibold text-foreground">{getPageTitle()}</h1>
       </div>
       <div className="flex items-center gap-2">
-        <Button variant="ghost" size="icon" className="relative" aria-label="Notifications">
-          <Bell size={20} />
-          <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+        <Button variant="ghost" size="icon" className="relative glass-button" aria-label="Notifications">
+          <Bell size={20} className="text-foreground" />
+          <span className="absolute top-1 right-1 w-2 h-2 bg-primary rounded-full"></span>
         </Button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="rounded-full" aria-label="User menu">
-              <User size={20} />
+            <Button variant="ghost" size="icon" className="rounded-full glass-button" aria-label="User menu">
+              <User size={20} className="text-foreground" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem>Profile</DropdownMenuItem>
-            <DropdownMenuItem>Settings</DropdownMenuItem>
-            <DropdownMenuItem>Logout</DropdownMenuItem>
+          <DropdownMenuContent align="end" className="glass-card border-white/10">
+            <DropdownMenuItem className="text-foreground hover:bg-white/10">Profile</DropdownMenuItem>
+            <DropdownMenuItem className="text-foreground hover:bg-white/10">Settings</DropdownMenuItem>
+            <DropdownMenuItem className="text-foreground hover:bg-white/10">Logout</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
