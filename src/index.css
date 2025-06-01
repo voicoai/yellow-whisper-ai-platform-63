@@ -58,6 +58,7 @@
   body {
     @apply bg-gradient-to-br from-voico-dark-50 via-voico-dark-100 to-voico-dark-50 text-foreground min-h-screen;
     background-attachment: fixed;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   }
   
   /* Better focus styles for accessibility */
@@ -74,6 +75,23 @@
   input[type="reset"] {
     @apply min-h-10 min-w-10;
   }
+
+  /* Typography improvements */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+  }
+
+  h1 {
+    @apply text-3xl md:text-4xl;
+  }
+
+  h2 {
+    @apply text-2xl md:text-3xl;
+  }
+
+  h3 {
+    @apply text-xl md:text-2xl;
+  }
 }
 
 @layer components {
@@ -82,15 +100,15 @@
   }
   
   .glass-card {
-    @apply bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl shadow-2xl p-6 hover:bg-white/10 transition-all duration-300;
+    @apply bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl shadow-2xl p-6 hover:bg-white/8 transition-all duration-300 hover:shadow-3xl hover:border-white/20;
   }
   
   .glass-button {
-    @apply bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition-all duration-300 shadow-lg text-foreground;
+    @apply bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition-all duration-300 shadow-lg text-foreground rounded-xl;
   }
   
   .glass-input {
-    @apply bg-white/5 backdrop-blur-md border border-white/20 focus:border-primary/50 focus:bg-white/10 transition-all duration-300 text-foreground placeholder:text-muted-foreground;
+    @apply bg-white/5 backdrop-blur-md border border-white/20 focus:border-primary/50 focus:bg-white/10 transition-all duration-300 text-foreground placeholder:text-muted-foreground rounded-xl;
   }
   
   .voico-card {
@@ -98,42 +116,108 @@
   }
   
   .voico-button-primary {
-    @apply bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 font-medium;
+    @apply bg-gradient-to-r from-primary to-primary/80 text-primary-foreground hover:from-primary/90 hover:to-primary/70 px-6 py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 font-medium backdrop-blur-sm;
   }
   
   .voico-button-secondary {
-    @apply glass-button text-primary px-4 py-2 rounded-lg;
+    @apply glass-button text-primary px-6 py-3 hover:text-primary/90 font-medium;
   }
   
   .voico-stats-card {
-    @apply glass-card flex flex-col;
+    @apply glass-card flex flex-col hover:transform hover:scale-105;
   }
   
   .voico-stats-value {
-    @apply text-2xl font-bold text-primary;
+    @apply text-3xl font-bold text-primary mb-1;
   }
   
   .voico-stats-label {
-    @apply text-sm text-muted-foreground;
+    @apply text-sm text-muted-foreground font-medium;
   }
   
   .sidebar-glass {
-    @apply bg-black/20 backdrop-blur-xl border-r border-white/10;
+    @apply bg-black/30 backdrop-blur-xl border-r border-white/10;
   }
   
   .header-glass {
-    @apply bg-black/20 backdrop-blur-xl border-b border-white/10;
+    @apply bg-black/30 backdrop-blur-xl border-b border-white/10;
+  }
+
+  /* Enhanced shadow utilities */
+  .shadow-3xl {
+    box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.25);
+  }
+
+  /* Gradient text utilities */
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent;
+  }
+
+  /* Card hover effects */
+  .card-hover {
+    @apply hover:transform hover:-translate-y-1 hover:shadow-2xl transition-all duration-300;
+  }
+
+  /* Better button styles */
+  .btn-primary {
+    @apply voico-button-primary;
+  }
+
+  .btn-secondary {
+    @apply voico-button-secondary;
+  }
+
+  /* Loading animations */
+  .loading-pulse {
+    @apply animate-pulse bg-white/10;
   }
 }
 
-/* Glass morphism animations */
+/* Enhanced glass morphism animations */
 @keyframes glass-shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% { 
+    background-position: -200% 0; 
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% { 
+    background-position: 200% 0; 
+    opacity: 0.5;
+  }
 }
 
 .glass-shimmer {
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 225, 108, 0.2), transparent);
   background-size: 200% 100%;
-  animation: glass-shimmer 2s infinite;
+  animation: glass-shimmer 3s infinite;
+}
+
+/* Floating animation for interactive elements */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.float-animation {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Glow effect for primary elements */
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(255, 225, 108, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(255, 225, 108, 0.6);
+  }
+}
+
+.glow-effect {
+  animation: glow 2s ease-in-out infinite alternate;
 }
