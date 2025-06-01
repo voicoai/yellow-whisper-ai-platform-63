@@ -21,12 +21,14 @@ export function AppLayout({ children }: AppLayoutProps) {
   }, [isMobile]);
 
   return (
-    <div className="min-h-screen flex bg-gray-50">
+    <div className="min-h-screen flex">
       <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
       <div className="flex-1 flex flex-col w-full">
         <Header collapsed={collapsed} setCollapsed={setCollapsed} />
         <main className="p-4 md:p-6 lg:p-8 pb-24 max-w-screen-2xl mx-auto w-full">
-          {children}
+          <div className="glass-card">
+            {children}
+          </div>
         </main>
       </div>
     </div>

@@ -63,31 +63,31 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				// VOICO brand colors
+				// VOICO brand colors - updated to use #FFE16C
 				voico: {
 					yellow: {
-						50: '#FFFDF5',
-						100: '#FFF9E6',
-						200: '#FFF3CC',
-						300: '#FFEDB3',
-						400: '#FFE799',
-						500: '#FFE180',
-						600: '#FFD54D',
-						700: '#FFCA1A',
-						800: '#E6B400',
-						900: '#B38C00',
+						50: '#FFFEF7',
+						100: '#FFFCE6',
+						200: '#FFF9CC',
+						300: '#FFF3B3',
+						400: '#FFEC99',
+						500: '#FFE16C', // Main brand color
+						600: '#FFD700',
+						700: '#E6C200',
+						800: '#CCAC00',
+						900: '#B39700',
 					},
 					blue: {
-						50: '#EEF1F8',
-						100: '#D1DAF0',
-						200: '#A3B7E0',
-						300: '#7594D1',
-						400: '#4771C2',
-						500: '#345DA1',
-						600: '#294A80',
-						700: '#1E3760',
-						800: '#1E3A8A',
-						900: '#0F1D40',
+						50: '#1E293B',
+						100: '#334155',
+						200: '#475569',
+						300: '#64748B',
+						400: '#94A3B8',
+						500: '#CBD5E1',
+						600: '#E2E8F0',
+						700: '#F1F5F9',
+						800: '#F8FAFC',
+						900: '#FFFFFF',
 					}
 				}
 			},
@@ -95,6 +95,9 @@ export default {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
+			},
+			backdropBlur: {
+				xs: '2px',
 			},
 			keyframes: {
 				'accordion-down': {
@@ -112,11 +115,31 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'glass-pulse': {
+					'0%, 100%': {
+						opacity: '1',
+						transform: 'scale(1)'
+					},
+					'50%': {
+						opacity: '0.8',
+						transform: 'scale(1.02)'
+					}
+				},
+				'float': {
+					'0%, 100%': {
+						transform: 'translateY(0px)'
+					},
+					'50%': {
+						transform: 'translateY(-10px)'
+					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'glass-pulse': 'glass-pulse 2s ease-in-out infinite',
+				'float': 'float 6s ease-in-out infinite'
 			}
 		}
 	},
