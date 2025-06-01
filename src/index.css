@@ -52,17 +52,12 @@
   }
 
   html {
-    @apply dark;
+    scroll-behavior: smooth;
   }
 
   body {
-    @apply bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-900 text-foreground min-h-screen;
+    @apply bg-gradient-to-br from-voico-dark-50 via-voico-dark-100 to-voico-dark-50 text-foreground min-h-screen;
     background-attachment: fixed;
-  }
-  
-  /* Improve scrolling experience */
-  html {
-    scroll-behavior: smooth;
   }
   
   /* Better focus styles for accessibility */
