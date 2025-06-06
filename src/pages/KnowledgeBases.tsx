@@ -276,23 +276,26 @@ const KnowledgeBases = () => {
           {/* Content Management */}
           <div className="lg:col-span-3">
             <Tabs value={detailActiveTab} onValueChange={setDetailActiveTab}>
-              <TabsList className="grid w-full max-w-lg grid-cols-3 bg-gray-100 rounded-lg">
+              <TabsList className="inline-flex h-12 items-center justify-center rounded-lg bg-white border border-gray-200 p-1 text-gray-600 shadow-sm w-auto">
                 <TabsTrigger 
                   value="files" 
-                  className="data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-md text-sm font-medium"
+                  className="inline-flex items-center justify-center whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-[#FDDF5C] data-[state=active]:text-black data-[state=active]:shadow-sm data-[state=active]:font-semibold hover:bg-gray-50"
                 >
+                  <FileText size={16} className="mr-2" />
                   Files ({files.length})
                 </TabsTrigger>
                 <TabsTrigger 
                   value="urls" 
-                  className="data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-md text-sm font-medium"
+                  className="inline-flex items-center justify-center whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-[#FDDF5C] data-[state=active]:text-black data-[state=active]:shadow-sm data-[state=active]:font-semibold hover:bg-gray-50"
                 >
+                  <Globe size={16} className="mr-2" />
                   URLs ({urls.length})
                 </TabsTrigger>
                 <TabsTrigger 
                   value="texts" 
-                  className="data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-md text-sm font-medium"
+                  className="inline-flex items-center justify-center whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-[#FDDF5C] data-[state=active]:text-black data-[state=active]:shadow-sm data-[state=active]:font-semibold hover:bg-gray-50"
                 >
+                  <MessageSquare size={16} className="mr-2" />
                   Text ({texts.length})
                 </TabsTrigger>
               </TabsList>
