@@ -1,6 +1,5 @@
-
 import { Link, useLocation } from "react-router-dom";
-import { Phone, Users, List, BarChart3, PhoneCall, Settings, CreditCard, Webhook, BookOpen, ChevronUp, LogOut, User } from "lucide-react";
+import { Phone, Users, List, BarChart3, PhoneCall, Settings, CreditCard, Webhook, BookOpen, ChevronUp, LogOut, User, HelpCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -57,10 +56,6 @@ export function Sidebar({
     name: "Team",
     path: "/team",
     icon: Settings
-  }, {
-    name: "Account Settings",
-    path: "/account-settings",
-    icon: CreditCard
   }];
 
   return (
@@ -146,7 +141,7 @@ export function Sidebar({
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent side="right" align="end" className="w-56 mb-2">
+              <DropdownMenuContent side="right" align="end" className="w-56 mb-2 bg-white border shadow-lg">
                 <div className="px-2 py-1.5">
                   <p className="text-sm font-medium">John Doe</p>
                   <p className="text-xs text-muted-foreground">john@example.com</p>
@@ -157,6 +152,10 @@ export function Sidebar({
                     <User className="mr-2 h-4 w-4" />
                     Account Settings
                   </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem className="flex items-center">
+                  <HelpCircle className="mr-2 h-4 w-4" />
+                  Help
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className="text-red-600">
@@ -182,12 +181,16 @@ export function Sidebar({
                   <ChevronUp className="h-4 w-4 text-voico-gray-500" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent side="top" align="start" className="w-56 mb-2">
+              <DropdownMenuContent side="top" align="start" className="w-56 mb-2 bg-white border shadow-lg">
                 <DropdownMenuItem asChild>
                   <Link to="/account-settings" className="flex items-center">
                     <User className="mr-2 h-4 w-4" />
                     Account Settings
                   </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem className="flex items-center">
+                  <HelpCircle className="mr-2 h-4 w-4" />
+                  Help
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className="text-red-600">
