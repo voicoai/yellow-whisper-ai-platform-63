@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -17,6 +16,7 @@ import { useToast } from "@/hooks/use-toast";
 export function AgentForm() {
   const [callType, setCallType] = useState("inbound");
   const [isActive, setIsActive] = useState(true);
+  const [selectedPhone, setSelectedPhone] = useState("");
   const { toast } = useToast();
   
   const handleCopyApiLink = () => {
@@ -37,31 +37,31 @@ export function AgentForm() {
           <TabsList className="inline-flex h-12 items-center justify-center rounded-none bg-transparent p-0">
             <TabsTrigger 
               value="general" 
-              className="relative h-12 rounded-none border-b-2 border-transparent bg-transparent px-6 pb-3 pt-3 font-medium text-gray-500 shadow-none transition-all data-[state=active]:border-[#FDDF5C] data-[state=active]:text-gray-900 data-[state=active]:shadow-none"
+              className="relative h-12 rounded-none border-b-2 border-transparent bg-transparent px-6 pb-3 pt-3 font-medium text-gray-600 shadow-none transition-all data-[state=active]:border-[#FDDF5C] data-[state=active]:text-gray-900 data-[state=active]:shadow-none hover:text-gray-900"
             >
               General
             </TabsTrigger>
             <TabsTrigger 
               value="prompt" 
-              className="relative h-12 rounded-none border-b-2 border-transparent bg-transparent px-6 pb-3 pt-3 font-medium text-gray-500 shadow-none transition-all data-[state=active]:border-[#FDDF5C] data-[state=active]:text-gray-900 data-[state=active]:shadow-none"
+              className="relative h-12 rounded-none border-b-2 border-transparent bg-transparent px-6 pb-3 pt-3 font-medium text-gray-600 shadow-none transition-all data-[state=active]:border-[#FDDF5C] data-[state=active]:text-gray-900 data-[state=active]:shadow-none hover:text-gray-900"
             >
               Prompt
             </TabsTrigger>
             <TabsTrigger 
               value="voice" 
-              className="relative h-12 rounded-none border-b-2 border-transparent bg-transparent px-6 pb-3 pt-3 font-medium text-gray-500 shadow-none transition-all data-[state=active]:border-[#FDDF5C] data-[state=active]:text-gray-900 data-[state=active]:shadow-none"
+              className="relative h-12 rounded-none border-b-2 border-transparent bg-transparent px-6 pb-3 pt-3 font-medium text-gray-600 shadow-none transition-all data-[state=active]:border-[#FDDF5C] data-[state=active]:text-gray-900 data-[state=active]:shadow-none hover:text-gray-900"
             >
               Voice
             </TabsTrigger>
             <TabsTrigger 
               value="knowledge" 
-              className="relative h-12 rounded-none border-b-2 border-transparent bg-transparent px-6 pb-3 pt-3 font-medium text-gray-500 shadow-none transition-all data-[state=active]:border-[#FDDF5C] data-[state=active]:text-gray-900 data-[state=active]:shadow-none"
+              className="relative h-12 rounded-none border-b-2 border-transparent bg-transparent px-6 pb-3 pt-3 font-medium text-gray-600 shadow-none transition-all data-[state=active]:border-[#FDDF5C] data-[state=active]:text-gray-900 data-[state=active]:shadow-none hover:text-gray-900"
             >
               Knowledge
             </TabsTrigger>
             <TabsTrigger 
               value="integrations" 
-              className="relative h-12 rounded-none border-b-2 border-transparent bg-transparent px-6 pb-3 pt-3 font-medium text-gray-500 shadow-none transition-all data-[state=active]:border-[#FDDF5C] data-[state=active]:text-gray-900 data-[state=active]:shadow-none"
+              className="relative h-12 rounded-none border-b-2 border-transparent bg-transparent px-6 pb-3 pt-3 font-medium text-gray-600 shadow-none transition-all data-[state=active]:border-[#FDDF5C] data-[state=active]:text-gray-900 data-[state=active]:shadow-none hover:text-gray-900"
             >
               Integrations
             </TabsTrigger>
@@ -69,59 +69,59 @@ export function AgentForm() {
         </div>
         
         <TabsContent value="general" className="space-y-8">
-          <Card className="border-0 shadow-none bg-white rounded-xl">
-            <CardHeader className="border-b border-gray-50 pb-6">
-              <CardTitle className="text-xl font-semibold text-gray-900">Agent Information</CardTitle>
-              <CardDescription className="text-gray-500">Configure the basic settings for your AI agent</CardDescription>
+          <Card className="border border-gray-100 shadow-sm bg-white rounded-lg">
+            <CardHeader className="border-b border-gray-50 px-6 py-4">
+              <CardTitle className="text-lg font-semibold text-gray-900">Agent Information</CardTitle>
+              <CardDescription className="text-sm text-gray-600">Configure the basic settings for your AI agent</CardDescription>
             </CardHeader>
-            <CardContent className="p-8 space-y-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="space-y-3">
+            <CardContent className="p-6 space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
                   <Label htmlFor="name" className="text-sm font-medium text-gray-700">Agent Name</Label>
                   <Input 
                     id="name" 
                     placeholder="Customer Support" 
-                    className="h-11 border-gray-200 rounded-lg focus:border-[#FDDF5C] focus:ring-1 focus:ring-[#FDDF5C] transition-colors" 
+                    className="h-10 border-gray-200 bg-white focus:border-[#FDDF5C] focus:ring-1 focus:ring-[#FDDF5C] transition-colors" 
                   />
                 </div>
-                <div className="space-y-3">
+                <div className="space-y-2">
                   <Label htmlFor="role" className="text-sm font-medium text-gray-700">Role Description</Label>
                   <Input 
                     id="role" 
                     placeholder="Handles general inquiries" 
-                    className="h-11 border-gray-200 rounded-lg focus:border-[#FDDF5C] focus:ring-1 focus:ring-[#FDDF5C] transition-colors" 
+                    className="h-10 border-gray-200 bg-white focus:border-[#FDDF5C] focus:ring-1 focus:ring-[#FDDF5C] transition-colors" 
                   />
                 </div>
               </div>
               
-              <div className="space-y-6">
+              <div className="space-y-4">
                 <Label className="text-sm font-medium text-gray-700">Call Direction</Label>
                 <RadioGroup 
                   value={callType} 
                   onValueChange={setCallType}
                   className="grid grid-cols-1 md:grid-cols-2 gap-4"
                 >
-                  <div className="flex items-center space-x-4 p-6 border border-gray-100 rounded-xl hover:border-[#FDDF5C] hover:bg-[#FDDF5C]/5 transition-all cursor-pointer group">
+                  <div className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg hover:border-[#FDDF5C] hover:bg-[#FDDF5C]/5 transition-all cursor-pointer group">
                     <RadioGroupItem value="inbound" id="inbound" className="border-gray-300 text-[#FDDF5C]" />
                     <Label htmlFor="inbound" className="flex items-center cursor-pointer flex-1">
-                      <div className="mr-4 p-2 rounded-lg bg-blue-50 group-hover:bg-blue-100 transition-colors">
-                        <Phone className="h-5 w-5 text-blue-600" />
+                      <div className="mr-3 p-2 rounded-lg bg-blue-50 group-hover:bg-blue-100 transition-colors">
+                        <Phone className="h-4 w-4 text-blue-600" />
                       </div>
                       <div>
-                        <span className="font-medium text-gray-900">Inbound Calls</span>
-                        <p className="text-sm text-gray-500">Agent receives calls from customers</p>
+                        <span className="font-medium text-gray-900 text-sm">Inbound Calls</span>
+                        <p className="text-xs text-gray-500">Agent receives calls from customers</p>
                       </div>
                     </Label>
                   </div>
-                  <div className="flex items-center space-x-4 p-6 border border-gray-100 rounded-xl hover:border-[#FDDF5C] hover:bg-[#FDDF5C]/5 transition-all cursor-pointer group">
+                  <div className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg hover:border-[#FDDF5C] hover:bg-[#FDDF5C]/5 transition-all cursor-pointer group">
                     <RadioGroupItem value="outbound" id="outbound" className="border-gray-300 text-[#FDDF5C]" />
                     <Label htmlFor="outbound" className="flex items-center cursor-pointer flex-1">
-                      <div className="mr-4 p-2 rounded-lg bg-green-50 group-hover:bg-green-100 transition-colors">
-                        <PhoneOutgoing className="h-5 w-5 text-green-600" />
+                      <div className="mr-3 p-2 rounded-lg bg-green-50 group-hover:bg-green-100 transition-colors">
+                        <PhoneOutgoing className="h-4 w-4 text-green-600" />
                       </div>
                       <div>
-                        <span className="font-medium text-gray-900">Outbound Calls</span>
-                        <p className="text-sm text-gray-500">Agent makes calls to customers</p>
+                        <span className="font-medium text-gray-900 text-sm">Outbound Calls</span>
+                        <p className="text-xs text-gray-500">Agent makes calls to customers</p>
                       </div>
                     </Label>
                   </div>
@@ -162,35 +162,43 @@ export function AgentForm() {
                 </div>
               )}
               
-              <div className="space-y-3">
+              <div className="space-y-2">
                 <Label htmlFor="greeting" className="text-sm font-medium text-gray-700">Greeting Message</Label>
                 <Textarea 
                   id="greeting"
                   placeholder="Hello! This is [Company] AI assistant. How can I help you today?"
                   rows={4}
-                  className="border-gray-200 rounded-lg focus:border-[#FDDF5C] focus:ring-1 focus:ring-[#FDDF5C] resize-none transition-colors"
+                  className="border-gray-200 bg-white focus:border-[#FDDF5C] focus:ring-1 focus:ring-[#FDDF5C] resize-none transition-colors"
                 />
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="space-y-3">
-                  <Label htmlFor="phone" className="text-sm font-medium text-gray-700">Assigned Phone Number</Label>
-                  <Select>
-                    <SelectTrigger id="phone" className="h-11 border-gray-200 rounded-lg focus:border-[#FDDF5C] focus:ring-1 focus:ring-[#FDDF5C]">
-                      <SelectValue placeholder="Select a phone number" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-white border border-gray-200 rounded-lg shadow-lg">
-                      <SelectItem value="+1555123456">+1 (555) 123-4567</SelectItem>
-                      <SelectItem value="+1555234567">+1 (555) 234-5678</SelectItem>
-                      <SelectItem value="+1555345678">+1 (555) 345-6789</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="space-y-3">
-                  <Label className="text-sm font-medium text-gray-700">Agent Status</Label>
-                  <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-100">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <Label className="text-sm font-medium text-gray-700">Assigned Phone Number</Label>
+                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-100">
                     <div className="flex items-center space-x-3">
-                      <div className={`w-3 h-3 rounded-full ${isActive ? 'bg-green-500' : 'bg-gray-400'}`}></div>
+                      <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                      <span className="text-sm font-medium text-gray-900">
+                        {selectedPhone || "+1 (555) 123-4567"}
+                      </span>
+                    </div>
+                    <Select value={selectedPhone} onValueChange={setSelectedPhone}>
+                      <SelectTrigger className="w-24 h-8 border-gray-200 bg-white text-xs">
+                        <SelectValue placeholder="Change" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-white border border-gray-200 rounded-lg shadow-lg">
+                        <SelectItem value="+1555123456">+1 (555) 123-4567</SelectItem>
+                        <SelectItem value="+1555234567">+1 (555) 234-5678</SelectItem>
+                        <SelectItem value="+1555345678">+1 (555) 345-6789</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label className="text-sm font-medium text-gray-700">Agent Status</Label>
+                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-100">
+                    <div className="flex items-center space-x-3">
+                      <div className={`w-2 h-2 rounded-full ${isActive ? 'bg-green-500' : 'bg-gray-400'}`}></div>
                       <span className="text-sm font-medium text-gray-900">
                         {isActive ? 'Active' : 'Inactive'}
                       </span>
@@ -333,11 +341,11 @@ export function AgentForm() {
           </Card>
         </TabsContent>
         
-        <div className="flex justify-end space-x-4 pt-8 border-t border-gray-100">
-          <Button variant="outline" className="border-gray-200 text-gray-700 hover:bg-gray-50 h-11 px-6 rounded-lg">
+        <div className="flex justify-end space-x-3 pt-6 border-t border-gray-100">
+          <Button variant="outline" className="border-gray-200 text-gray-700 hover:bg-gray-50 h-10 px-4">
             Cancel
           </Button>
-          <Button className="bg-gray-900 hover:bg-gray-800 text-white h-11 px-6 rounded-lg">
+          <Button className="bg-gray-900 hover:bg-gray-800 text-white h-10 px-4">
             <Save className="mr-2 h-4 w-4" />
             Save Agent
           </Button>
