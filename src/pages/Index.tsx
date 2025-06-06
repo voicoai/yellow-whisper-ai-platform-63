@@ -12,22 +12,31 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const Index = () => {
-  const [selectedMonth, setSelectedMonth] = useState("Juni 2025");
+  // Generate last 12 months with June 2025 as the most recent
+  const generateLast12Months = () => {
+    const months = [
+      "Januar", "Februar", "März", "April", "Mai", "Juni",
+      "Juli", "August", "September", "Oktober", "November", "Dezember"
+    ];
+    
+    const result = [];
+    let currentMonth = 5; // June (0-indexed)
+    let currentYear = 2025;
+    
+    for (let i = 0; i < 12; i++) {
+      result.push(`${months[currentMonth]} ${currentYear}`);
+      currentMonth--;
+      if (currentMonth < 0) {
+        currentMonth = 11;
+        currentYear--;
+      }
+    }
+    
+    return result;
+  };
 
-  const months = [
-    "Januar 2025",
-    "Februar 2025",
-    "März 2025",
-    "April 2025",
-    "Mai 2025",
-    "Juni 2025",
-    "Juli 2025",
-    "August 2025",
-    "September 2025",
-    "Oktober 2025",
-    "November 2025",
-    "Dezember 2025"
-  ];
+  const months = generateLast12Months();
+  const [selectedMonth, setSelectedMonth] = useState(months[0]); // Juni 2025
 
   return (
     <AppLayout>

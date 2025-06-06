@@ -22,18 +22,18 @@ export function DashboardStats({ selectedMonth }: DashboardStatsProps) {
   // Mock data for different months
   const getStatsForMonth = (month: string) => {
     const statsData: Record<string, { calls: number; answered: number; costs: string }> = {
-      "Januar 2025": { calls: 285, answered: 230, costs: "298,50€" },
-      "Februar 2025": { calls: 315, answered: 265, costs: "342,75€" },
-      "März 2025": { calls: 392, answered: 320, costs: "374,40€" },
-      "April 2025": { calls: 420, answered: 350, costs: "412,80€" },
-      "Mai 2025": { calls: 365, answered: 295, costs: "356,25€" },
       "Juni 2025": { calls: 445, answered: 380, costs: "425,60€" },
-      "Juli 2025": { calls: 398, answered: 330, costs: "389,20€" },
-      "August 2025": { calls: 410, answered: 345, costs: "402,50€" },
-      "September 2025": { calls: 375, answered: 310, costs: "367,85€" },
-      "Oktober 2025": { calls: 385, answered: 315, costs: "378,90€" },
-      "November 2025": { calls: 395, answered: 325, costs: "387,45€" },
-      "Dezember 2025": { calls: 405, answered: 340, costs: "396,75€" }
+      "Mai 2025": { calls: 365, answered: 295, costs: "356,25€" },
+      "April 2025": { calls: 420, answered: 350, costs: "412,80€" },
+      "März 2025": { calls: 392, answered: 320, costs: "374,40€" },
+      "Februar 2025": { calls: 315, answered: 265, costs: "342,75€" },
+      "Januar 2025": { calls: 285, answered: 230, costs: "298,50€" },
+      "Dezember 2024": { calls: 405, answered: 340, costs: "396,75€" },
+      "November 2024": { calls: 395, answered: 325, costs: "387,45€" },
+      "Oktober 2024": { calls: 385, answered: 315, costs: "378,90€" },
+      "September 2024": { calls: 375, answered: 310, costs: "367,85€" },
+      "August 2024": { calls: 410, answered: 345, costs: "402,50€" },
+      "Juli 2024": { calls: 398, answered: 330, costs: "389,20€" }
     };
 
     return statsData[month] || statsData["Juni 2025"];
@@ -65,19 +65,19 @@ export function DashboardStats({ selectedMonth }: DashboardStatsProps) {
 
     const startValues = { ...animatedStats };
     const startTime = Date.now();
-    const duration = 800; // Animation duration in ms
+    const duration = 1200; // Longer duration for smoother animation
 
     const animateStats = () => {
       const elapsed = Date.now() - startTime;
       const progress = Math.min(elapsed / duration, 1);
       
-      // Smooth easing function
-      const easeOutProgress = 1 - Math.pow(1 - progress, 3);
+      // More sophisticated easing function
+      const easeOutQuart = 1 - Math.pow(1 - progress, 4);
       
       // Calculate current values based on animation progress
-      const currentCalls = Math.round(startValues.calls + (stats.calls - startValues.calls) * easeOutProgress);
-      const currentAnswered = Math.round(startValues.answered + (stats.answered - startValues.answered) * easeOutProgress);
-      const currentCost = startValues.costsValue + (targetCostValue - startValues.costsValue) * easeOutProgress;
+      const currentCalls = Math.round(startValues.calls + (stats.calls - startValues.calls) * easeOutQuart);
+      const currentAnswered = Math.round(startValues.answered + (stats.answered - startValues.answered) * easeOutQuart);
+      const currentCost = startValues.costsValue + (targetCostValue - startValues.costsValue) * easeOutQuart;
       
       setAnimatedStats({
         calls: currentCalls,
