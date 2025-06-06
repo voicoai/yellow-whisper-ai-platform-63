@@ -14,12 +14,19 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 // Translation dictionary
 const translations = {
   en: {
-    // Dashboard
+    // Navigation
     dashboard: 'Dashboard',
+    agents: 'Agents',
+    knowledgeBases: 'Knowledge Bases',
+    telephony: 'Telephony',
+    callHistory: 'Call History',
+    integrations: 'Integrations',
+    team: 'Team',
+    
+    // Dashboard
     calls: 'Calls',
     answeredCalls: 'Answered Calls',
     costs: 'Costs',
-    callHistory: 'Call History',
     creditBalance: 'Credit Balance',
     available: 'Available',
     buyCredits: 'Buy Credits',
@@ -66,12 +73,19 @@ const translations = {
     savePreferences: 'Save Preferences'
   },
   de: {
-    // Dashboard
+    // Navigation
     dashboard: 'Dashboard',
+    agents: 'Agenten',
+    knowledgeBases: 'Wissensdatenbanken',
+    telephony: 'Telefonie',
+    callHistory: 'Anrufverlauf',
+    integrations: 'Integrationen',
+    team: 'Team',
+    
+    // Dashboard
     calls: 'Anrufe',
     answeredCalls: 'Beantwortete Anrufe',
     costs: 'Kosten',
-    callHistory: 'Anrufverlauf',
     creditBalance: 'Guthaben',
     available: 'Verfügbar',
     buyCredits: 'Credits kaufen',

@@ -12,6 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface SidebarProps {
   collapsed: boolean;
@@ -24,37 +25,38 @@ export function Sidebar({
 }: SidebarProps) {
   const location = useLocation();
   const isMobile = useIsMobile();
+  const { t } = useLanguage();
   
   const isActive = (path: string) => {
     return location.pathname === path;
   };
   
   const navigation = [{
-    name: "Dashboard",
+    name: t('dashboard'),
     path: "/",
     icon: BarChart3
   }, {
-    name: "Agents",
+    name: t('agents'),
     path: "/agents",
     icon: Users
   }, {
-    name: "Knowledge Bases",
+    name: t('knowledgeBases'),
     path: "/knowledge-bases",
     icon: BookOpen
   }, {
-    name: "Telephony",
+    name: t('telephony'),
     path: "/telephony",
     icon: Phone
   }, {
-    name: "Call History",
+    name: t('callHistory'),
     path: "/call-history",
     icon: PhoneCall
   }, {
-    name: "Integrations",
+    name: t('integrations'),
     path: "/integrations",
     icon: Webhook
   }, {
-    name: "Team",
+    name: t('team'),
     path: "/team",
     icon: Settings
   }];
