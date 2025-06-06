@@ -1,4 +1,6 @@
 
+import { useState, useEffect } from "react";
+
 interface CallHistoryProps {
   selectedMonth: string;
 }
@@ -6,6 +8,8 @@ interface CallHistoryProps {
 export function CallHistory({ selectedMonth }: CallHistoryProps) {
   // Weekday abbreviations
   const weekdays = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
+  const [animatedHeights, setAnimatedHeights] = useState<number[]>([]);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   // Mock data for different months - heights represent relative call volumes
   const getCallDataForMonth = (month: string) => {
@@ -27,7 +31,50 @@ export function CallHistory({ selectedMonth }: CallHistoryProps) {
     return callData[month] || callData["Juni 2025"];
   };
 
-  const callHeights = getCallDataForMonth(selectedMonth);
+  useEffect(() => {
+    // Start transition when month changes
+    setIsTransitioning(true);
+    
+    // Get target heights for the new month
+    const targetHeights = getCallDataForMonth(selectedMonth);
+    
+    // Animate to new heights over time
+    const startTime = Date.now();
+    const duration = 600; // Animation duration in ms
+    const startHeights = [...animatedHeights];
+    
+    // If this is first render, initialize with target heights
+    if (startHeights.length === 0) {
+      setAnimatedHeights(targetHeights);
+      setIsTransitioning(false);
+      return;
+    }
+    
+    const animateHeights = () => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      
+      // Ease-out cubic function: progress = 1 - Math.pow(1 - progress, 3)
+      const easeOutProgress = 1 - Math.pow(1 - progress, 3);
+      
+      // Calculate current heights based on animation progress
+      const currentHeights = startHeights.map((startHeight, index) => {
+        const targetHeight = targetHeights[index];
+        return startHeight + (targetHeight - startHeight) * easeOutProgress;
+      });
+      
+      setAnimatedHeights(currentHeights);
+      
+      // Continue animation if not complete
+      if (progress < 1) {
+        requestAnimationFrame(animateHeights);
+      } else {
+        setIsTransitioning(false);
+      }
+    };
+    
+    requestAnimationFrame(animateHeights);
+  }, [selectedMonth]);
 
   return (
     <div className="bg-white rounded-lg border border-gray-100 p-6 shadow-sm">
@@ -39,8 +86,8 @@ export function CallHistory({ selectedMonth }: CallHistoryProps) {
         {weekdays.map((day, index) => (
           <div key={day} className="flex flex-col items-center">
             <div 
-              className="w-10 bg-gray-100 rounded-t-md" 
-              style={{ height: `${callHeights[index]}px` }}
+              className={`w-10 bg-gray-100 rounded-t-md transition-all ${isTransitioning ? 'duration-600 ease-out' : ''}`}
+              style={{ height: `${animatedHeights[index] || 0}px` }}
             ></div>
             <span className="text-xs text-gray-500 mt-2">{day}</span>
           </div>

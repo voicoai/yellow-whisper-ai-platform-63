@@ -1,11 +1,24 @@
 
 import { ArrowUpRight } from "lucide-react";
+import { useState, useEffect } from "react";
 
 interface DashboardStatsProps {
   selectedMonth: string;
 }
 
+interface StatsData {
+  calls: number;
+  answered: number;
+  costs: string;
+}
+
 export function DashboardStats({ selectedMonth }: DashboardStatsProps) {
+  const [animatedStats, setAnimatedStats] = useState<{ calls: number; answered: number; costsValue: number }>({
+    calls: 0,
+    answered: 0,
+    costsValue: 0
+  });
+  
   // Mock data for different months
   const getStatsForMonth = (month: string) => {
     const statsData: Record<string, { calls: number; answered: number; costs: string }> = {
@@ -26,7 +39,60 @@ export function DashboardStats({ selectedMonth }: DashboardStatsProps) {
     return statsData[month] || statsData["Juni 2025"];
   };
 
-  const stats = getStatsForMonth(selectedMonth);
+  // Parse cost string to number for animation
+  const parseCostValue = (costString: string): number => {
+    return parseFloat(costString.replace("€", "").replace(",", "."));
+  };
+
+  // Format cost number back to string
+  const formatCost = (value: number): string => {
+    return value.toFixed(2).replace(".", ",") + "€";
+  };
+
+  useEffect(() => {
+    const stats = getStatsForMonth(selectedMonth);
+    const targetCostValue = parseCostValue(stats.costs);
+    
+    // Initialize values on first render
+    if (animatedStats.calls === 0) {
+      setAnimatedStats({
+        calls: stats.calls,
+        answered: stats.answered,
+        costsValue: targetCostValue
+      });
+      return;
+    }
+
+    const startValues = { ...animatedStats };
+    const startTime = Date.now();
+    const duration = 800; // Animation duration in ms
+
+    const animateStats = () => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      
+      // Smooth easing function
+      const easeOutProgress = 1 - Math.pow(1 - progress, 3);
+      
+      // Calculate current values based on animation progress
+      const currentCalls = Math.round(startValues.calls + (stats.calls - startValues.calls) * easeOutProgress);
+      const currentAnswered = Math.round(startValues.answered + (stats.answered - startValues.answered) * easeOutProgress);
+      const currentCost = startValues.costsValue + (targetCostValue - startValues.costsValue) * easeOutProgress;
+      
+      setAnimatedStats({
+        calls: currentCalls,
+        answered: currentAnswered,
+        costsValue: currentCost
+      });
+      
+      // Continue animation if not complete
+      if (progress < 1) {
+        requestAnimationFrame(animateStats);
+      }
+    };
+    
+    requestAnimationFrame(animateStats);
+  }, [selectedMonth]);
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -34,7 +100,7 @@ export function DashboardStats({ selectedMonth }: DashboardStatsProps) {
         <div className="flex items-center justify-between">
           <div className="flex flex-col">
             <span className="text-gray-500 text-sm">Anrufe</span>
-            <span className="text-3xl font-semibold mt-2">{stats.calls}</span>
+            <span className="text-3xl font-semibold mt-2 transition-all duration-300">{animatedStats.calls}</span>
           </div>
           <div className="flex items-start gap-3">
             <div className="bg-amber-50 p-2 rounded-full">
@@ -53,7 +119,7 @@ export function DashboardStats({ selectedMonth }: DashboardStatsProps) {
         <div className="flex items-center justify-between">
           <div className="flex flex-col">
             <span className="text-gray-500 text-sm">Beantwortete Anrufe</span>
-            <span className="text-3xl font-semibold mt-2">{stats.answered}</span>
+            <span className="text-3xl font-semibold mt-2 transition-all duration-300">{animatedStats.answered}</span>
           </div>
           <div className="flex items-start gap-3">
             <div className="bg-amber-50 p-2 rounded-full">
@@ -76,7 +142,7 @@ export function DashboardStats({ selectedMonth }: DashboardStatsProps) {
         <div className="flex items-center justify-between">
           <div className="flex flex-col">
             <span className="text-gray-500 text-sm">Kosten</span>
-            <span className="text-3xl font-semibold mt-2">{stats.costs}</span>
+            <span className="text-3xl font-semibold mt-2 transition-all duration-300">{formatCost(animatedStats.costsValue)}</span>
           </div>
           <div className="flex items-start gap-3">
             <div className="bg-amber-50 p-2 rounded-full">
