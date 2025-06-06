@@ -22,6 +22,7 @@ const KnowledgeBases = () => {
   const [selectedKB, setSelectedKB] = useState<any>(null);
   const [editingKB, setEditingKB] = useState<any>(null);
   const [connectingKB, setConnectingKB] = useState<any>(null);
+  const [connectDialogOpen, setConnectDialogOpen] = useState(false);
   
   // Mock data for knowledge bases with their contents
   const knowledgeBases = [
@@ -86,6 +87,7 @@ const KnowledgeBases = () => {
 
   const handleConnectKB = (kb: any) => {
     setConnectingKB(kb);
+    setConnectDialogOpen(true);
   };
 
   const handleBackToList = () => {
@@ -320,6 +322,12 @@ const KnowledgeBases = () => {
           </TabsContent>
         </Tabs>
       </div>
+
+      <ConnectAgentDialog 
+        kb={connectingKB}
+        open={connectDialogOpen}
+        onOpenChange={setConnectDialogOpen}
+      />
     </AppLayout>
   );
 };
