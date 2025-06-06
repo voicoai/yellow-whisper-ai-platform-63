@@ -1,6 +1,6 @@
 
-import { ArrowUpRight } from "lucide-react";
 import { useState, useEffect } from "react";
+import { Phone, Users, CreditCard } from "lucide-react";
 
 interface DashboardStatsProps {
   selectedMonth: string;
@@ -65,7 +65,7 @@ export function DashboardStats({ selectedMonth }: DashboardStatsProps) {
 
     const startValues = { ...animatedStats };
     const startTime = Date.now();
-    const duration = 1200; // Longer duration for smoother animation
+    const duration = 800; // Slightly faster animation for better UX
 
     const animateStats = () => {
       const elapsed = Date.now() - startTime;
@@ -96,65 +96,47 @@ export function DashboardStats({ selectedMonth }: DashboardStatsProps) {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <div className="bg-white rounded-lg border border-gray-100 p-5 shadow-sm">
+      <div className="bg-white rounded-lg border border-gray-100 p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
         <div className="flex items-center justify-between">
           <div className="flex flex-col">
-            <span className="text-gray-500 text-sm">Anrufe</span>
-            <span className="text-3xl font-semibold mt-2 transition-all duration-300">{animatedStats.calls}</span>
+            <span className="text-sm font-medium text-gray-500">Anrufe</span>
+            <div className="mt-2 flex items-baseline">
+              <span className="text-3xl font-semibold text-black transition-all duration-300">{animatedStats.calls}</span>
+              <span className="ml-2 text-sm text-green-500 font-medium">+4.3%</span>
+            </div>
           </div>
-          <div className="flex items-start gap-3">
-            <div className="bg-amber-50 p-2 rounded-full">
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-yellow-400">
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path>
-              </svg>
-            </div>
-            <div className="bg-green-50 p-1 rounded-full">
-              <ArrowUpRight size={14} className="text-green-500" />
-            </div>
+          <div className="bg-voico-yellow-50 p-3 rounded-full">
+            <Phone size={20} className="text-voico-yellow-600" />
           </div>
         </div>
       </div>
       
-      <div className="bg-white rounded-lg border border-gray-100 p-5 shadow-sm">
+      <div className="bg-white rounded-lg border border-gray-100 p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
         <div className="flex items-center justify-between">
           <div className="flex flex-col">
-            <span className="text-gray-500 text-sm">Beantwortete Anrufe</span>
-            <span className="text-3xl font-semibold mt-2 transition-all duration-300">{animatedStats.answered}</span>
+            <span className="text-sm font-medium text-gray-500">Beantwortete Anrufe</span>
+            <div className="mt-2 flex items-baseline">
+              <span className="text-3xl font-semibold text-black transition-all duration-300">{animatedStats.answered}</span>
+              <span className="ml-2 text-sm text-green-500 font-medium">+2.7%</span>
+            </div>
           </div>
-          <div className="flex items-start gap-3">
-            <div className="bg-amber-50 p-2 rounded-full">
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-yellow-400">
-                <path d="M15 13.5A3.5 3.5 0 0 1 18.5 10"></path>
-                <path d="M13.5 13.5A3.5 3.5 0 0 0 10 10"></path>
-                <path d="M10.5 8.5A3.5 3.5 0 0 1 14 5"></path>
-                <path d="M8.5 8.5A3.5 3.5 0 0 0 5 5"></path>
-                <path d="M22 22H2a9.82 9.82 0 0 1 20 0Z"></path>
-              </svg>
-            </div>
-            <div className="bg-green-50 p-1 rounded-full">
-              <ArrowUpRight size={14} className="text-green-500" />
-            </div>
+          <div className="bg-voico-yellow-50 p-3 rounded-full">
+            <Users size={20} className="text-voico-yellow-600" />
           </div>
         </div>
       </div>
       
-      <div className="bg-white rounded-lg border border-gray-100 p-5 shadow-sm">
+      <div className="bg-white rounded-lg border border-gray-100 p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
         <div className="flex items-center justify-between">
           <div className="flex flex-col">
-            <span className="text-gray-500 text-sm">Kosten</span>
-            <span className="text-3xl font-semibold mt-2 transition-all duration-300">{formatCost(animatedStats.costsValue)}</span>
+            <span className="text-sm font-medium text-gray-500">Kosten</span>
+            <div className="mt-2 flex items-baseline">
+              <span className="text-3xl font-semibold text-black transition-all duration-300">{formatCost(animatedStats.costsValue)}</span>
+              <span className="ml-2 text-sm text-green-500 font-medium">-1.2%</span>
+            </div>
           </div>
-          <div className="flex items-start gap-3">
-            <div className="bg-amber-50 p-2 rounded-full">
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-yellow-400">
-                <circle cx="12" cy="12" r="8"></circle>
-                <line x1="12" y1="8" x2="12" y2="12"></line>
-                <line x1="12" y1="16" x2="12.01" y2="16"></line>
-              </svg>
-            </div>
-            <div className="bg-green-50 p-1 rounded-full">
-              <ArrowUpRight size={14} className="text-green-500" />
-            </div>
+          <div className="bg-voico-yellow-50 p-3 rounded-full">
+            <CreditCard size={20} className="text-voico-yellow-600" />
           </div>
         </div>
       </div>

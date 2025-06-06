@@ -1,5 +1,6 @@
 
 import { useState, useEffect } from "react";
+import { BarChart2 } from "lucide-react";
 
 interface CallHistoryProps {
   selectedMonth: string;
@@ -81,25 +82,50 @@ export function CallHistory({ selectedMonth }: CallHistoryProps) {
     requestAnimationFrame(animateHeights);
   }, [selectedMonth]);
 
+  // Find the max height for visual reference
+  const maxHeight = Math.max(...(animatedHeights.length ? animatedHeights : [0]));
+
   return (
-    <div className="bg-white rounded-lg border border-gray-100 p-6 shadow-sm">
-      <div className="mb-6">
+    <div className="bg-white rounded-lg border border-gray-100 p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
+      <div className="mb-6 flex items-center justify-between">
         <h3 className="text-lg font-medium">Anrufverlauf</h3>
+        <div className="bg-voico-yellow-50 p-2 rounded-full">
+          <BarChart2 size={16} className="text-voico-yellow-600" />
+        </div>
       </div>
 
-      <div className="flex items-end justify-between h-40 mb-4">
+      <div className="flex items-end justify-between h-40 mb-4 px-2">
         {weekdays.map((day, index) => (
-          <div key={day} className="flex flex-col items-center">
+          <div key={day} className="flex flex-col items-center group">
             <div 
-              className="w-10 bg-gradient-to-t from-voico-yellow-600 to-voico-yellow-500 rounded-t-md transition-all duration-600 ease-out"
-              style={{ 
-                height: `${animatedHeights[index] || 0}px`,
-                transformOrigin: 'bottom'
-              }}
-            ></div>
+              className="relative w-12 flex justify-center"
+              style={{ height: '140px' }}
+            >
+              <div className="absolute bottom-0 w-0.5 h-full bg-gray-100"></div>
+              <div 
+                className="absolute bottom-0 w-10 bg-gradient-to-t from-voico-yellow-600 to-voico-yellow-400 rounded-t-md transition-all duration-600 ease-out hover:from-voico-yellow-700 hover:to-voico-yellow-500 z-10 cursor-pointer group-hover:shadow-md"
+                style={{ 
+                  height: `${animatedHeights[index] || 0}px`,
+                  transformOrigin: 'bottom'
+                }}
+              ></div>
+              {/* Hover tooltip */}
+              <div className="absolute bottom-full mb-2 opacity-0 group-hover:opacity-100 transition-opacity bg-black text-white text-xs rounded py-1 px-2 pointer-events-none">
+                {Math.round(animatedHeights[index] || 0)} Anrufe
+              </div>
+            </div>
             <span className="text-xs text-gray-500 mt-2">{day}</span>
           </div>
         ))}
+      </div>
+      
+      {/* Add a simple line showing average */}
+      <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div className="w-3 h-3 rounded-full bg-voico-yellow-600"></div>
+          <span className="text-xs text-gray-600">Ø {Math.round(animatedHeights.reduce((a, b) => a + b, 0) / 7)} Anrufe pro Tag</span>
+        </div>
+        <span className="text-xs text-gray-500">Gesamt: {animatedHeights.reduce((a, b) => a + b, 0)}</span>
       </div>
     </div>
   );
