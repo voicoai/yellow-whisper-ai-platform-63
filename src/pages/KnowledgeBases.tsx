@@ -93,7 +93,6 @@ const KnowledgeBases = () => {
   const handleBackToList = () => {
     setSelectedKB(null);
     setEditingKB(null);
-    setConnectingKB(null);
   };
 
   if (editingKB) {
