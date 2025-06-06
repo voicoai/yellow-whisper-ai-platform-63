@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -73,10 +74,25 @@ export function NumbersManagement() {
   return (
     <div className="space-y-8">
       <Tabs defaultValue="manage" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="manage">Manage Numbers</TabsTrigger>
-          <TabsTrigger value="purchase">Buy Numbers</TabsTrigger>
-          <TabsTrigger value="connect">Connect SIP</TabsTrigger>
+        <TabsList className="inline-flex h-12 items-center justify-center rounded-lg bg-white border border-gray-200 p-1 text-gray-600 shadow-sm w-auto">
+          <TabsTrigger 
+            value="manage"
+            className="inline-flex items-center justify-center whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-[#FDDF5C] data-[state=active]:text-black data-[state=active]:shadow-sm data-[state=active]:font-semibold hover:bg-gray-50"
+          >
+            Manage Numbers
+          </TabsTrigger>
+          <TabsTrigger 
+            value="purchase"
+            className="inline-flex items-center justify-center whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-[#FDDF5C] data-[state=active]:text-black data-[state=active]:shadow-sm data-[state=active]:font-semibold hover:bg-gray-50"
+          >
+            Buy Numbers
+          </TabsTrigger>
+          <TabsTrigger 
+            value="connect"
+            className="inline-flex items-center justify-center whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-[#FDDF5C] data-[state=active]:text-black data-[state=active]:shadow-sm data-[state=active]:font-semibold hover:bg-gray-50"
+          >
+            Connect SIP
+          </TabsTrigger>
         </TabsList>
         
         <TabsContent value="manage" className="space-y-6">
