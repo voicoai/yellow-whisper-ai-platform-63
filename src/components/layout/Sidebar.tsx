@@ -64,7 +64,7 @@ export function Sidebar({
       {/* Mobile overlay to close sidebar when tapped */}
       {isMobile && !collapsed && (
         <div 
-          className="fixed inset-0 bg-black/50 z-10" 
+          className="fixed inset-0 bg-black/20 backdrop-blur-sm z-10" 
           onClick={() => setCollapsed(true)} 
           aria-hidden="true" 
         />
@@ -72,12 +72,12 @@ export function Sidebar({
       
       <aside 
         className={cn(
-          "bg-white fixed md:relative z-20 h-screen border-r border-voico-gray-200 shadow-sm flex flex-col transition-all duration-300",
+          "bg-white/95 backdrop-blur-xl fixed md:relative z-20 h-screen border-r border-gray-200/60 shadow-xl flex flex-col transition-all duration-300 ease-in-out",
           collapsed ? "w-16" : "w-64",
           isMobile && collapsed ? "-translate-x-full" : "translate-x-0"
         )}
       >
-        <div className="p-4 flex items-center justify-between border-b border-voico-gray-200">
+        <div className="p-6 flex items-center justify-between border-b border-gray-100/80">
           <Link to="/" className="flex items-center space-x-2">
             {!collapsed && (
               <div className="flex items-center">
@@ -100,30 +100,37 @@ export function Sidebar({
           </Link>
         </div>
 
-        <nav className="flex-1 py-4 px-2 overflow-y-auto">
-          <ul className="space-y-1">
+        <nav className="flex-1 py-6 px-3 overflow-y-auto">
+          <ul className="space-y-2">
             {navigation.map(item => (
               <li key={item.name}>
                 <Link 
                   to={item.path} 
                   className={cn(
-                    "flex items-center py-2 px-3 rounded-md group transition-colors",
+                    "flex items-center py-3 px-4 rounded-xl group transition-all duration-200 relative overflow-hidden",
                     isActive(item.path) 
-                      ? "bg-voico-gray-100 text-black" 
-                      : "text-voico-gray-700 hover:bg-voico-gray-50"
+                      ? "bg-gradient-to-r from-primary/10 to-primary/5 text-primary border border-primary/20 shadow-sm" 
+                      : "text-gray-600 hover:bg-gray-50/80 hover:text-gray-900 hover:shadow-sm"
                   )} 
                   aria-current={isActive(item.path) ? "page" : undefined}
                 >
+                  {isActive(item.path) && (
+                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-primary to-primary/60 rounded-r-full" />
+                  )}
                   <item.icon 
                     className={cn(
-                      "flex-shrink-0", 
+                      "flex-shrink-0 transition-colors duration-200", 
                       isActive(item.path) 
-                        ? "text-black" 
-                        : "text-voico-gray-500 group-hover:text-black"
+                        ? "text-primary" 
+                        : "text-gray-500 group-hover:text-gray-700"
                     )} 
                     size={20} 
                   />
-                  {!collapsed && <span className="ml-3 truncate">{item.name}</span>}
+                  {!collapsed && (
+                    <span className="ml-4 truncate font-medium text-sm">
+                      {item.name}
+                    </span>
+                  )}
                 </Link>
               </li>
             ))}
@@ -131,36 +138,36 @@ export function Sidebar({
         </nav>
 
         {/* Account Box */}
-        <div className="p-2 border-t border-voico-gray-200">
+        <div className="p-3 border-t border-gray-100/80 bg-gray-50/30">
           {collapsed ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="w-full h-12 p-0 justify-center hover:bg-voico-gray-50">
-                  <div className="w-8 h-8 bg-gradient-to-br from-primary/20 to-primary/30 rounded-full flex items-center justify-center">
+                <Button variant="ghost" className="w-full h-12 p-0 justify-center hover:bg-gray-100/60 rounded-xl transition-all duration-200">
+                  <div className="w-9 h-9 bg-gradient-to-br from-primary/20 to-primary/30 rounded-full flex items-center justify-center shadow-sm">
                     <span className="text-sm font-semibold text-primary">
                       JD
                     </span>
                   </div>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent side="right" align="end" className="w-56 mb-2 bg-white border shadow-lg">
-                <div className="px-2 py-1.5">
-                  <p className="text-sm font-medium">John Doe</p>
-                  <p className="text-xs text-muted-foreground">john@example.com</p>
+              <DropdownMenuContent side="right" align="end" className="w-56 mb-2 bg-white/95 backdrop-blur-xl border border-gray-200/60 shadow-xl rounded-xl">
+                <div className="px-3 py-2">
+                  <p className="text-sm font-medium text-gray-900">John Doe</p>
+                  <p className="text-xs text-gray-500">john@example.com</p>
                 </div>
-                <DropdownMenuSeparator />
+                <DropdownMenuSeparator className="bg-gray-100" />
                 <DropdownMenuItem asChild>
-                  <Link to="/account-settings" className="flex items-center">
+                  <Link to="/account-settings" className="flex items-center text-gray-700 hover:text-gray-900">
                     <User className="mr-2 h-4 w-4" />
                     Account Settings
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem className="flex items-center">
+                <DropdownMenuItem className="flex items-center text-gray-700 hover:text-gray-900">
                   <HelpCircle className="mr-2 h-4 w-4" />
                   Help
                 </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem className="text-red-600">
+                <DropdownMenuSeparator className="bg-gray-100" />
+                <DropdownMenuItem className="text-red-600 hover:text-red-700 hover:bg-red-50">
                   <LogOut className="mr-2 h-4 w-4" />
                   Sign Out
                 </DropdownMenuItem>
@@ -169,34 +176,34 @@ export function Sidebar({
           ) : (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="w-full h-12 px-3 justify-between hover:bg-voico-gray-50">
+                <Button variant="ghost" className="w-full h-14 px-4 justify-between hover:bg-gray-100/60 rounded-xl transition-all duration-200">
                   <div className="flex items-center space-x-3">
-                    <div className="w-8 h-8 bg-gradient-to-br from-primary/20 to-primary/30 rounded-full flex items-center justify-center">
+                    <div className="w-9 h-9 bg-gradient-to-br from-primary/20 to-primary/30 rounded-full flex items-center justify-center shadow-sm">
                       <span className="text-sm font-semibold text-primary">
                         JD
                       </span>
                     </div>
                     <div className="flex flex-col items-start text-left">
-                      <span className="text-sm font-medium text-black">John Doe</span>
-                      <span className="text-xs text-voico-gray-500">john@example.com</span>
+                      <span className="text-sm font-medium text-gray-900">John Doe</span>
+                      <span className="text-xs text-gray-500">john@example.com</span>
                     </div>
                   </div>
-                  <ChevronUp className="h-4 w-4 text-voico-gray-500" />
+                  <ChevronUp className="h-4 w-4 text-gray-400" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent side="top" align="start" className="w-56 mb-2 bg-white border shadow-lg">
+              <DropdownMenuContent side="top" align="start" className="w-56 mb-2 bg-white/95 backdrop-blur-xl border border-gray-200/60 shadow-xl rounded-xl">
                 <DropdownMenuItem asChild>
-                  <Link to="/account-settings" className="flex items-center">
+                  <Link to="/account-settings" className="flex items-center text-gray-700 hover:text-gray-900">
                     <User className="mr-2 h-4 w-4" />
                     Account Settings
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem className="flex items-center">
+                <DropdownMenuItem className="flex items-center text-gray-700 hover:text-gray-900">
                   <HelpCircle className="mr-2 h-4 w-4" />
                   Help
                 </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem className="text-red-600">
+                <DropdownMenuSeparator className="bg-gray-100" />
+                <DropdownMenuItem className="text-red-600 hover:text-red-700 hover:bg-red-50">
                   <LogOut className="mr-2 h-4 w-4" />
                   Sign Out
                 </DropdownMenuItem>
