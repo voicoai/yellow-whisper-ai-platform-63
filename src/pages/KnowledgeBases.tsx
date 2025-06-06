@@ -3,7 +3,7 @@ import { AppLayout } from "@/components/layout/AppLayout";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Plus, Database, Globe, FileText, MessageSquare, ArrowLeft, ExternalLink, MoreHorizontal } from "lucide-react";
+import { Plus, Database, Globe, FileText, MessageSquare, ArrowLeft, ExternalLink, MoreHorizontal, Upload, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import {
   DropdownMenu,
@@ -23,6 +23,7 @@ const KnowledgeBases = () => {
   const [editingKB, setEditingKB] = useState<any>(null);
   const [connectingKB, setConnectingKB] = useState<any>(null);
   const [connectDialogOpen, setConnectDialogOpen] = useState(false);
+  const [detailActiveTab, setDetailActiveTab] = useState("files");
   
   // Mock data for knowledge bases with their contents
   const knowledgeBases = [
@@ -132,110 +133,160 @@ const KnowledgeBases = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Files Section */}
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            {/* Settings Panel */}
             <Card className="border-0 shadow-sm bg-white">
               <CardHeader className="border-b border-gray-100 bg-gray-50/50">
-                <CardTitle className="text-lg font-medium text-gray-900 flex items-center gap-2">
-                  <FileText size={20} className="text-[#FDDF5C]" />
-                  Files ({selectedKB.files.length})
-                </CardTitle>
+                <CardTitle className="text-lg font-medium text-gray-900">Details</CardTitle>
               </CardHeader>
-              <CardContent className="p-4">
-                {selectedKB.files.length > 0 ? (
-                  <div className="space-y-3">
-                    {selectedKB.files.map((file: any, index: number) => (
-                      <div key={index} className="flex items-center justify-between p-3 border border-gray-100 rounded-lg hover:bg-gray-50">
-                        <div className="flex items-center gap-3">
-                          <div className="p-2 bg-[#FDDF5C]/20 rounded-md">
-                            <FileText size={16} className="text-[#FDDF5C]" />
-                          </div>
-                          <div>
-                            <p className="font-medium text-sm text-gray-900">{file.name}</p>
-                            <p className="text-xs text-gray-500">{file.size} • {file.uploadDate}</p>
-                          </div>
-                        </div>
-                        <Button variant="ghost" size="sm">
-                          <ExternalLink size={14} />
-                        </Button>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-gray-500 text-sm text-center py-8">No files uploaded</p>
-                )}
+              <CardContent className="p-4 space-y-4">
+                <div>
+                  <label className="text-sm font-medium text-gray-700">Title</label>
+                  <p className="text-sm text-gray-900 mt-1">{selectedKB.title}</p>
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-gray-700">Description</label>
+                  <p className="text-sm text-gray-900 mt-1">{selectedKB.description}</p>
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-gray-700">Total Sources</label>
+                  <p className="text-sm text-gray-900 mt-1">{selectedKB.sources} sources</p>
+                </div>
+                <div className="flex flex-col gap-2 pt-2">
+                  <Button 
+                    onClick={() => setEditingKB(selectedKB)}
+                    className="w-full bg-[#FDDF5C] hover:bg-[#FDDF5C]/90 text-black font-medium"
+                  >
+                    Edit Knowledge Base
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    onClick={() => handleConnectKB(selectedKB)}
+                    className="w-full border-gray-200 hover:bg-gray-50"
+                  >
+                    Connect to Agent
+                  </Button>
+                </div>
               </CardContent>
             </Card>
 
-            {/* URLs Section */}
-            <Card className="border-0 shadow-sm bg-white">
-              <CardHeader className="border-b border-gray-100 bg-gray-50/50">
-                <CardTitle className="text-lg font-medium text-gray-900 flex items-center gap-2">
-                  <Globe size={20} className="text-[#FDDF5C]" />
-                  URLs ({selectedKB.urls.length})
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="p-4">
-                {selectedKB.urls.length > 0 ? (
-                  <div className="space-y-3">
-                    {selectedKB.urls.map((url: any, index: number) => (
-                      <div key={index} className="flex items-center justify-between p-3 border border-gray-100 rounded-lg hover:bg-gray-50">
-                        <div className="flex items-center gap-3">
-                          <div className="p-2 bg-[#FDDF5C]/20 rounded-md">
-                            <Globe size={16} className="text-[#FDDF5C]" />
-                          </div>
-                          <div>
-                            <p className="font-medium text-sm text-gray-900">{url.title}</p>
-                            <p className="text-xs text-gray-500">{url.url}</p>
-                            <p className="text-xs text-gray-400">Last crawled: {url.lastCrawled}</p>
-                          </div>
-                        </div>
-                        <Button variant="ghost" size="sm">
-                          <ExternalLink size={14} />
-                        </Button>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-gray-500 text-sm text-center py-8">No URLs added</p>
-                )}
-              </CardContent>
-            </Card>
+            {/* Content Management */}
+            <div className="lg:col-span-3">
+              <Tabs value={detailActiveTab} onValueChange={setDetailActiveTab}>
+                <TabsList className="grid w-full max-w-lg grid-cols-3 bg-gray-100">
+                  <TabsTrigger value="files" className="data-[state=active]:bg-white data-[state=active]:shadow-sm">
+                    Files ({selectedKB.files.length})
+                  </TabsTrigger>
+                  <TabsTrigger value="urls" className="data-[state=active]:bg-white data-[state=active]:shadow-sm">
+                    URLs ({selectedKB.urls.length})
+                  </TabsTrigger>
+                  <TabsTrigger value="texts" className="data-[state=active]:bg-white data-[state=active]:shadow-sm">
+                    Text ({selectedKB.texts.length})
+                  </TabsTrigger>
+                </TabsList>
 
-            {/* Text Content Section */}
-            <Card className="border-0 shadow-sm bg-white">
-              <CardHeader className="border-b border-gray-100 bg-gray-50/50">
-                <CardTitle className="text-lg font-medium text-gray-900 flex items-center gap-2">
-                  <MessageSquare size={20} className="text-[#FDDF5C]" />
-                  Text Content ({selectedKB.texts.length})
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="p-4">
-                {selectedKB.texts.length > 0 ? (
-                  <div className="space-y-3">
-                    {selectedKB.texts.map((text: any, index: number) => (
-                      <div key={index} className="flex items-center justify-between p-3 border border-gray-100 rounded-lg hover:bg-gray-50">
-                        <div className="flex items-center gap-3">
-                          <div className="p-2 bg-[#FDDF5C]/20 rounded-md">
-                            <MessageSquare size={16} className="text-[#FDDF5C]" />
-                          </div>
-                          <div>
-                            <p className="font-medium text-sm text-gray-900">{text.title}</p>
-                            <p className="text-xs text-gray-500 line-clamp-2">{text.content}</p>
-                            <p className="text-xs text-gray-400">Created: {text.createdDate}</p>
-                          </div>
+                <TabsContent value="files" className="mt-6">
+                  <Card className="border-0 shadow-sm bg-white">
+                    <CardHeader className="border-b border-gray-100 bg-gray-50/50">
+                      <CardTitle className="text-lg font-medium text-gray-900">Files</CardTitle>
+                      <CardDescription>Document files in this knowledge base</CardDescription>
+                    </CardHeader>
+                    <CardContent className="p-6">
+                      {selectedKB.files.length > 0 ? (
+                        <div className="space-y-3">
+                          {selectedKB.files.map((file: any, index: number) => (
+                            <div key={index} className="flex items-center justify-between p-3 border border-gray-100 rounded-lg hover:bg-gray-50">
+                              <div className="flex items-center gap-3">
+                                <div className="p-2 bg-[#FDDF5C]/20 rounded-md">
+                                  <FileText size={16} className="text-[#FDDF5C]" />
+                                </div>
+                                <div>
+                                  <p className="font-medium text-sm text-gray-900">{file.name}</p>
+                                  <p className="text-xs text-gray-500">{file.size} • {file.uploadDate}</p>
+                                </div>
+                              </div>
+                              <Button variant="ghost" size="sm">
+                                <ExternalLink size={14} />
+                              </Button>
+                            </div>
+                          ))}
                         </div>
-                        <Button variant="ghost" size="sm">
-                          <ExternalLink size={14} />
-                        </Button>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-gray-500 text-sm text-center py-8">No text content added</p>
-                )}
-              </CardContent>
-            </Card>
+                      ) : (
+                        <p className="text-gray-500 text-sm text-center py-8">No files uploaded</p>
+                      )}
+                    </CardContent>
+                  </Card>
+                </TabsContent>
+
+                <TabsContent value="urls" className="mt-6">
+                  <Card className="border-0 shadow-sm bg-white">
+                    <CardHeader className="border-b border-gray-100 bg-gray-50/50">
+                      <CardTitle className="text-lg font-medium text-gray-900">URLs</CardTitle>
+                      <CardDescription>Website URLs in this knowledge base</CardDescription>
+                    </CardHeader>
+                    <CardContent className="p-6">
+                      {selectedKB.urls.length > 0 ? (
+                        <div className="space-y-3">
+                          {selectedKB.urls.map((url: any, index: number) => (
+                            <div key={index} className="flex items-center justify-between p-3 border border-gray-100 rounded-lg hover:bg-gray-50">
+                              <div className="flex items-center gap-3">
+                                <div className="p-2 bg-[#FDDF5C]/20 rounded-md">
+                                  <Globe size={16} className="text-[#FDDF5C]" />
+                                </div>
+                                <div>
+                                  <p className="font-medium text-sm text-gray-900">{url.title}</p>
+                                  <p className="text-xs text-gray-500">{url.url}</p>
+                                  <p className="text-xs text-gray-400">Last crawled: {url.lastCrawled}</p>
+                                </div>
+                              </div>
+                              <Button variant="ghost" size="sm">
+                                <ExternalLink size={14} />
+                              </Button>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="text-gray-500 text-sm text-center py-8">No URLs added</p>
+                      )}
+                    </CardContent>
+                  </Card>
+                </TabsContent>
+
+                <TabsContent value="texts" className="mt-6">
+                  <Card className="border-0 shadow-sm bg-white">
+                    <CardHeader className="border-b border-gray-100 bg-gray-50/50">
+                      <CardTitle className="text-lg font-medium text-gray-900">Text Content</CardTitle>
+                      <CardDescription>Custom text content in this knowledge base</CardDescription>
+                    </CardHeader>
+                    <CardContent className="p-6">
+                      {selectedKB.texts.length > 0 ? (
+                        <div className="space-y-3">
+                          {selectedKB.texts.map((text: any, index: number) => (
+                            <div key={index} className="flex items-start justify-between p-3 border border-gray-100 rounded-lg hover:bg-gray-50">
+                              <div className="flex items-start gap-3">
+                                <div className="p-2 bg-[#FDDF5C]/20 rounded-md mt-1">
+                                  <MessageSquare size={16} className="text-[#FDDF5C]" />
+                                </div>
+                                <div>
+                                  <p className="font-medium text-sm text-gray-900">{text.title}</p>
+                                  <p className="text-xs text-gray-500 line-clamp-2 mt-1">{text.content}</p>
+                                  <p className="text-xs text-gray-400 mt-1">Created: {text.createdDate}</p>
+                                </div>
+                              </div>
+                              <Button variant="ghost" size="sm">
+                                <ExternalLink size={14} />
+                              </Button>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="text-gray-500 text-sm text-center py-8">No text content added</p>
+                      )}
+                    </CardContent>
+                  </Card>
+                </TabsContent>
+              </Tabs>
+            </div>
           </div>
         </div>
       </AppLayout>
