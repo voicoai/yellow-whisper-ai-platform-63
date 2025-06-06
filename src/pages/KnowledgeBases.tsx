@@ -21,7 +21,6 @@ import { useForm } from "react-hook-form";
 
 const KnowledgeBases = () => {
   const { toast } = useToast();
-  const [activeTab, setActiveTab] = useState("created");
   const [selectedKB, setSelectedKB] = useState<any>(null);
   const [connectingKB, setConnectingKB] = useState<any>(null);
   const [connectDialogOpen, setConnectDialogOpen] = useState(false);
@@ -516,73 +515,25 @@ const KnowledgeBases = () => {
           </Button>
         </div>
         
-        <Tabs defaultValue="created" onValueChange={setActiveTab} className="w-full">
-          <TabsList className="inline-flex h-12 items-center justify-center rounded-lg bg-white border border-gray-200 p-1 text-gray-600 shadow-sm w-auto">
-            <TabsTrigger 
-              value="created" 
-              className="inline-flex items-center justify-center whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-[#FDDF5C] data-[state=active]:text-black data-[state=active]:shadow-sm data-[state=active]:font-semibold hover:bg-gray-50"
-            >
-              Created
-            </TabsTrigger>
-            <TabsTrigger 
-              value="create" 
-              className="inline-flex items-center justify-center whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-[#FDDF5C] data-[state=active]:text-black data-[state=active]:shadow-sm data-[state=active]:font-semibold hover:bg-gray-50"
-            >
-              Create New
-            </TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="created" className="py-4">
-            <Card className="border-0 shadow-sm bg-white">
-              <CardHeader className="border-b border-gray-100 bg-gray-50/50">
-                <CardTitle className="text-lg font-medium text-gray-900">Knowledge Bases Overview</CardTitle>
-              </CardHeader>
-              <CardContent className="p-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {knowledgeBases.map((kb) => (
-                    <KnowledgeBaseCard
-                      key={kb.id}
-                      kb={kb}
-                      onView={() => handleViewKB(kb)}
-                      onEdit={() => handleEditKB(kb)}
-                      onConnect={() => handleConnectKB(kb)}
-                    />
-                  ))}
-                  <EmptyKnowledgeBaseCard onClick={handleCreateKnowledgeBase} />
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-          
-          <TabsContent value="create" className="py-4 space-y-6">
-            <Card className="border-0 shadow-sm bg-white">
-              <CardHeader className="border-b border-gray-100 bg-gray-50/50">
-                <CardTitle className="text-lg font-medium text-gray-900">Create a Knowledge Base</CardTitle>
-                <CardDescription className="text-gray-600">Select a source type to create your knowledge base</CardDescription>
-              </CardHeader>
-              <CardContent className="p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-                <SourceCard
-                  title="Website"
-                  icon={Globe}
-                  description="Import content from a website URL"
-                  onClick={handleCreateKnowledgeBase}
+        <Card className="border-0 shadow-sm bg-white">
+          <CardHeader className="border-b border-gray-100 bg-gray-50/50">
+            <CardTitle className="text-lg font-medium text-gray-900">Knowledge Bases Overview</CardTitle>
+          </CardHeader>
+          <CardContent className="p-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {knowledgeBases.map((kb) => (
+                <KnowledgeBaseCard
+                  key={kb.id}
+                  kb={kb}
+                  onView={() => handleViewKB(kb)}
+                  onEdit={() => handleEditKB(kb)}
+                  onConnect={() => handleConnectKB(kb)}
                 />
-                <SourceCard
-                  title="Document"
-                  icon={FileText}
-                  description="Upload documents like PDF, DOCX, or TXT files"
-                  onClick={handleCreateKnowledgeBase}
-                />
-                <SourceCard
-                  title="Raw Text"
-                  icon={MessageSquare}
-                  description="Create a knowledge base from text input"
-                  onClick={handleCreateKnowledgeBase}
-                />
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
+              ))}
+              <EmptyKnowledgeBaseCard onClick={handleCreateKnowledgeBase} />
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       <ConnectAgentDialog 
