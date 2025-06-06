@@ -76,8 +76,10 @@ export function AgentsList() {
         <CardHeader className="border-b border-gray-100 bg-gray-50/50">
           <div className="flex justify-between items-center">
             <CardTitle className="text-lg font-medium text-gray-900">AI Agents Overview</CardTitle>
-            <Button className="bg-[#FDDF5C] hover:bg-[#FDDF5C]/90 text-black font-medium shadow-sm">
-              <Plus className="mr-2 h-4 w-4" /> Create Agent
+            <Button className="bg-[#FDDF5C] hover:bg-[#FDDF5C]/90 text-black font-medium shadow-sm" asChild>
+              <Link to="/agents/new">
+                <Plus className="mr-2 h-4 w-4" /> Create Agent
+              </Link>
             </Button>
           </div>
         </CardHeader>
