@@ -106,7 +106,7 @@ const KnowledgeBases = () => {
   if (connectingKB) {
     return (
       <AppLayout>
-        <ConnectAgentDialog kb={connectingKB} onBack={handleBackToList} />
+        <ConnectAgentDialog kb={connectingKB} open={connectDialogOpen} onOpenChange={setConnectDialogOpen} />
       </AppLayout>
     );
   }
