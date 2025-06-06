@@ -22,31 +22,31 @@ export function DashboardStats({ selectedMonth }: DashboardStatsProps) {
   // Mock data for different months
   const getStatsForMonth = (month: string) => {
     const statsData: Record<string, { calls: number; answered: number; costs: string }> = {
-      "Juni 2025": { calls: 445, answered: 380, costs: "425,60€" },
-      "Mai 2025": { calls: 365, answered: 295, costs: "356,25€" },
-      "April 2025": { calls: 420, answered: 350, costs: "412,80€" },
-      "März 2025": { calls: 392, answered: 320, costs: "374,40€" },
-      "Februar 2025": { calls: 315, answered: 265, costs: "342,75€" },
-      "Januar 2025": { calls: 285, answered: 230, costs: "298,50€" },
-      "Dezember 2024": { calls: 405, answered: 340, costs: "396,75€" },
-      "November 2024": { calls: 395, answered: 325, costs: "387,45€" },
-      "Oktober 2024": { calls: 385, answered: 315, costs: "378,90€" },
-      "September 2024": { calls: 375, answered: 310, costs: "367,85€" },
-      "August 2024": { calls: 410, answered: 345, costs: "402,50€" },
-      "Juli 2024": { calls: 398, answered: 330, costs: "389,20€" }
+      "June 2025": { calls: 445, answered: 380, costs: "$425.60" },
+      "May 2025": { calls: 365, answered: 295, costs: "$356.25" },
+      "April 2025": { calls: 420, answered: 350, costs: "$412.80" },
+      "March 2025": { calls: 392, answered: 320, costs: "$374.40" },
+      "February 2025": { calls: 315, answered: 265, costs: "$342.75" },
+      "January 2025": { calls: 285, answered: 230, costs: "$298.50" },
+      "December 2024": { calls: 405, answered: 340, costs: "$396.75" },
+      "November 2024": { calls: 395, answered: 325, costs: "$387.45" },
+      "October 2024": { calls: 385, answered: 315, costs: "$378.90" },
+      "September 2024": { calls: 375, answered: 310, costs: "$367.85" },
+      "August 2024": { calls: 410, answered: 345, costs: "$402.50" },
+      "July 2024": { calls: 398, answered: 330, costs: "$389.20" }
     };
 
-    return statsData[month] || statsData["Juni 2025"];
+    return statsData[month] || statsData["June 2025"];
   };
 
   // Parse cost string to number for animation
   const parseCostValue = (costString: string): number => {
-    return parseFloat(costString.replace("€", "").replace(",", "."));
+    return parseFloat(costString.replace("$", ""));
   };
 
   // Format cost number back to string
   const formatCost = (value: number): string => {
-    return value.toFixed(2).replace(".", ",") + "€";
+    return "$" + value.toFixed(2);
   };
 
   useEffect(() => {
@@ -99,7 +99,7 @@ export function DashboardStats({ selectedMonth }: DashboardStatsProps) {
       <div className="bg-white rounded-lg border border-gray-100 p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
         <div className="flex items-center justify-between">
           <div className="flex flex-col">
-            <span className="text-sm font-medium text-gray-500">Anrufe</span>
+            <span className="text-sm font-medium text-gray-500">Calls</span>
             <div className="mt-2 flex items-baseline">
               <span className="text-3xl font-semibold text-black transition-all duration-300">{animatedStats.calls}</span>
               <span className="ml-2 text-sm text-green-500 font-medium">+4.3%</span>
@@ -114,7 +114,7 @@ export function DashboardStats({ selectedMonth }: DashboardStatsProps) {
       <div className="bg-white rounded-lg border border-gray-100 p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
         <div className="flex items-center justify-between">
           <div className="flex flex-col">
-            <span className="text-sm font-medium text-gray-500">Beantwortete Anrufe</span>
+            <span className="text-sm font-medium text-gray-500">Answered Calls</span>
             <div className="mt-2 flex items-baseline">
               <span className="text-3xl font-semibold text-black transition-all duration-300">{animatedStats.answered}</span>
               <span className="ml-2 text-sm text-green-500 font-medium">+2.7%</span>
@@ -129,7 +129,7 @@ export function DashboardStats({ selectedMonth }: DashboardStatsProps) {
       <div className="bg-white rounded-lg border border-gray-100 p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
         <div className="flex items-center justify-between">
           <div className="flex flex-col">
-            <span className="text-sm font-medium text-gray-500">Kosten</span>
+            <span className="text-sm font-medium text-gray-500">Costs</span>
             <div className="mt-2 flex items-baseline">
               <span className="text-3xl font-semibold text-black transition-all duration-300">{formatCost(animatedStats.costsValue)}</span>
               <span className="ml-2 text-sm text-green-500 font-medium">-1.2%</span>

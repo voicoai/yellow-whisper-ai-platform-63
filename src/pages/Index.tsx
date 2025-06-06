@@ -16,8 +16,8 @@ const Index = () => {
   // Generate last 12 months with June 2025 as the most recent
   const generateLast12Months = () => {
     const months = [
-      "Januar", "Februar", "März", "April", "Mai", "Juni",
-      "Juli", "August", "September", "Oktober", "November", "Dezember"
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
     ];
     
     const result = [];
@@ -37,7 +37,7 @@ const Index = () => {
   };
 
   const months = generateLast12Months();
-  const [selectedMonth, setSelectedMonth] = useState(months[0]); // Juni 2025
+  const [selectedMonth, setSelectedMonth] = useState(months[0]); // June 2025
 
   return (
     <AppLayout>

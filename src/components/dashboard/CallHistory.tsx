@@ -8,28 +8,28 @@ interface CallHistoryProps {
 
 export function CallHistory({ selectedMonth }: CallHistoryProps) {
   // Weekday abbreviations
-  const weekdays = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
+  const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
   const [animatedHeights, setAnimatedHeights] = useState<number[]>([]);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   // Mock data for different months - heights represent relative call volumes with more dramatic variations
   const getCallDataForMonth = (month: string) => {
     const callData: Record<string, number[]> = {
-      "Juni 2025": [85, 45, 120, 65, 95, 25, 35],
-      "Mai 2025": [70, 30, 100, 40, 80, 15, 20],
+      "June 2025": [85, 45, 120, 65, 95, 25, 35],
+      "May 2025": [70, 30, 100, 40, 80, 15, 20],
       "April 2025": [90, 55, 110, 75, 60, 35, 45],
-      "März 2025": [65, 40, 85, 50, 70, 20, 25],
-      "Februar 2025": [75, 25, 95, 45, 85, 10, 30],
-      "Januar 2025": [55, 35, 75, 40, 65, 15, 20],
-      "Dezember 2024": [95, 60, 130, 80, 105, 40, 50],
+      "March 2025": [65, 40, 85, 50, 70, 20, 25],
+      "February 2025": [75, 25, 95, 45, 85, 10, 30],
+      "January 2025": [55, 35, 75, 40, 65, 15, 20],
+      "December 2024": [95, 60, 130, 80, 105, 40, 50],
       "November 2024": [80, 45, 115, 70, 90, 30, 40],
-      "Oktober 2024": [70, 35, 105, 55, 75, 25, 35],
+      "October 2024": [70, 35, 105, 55, 75, 25, 35],
       "September 2024": [85, 50, 125, 65, 95, 35, 45],
       "August 2024": [60, 25, 90, 35, 70, 15, 25],
-      "Juli 2024": [100, 65, 140, 85, 110, 45, 55]
+      "July 2024": [100, 65, 140, 85, 110, 45, 55]
     };
 
-    return callData[month] || callData["Juni 2025"];
+    return callData[month] || callData["June 2025"];
   };
 
   useEffect(() => {
@@ -88,7 +88,7 @@ export function CallHistory({ selectedMonth }: CallHistoryProps) {
   return (
     <div className="bg-white rounded-lg border border-gray-100 p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
       <div className="mb-6 flex items-center justify-between">
-        <h3 className="text-lg font-medium">Anrufverlauf</h3>
+        <h3 className="text-lg font-medium">Call History</h3>
         <div className="bg-voico-yellow-50 p-2 rounded-full">
           <BarChart2 size={16} className="text-voico-yellow-600" />
         </div>
@@ -111,7 +111,7 @@ export function CallHistory({ selectedMonth }: CallHistoryProps) {
               ></div>
               {/* Hover tooltip */}
               <div className="absolute bottom-full mb-2 opacity-0 group-hover:opacity-100 transition-opacity bg-black text-white text-xs rounded py-1 px-2 pointer-events-none">
-                {Math.round(animatedHeights[index] || 0)} Anrufe
+                {Math.round(animatedHeights[index] || 0)} Calls
               </div>
             </div>
             <span className="text-xs text-gray-500 mt-2">{day}</span>
@@ -123,9 +123,9 @@ export function CallHistory({ selectedMonth }: CallHistoryProps) {
       <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-full bg-voico-yellow-600"></div>
-          <span className="text-xs text-gray-600">Ø {Math.round(animatedHeights.reduce((a, b) => a + b, 0) / 7)} Anrufe pro Tag</span>
+          <span className="text-xs text-gray-600">Avg {Math.round(animatedHeights.reduce((a, b) => a + b, 0) / 7)} calls per day</span>
         </div>
-        <span className="text-xs text-gray-500">Gesamt: {animatedHeights.reduce((a, b) => a + b, 0)}</span>
+        <span className="text-xs text-gray-500">Total: {animatedHeights.reduce((a, b) => a + b, 0)}</span>
       </div>
     </div>
   );

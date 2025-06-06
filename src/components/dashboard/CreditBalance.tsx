@@ -6,8 +6,8 @@ export function CreditBalance() {
   return (
     <div className="bg-white rounded-lg border border-gray-100 p-6 shadow-sm h-full hover:shadow-md transition-shadow duration-300">
       <div className="mb-6 flex items-center justify-between">
-        <h3 className="text-lg font-medium">Guthaben</h3>
-        <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">Aktuell</span>
+        <h3 className="text-lg font-medium">Credit Balance</h3>
+        <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">Current</span>
       </div>
 
       <div className="flex flex-col items-center justify-center">
@@ -36,14 +36,14 @@ export function CreditBalance() {
           
           {/* Content in the center */}
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className="text-3xl font-bold">2.322€</span>
-            <span className="text-gray-400 text-sm">Verfügbar</span>
+            <span className="text-3xl font-bold">$2,322</span>
+            <span className="text-gray-400 text-sm">Available</span>
           </div>
         </div>
         
         <Button className="w-full mt-8 bg-[#FDDF5C] hover:bg-[#FDDF5C]/90 font-medium text-base h-12 text-black flex items-center justify-center gap-2 transition-all duration-300 shadow-sm hover:shadow">
           <Plus size={18} />
-          Guthaben kaufen
+          Buy Credits
         </Button>
       </div>
     </div>
