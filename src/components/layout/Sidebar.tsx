@@ -1,3 +1,4 @@
+
 import { Link, useLocation } from "react-router-dom";
 import { Phone, Users, List, BarChart3, PhoneCall, Settings, CreditCard, Webhook, BookOpen, ChevronUp, LogOut, User, HelpCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -135,10 +136,9 @@ export function Sidebar({
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="w-full h-12 p-0 justify-center hover:bg-voico-gray-50">
-                  <Avatar className="h-8 w-8">
-                    <AvatarImage src="/placeholder.svg" alt="User" />
-                    <AvatarFallback className="bg-primary text-primary-foreground text-sm">JD</AvatarFallback>
-                  </Avatar>
+                  <div className="h-8 w-8 bg-yellow-400 rounded-full flex items-center justify-center">
+                    <User className="h-5 w-5 text-white" />
+                  </div>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent side="right" align="end" className="w-56 mb-2 bg-white border shadow-lg">
@@ -169,10 +169,9 @@ export function Sidebar({
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="w-full h-12 px-3 justify-between hover:bg-voico-gray-50">
                   <div className="flex items-center space-x-3">
-                    <Avatar className="h-8 w-8">
-                      <AvatarImage src="/placeholder.svg" alt="User" />
-                      <AvatarFallback className="bg-primary text-primary-foreground text-sm">JD</AvatarFallback>
-                    </Avatar>
+                    <div className="h-8 w-8 bg-yellow-400 rounded-full flex items-center justify-center">
+                      <User className="h-5 w-5 text-white" />
+                    </div>
                     <div className="flex flex-col items-start text-left">
                       <span className="text-sm font-medium text-black">John Doe</span>
                       <span className="text-xs text-voico-gray-500">john@example.com</span>
