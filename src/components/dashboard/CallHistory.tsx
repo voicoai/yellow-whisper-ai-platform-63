@@ -32,19 +32,23 @@ export function CallHistory({ selectedMonth }: CallHistoryProps) {
   };
 
   useEffect(() => {
+    console.log('CallHistory: selectedMonth changed to:', selectedMonth);
+    
     // Start transition when month changes
     setIsTransitioning(true);
     
     // Get target heights for the new month
     const targetHeights = getCallDataForMonth(selectedMonth);
+    console.log('CallHistory: target heights for', selectedMonth, ':', targetHeights);
     
     // Animate to new heights over time
     const startTime = Date.now();
     const duration = 1200; // Longer animation duration for smoother effect
-    const startHeights = [...animatedHeights];
+    const startHeights = animatedHeights.length > 0 ? [...animatedHeights] : new Array(7).fill(0);
     
     // If this is first render, initialize with target heights
-    if (startHeights.length === 0) {
+    if (animatedHeights.length === 0) {
+      console.log('CallHistory: First render, setting initial heights');
       setAnimatedHeights(targetHeights);
       setIsTransitioning(false);
       return;
@@ -70,6 +74,7 @@ export function CallHistory({ selectedMonth }: CallHistoryProps) {
         requestAnimationFrame(animateHeights);
       } else {
         setIsTransitioning(false);
+        console.log('CallHistory: Animation completed for', selectedMonth);
       }
     };
     
@@ -86,7 +91,7 @@ export function CallHistory({ selectedMonth }: CallHistoryProps) {
         {weekdays.map((day, index) => (
           <div key={day} className="flex flex-col items-center">
             <div 
-              className="w-10 bg-gradient-to-t from-blue-500 to-blue-400 rounded-t-md transition-all duration-1200 ease-out"
+              className="w-10 bg-gradient-to-t from-voico-yellow-600 to-voico-yellow-500 rounded-t-md transition-all duration-1200 ease-out"
               style={{ 
                 height: `${animatedHeights[index] || 0}px`,
                 transformOrigin: 'bottom'
