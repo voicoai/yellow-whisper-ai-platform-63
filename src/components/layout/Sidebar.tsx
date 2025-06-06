@@ -76,12 +76,20 @@ export function Sidebar({
           <Link to="/" className="flex items-center space-x-2">
             {!collapsed && (
               <div className="flex items-center">
-                <span className="text-black font-bold text-xl">VOICO</span>
+                <img 
+                  src="/lovable-uploads/afde2e56-ac79-4c30-af23-0817463f34e9.png" 
+                  alt="VOICO Logo" 
+                  className="h-8" 
+                />
               </div>
             )}
             {collapsed && (
-              <div className="bg-black text-white w-8 h-8 rounded-sm flex items-center justify-center font-bold">
-                V
+              <div className="flex items-center justify-center">
+                <img 
+                  src="/lovable-uploads/afde2e56-ac79-4c30-af23-0817463f34e9.png" 
+                  alt="VOICO Logo" 
+                  className="h-8 w-8 object-cover object-left" 
+                />
               </div>
             )}
           </Link>
