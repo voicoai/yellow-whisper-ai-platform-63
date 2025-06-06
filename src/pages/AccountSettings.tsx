@@ -23,16 +23,25 @@ const AccountSettings = () => {
         </div>
         
         <Tabs defaultValue="billing" className="w-full">
-          <TabsList className="grid w-full grid-cols-3 h-12 bg-muted/50">
-            <TabsTrigger value="profile" className="flex items-center gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm">
+          <TabsList className="grid w-full grid-cols-3 h-14 bg-white border border-border rounded-lg p-1 shadow-sm">
+            <TabsTrigger 
+              value="profile" 
+              className="flex items-center gap-2 h-10 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm data-[state=inactive]:text-muted-foreground data-[state=inactive]:hover:text-foreground data-[state=inactive]:hover:bg-accent/50"
+            >
               <User className="h-4 w-4" />
               Profile
             </TabsTrigger>
-            <TabsTrigger value="billing" className="flex items-center gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm">
+            <TabsTrigger 
+              value="billing" 
+              className="flex items-center gap-2 h-10 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm data-[state=inactive]:text-muted-foreground data-[state=inactive]:hover:text-foreground data-[state=inactive]:hover:bg-accent/50"
+            >
               <CreditCard className="h-4 w-4" />
               Billing
             </TabsTrigger>
-            <TabsTrigger value="notifications" className="flex items-center gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm">
+            <TabsTrigger 
+              value="notifications" 
+              className="flex items-center gap-2 h-10 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm data-[state=inactive]:text-muted-foreground data-[state=inactive]:hover:text-foreground data-[state=inactive]:hover:bg-accent/50"
+            >
               <Bell className="h-4 w-4" />
               Notifications
             </TabsTrigger>
