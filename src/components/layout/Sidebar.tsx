@@ -1,3 +1,4 @@
+
 import { Link, useLocation } from "react-router-dom";
 import { Phone, Users, List, BarChart3, PhoneCall, Settings, CreditCard, Webhook, BookOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -66,21 +67,20 @@ export function Sidebar({
       
       <aside 
         className={cn(
-          "bg-sidebar fixed md:relative z-20 h-screen border-r border-sidebar-border shadow-sm flex flex-col transition-all duration-300",
+          "bg-white fixed md:relative z-20 h-screen border-r border-voico-gray-200 shadow-sm flex flex-col transition-all duration-300",
           collapsed ? "w-16" : "w-64",
           isMobile && collapsed ? "-translate-x-full" : "translate-x-0"
         )}
       >
-        <div className="p-4 flex items-center justify-between border-b border-sidebar-border">
+        <div className="p-4 flex items-center justify-between border-b border-voico-gray-200">
           <Link to="/" className="flex items-center space-x-2">
             {!collapsed && (
               <div className="flex items-center">
-                <span className="text-voico-yellow-500 font-bold text-2xl">VOI</span>
-                <span className="text-white font-bold text-2xl">CO</span>
+                <span className="text-black font-bold text-xl">VOICO</span>
               </div>
             )}
             {collapsed && (
-              <div className="bg-voico-yellow-500 text-voico-blue-800 w-8 h-8 rounded-full flex items-center justify-center font-bold">
+              <div className="bg-black text-white w-8 h-8 rounded-sm flex items-center justify-center font-bold">
                 V
               </div>
             )}
@@ -96,8 +96,8 @@ export function Sidebar({
                   className={cn(
                     "flex items-center py-2 px-3 rounded-md group transition-colors",
                     isActive(item.path) 
-                      ? "bg-sidebar-accent text-sidebar-accent-foreground" 
-                      : "text-sidebar-foreground hover:bg-sidebar-accent/50"
+                      ? "bg-voico-gray-100 text-black" 
+                      : "text-voico-gray-700 hover:bg-voico-gray-50"
                   )} 
                   aria-current={isActive(item.path) ? "page" : undefined}
                 >
@@ -105,8 +105,8 @@ export function Sidebar({
                     className={cn(
                       "flex-shrink-0", 
                       isActive(item.path) 
-                        ? "text-sidebar-primary" 
-                        : "text-sidebar-foreground group-hover:text-sidebar-primary"
+                        ? "text-black" 
+                        : "text-voico-gray-500 group-hover:text-black"
                     )} 
                     size={20} 
                   />
@@ -116,15 +116,6 @@ export function Sidebar({
             ))}
           </ul>
         </nav>
-
-        <div className="p-4 border-t border-sidebar-border">
-          {!collapsed && (
-            <div className="bg-sidebar-accent/30 rounded-md p-3 text-xs text-sidebar-foreground">
-              <p className="font-medium">VOICO AI Assistant</p>
-              <p className="opacity-70 mt-1">Free Trial · 12 days left</p>
-            </div>
-          )}
-        </div>
       </aside>
     </>
   );

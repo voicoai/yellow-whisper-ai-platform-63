@@ -30,32 +30,31 @@ export function Header({ collapsed, setCollapsed }: HeaderProps) {
   };
 
   return (
-    <header className="bg-white border-b border-gray-200 py-3 px-4 md:px-6 flex items-center justify-between h-16 sticky top-0 z-10 shadow-sm">
+    <header className="bg-white border-b border-voico-gray-200 py-3 px-4 md:px-6 flex items-center justify-between h-16 sticky top-0 z-10 shadow-sm">
       <div className="flex items-center">
         <button
           onClick={() => setCollapsed(!collapsed)}
-          className="mr-3 p-2 rounded-md hover:bg-gray-100 transition-colors"
+          className="mr-3 p-2 rounded-md hover:bg-voico-gray-100 transition-colors"
           aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
         >
-          <Menu size={20} />
+          <Menu size={20} className="text-voico-gray-800" />
         </button>
-        <h1 className="text-xl font-semibold text-gray-800">{getPageTitle()}</h1>
+        <h1 className="text-xl font-normal text-black">{getPageTitle()}</h1>
       </div>
-      <div className="flex items-center gap-2">
-        <Button variant="ghost" size="icon" className="relative" aria-label="Notifications">
-          <Bell size={20} />
-          <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+      <div className="flex items-center gap-3">
+        <Button variant="ghost" size="icon" className="relative rounded-full" aria-label="Notifications">
+          <Bell size={20} className="text-voico-gray-700" />
         </Button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="rounded-full" aria-label="User menu">
-              <User size={20} />
+              <User size={20} className="text-voico-gray-700" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem>Profile</DropdownMenuItem>
-            <DropdownMenuItem>Settings</DropdownMenuItem>
-            <DropdownMenuItem>Logout</DropdownMenuItem>
+          <DropdownMenuContent align="end" className="bg-white border-voico-gray-200">
+            <DropdownMenuItem className="text-voico-gray-800">Profile</DropdownMenuItem>
+            <DropdownMenuItem className="text-voico-gray-800">Settings</DropdownMenuItem>
+            <DropdownMenuItem className="text-voico-gray-800">Logout</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

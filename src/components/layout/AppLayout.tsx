@@ -21,7 +21,7 @@ export function AppLayout({ children }: AppLayoutProps) {
   }, [isMobile]);
 
   return (
-    <div className="min-h-screen flex bg-gray-50">
+    <div className="min-h-screen flex bg-white">
       {/* Fixed position for the sidebar so it stays visible when scrolling */}
       <div className="fixed top-0 left-0 h-full z-10">
         <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
@@ -30,7 +30,7 @@ export function AppLayout({ children }: AppLayoutProps) {
       {/* Add padding to the main content area to prevent sidebar overlap */}
       <div className={`flex-1 flex flex-col w-full ${collapsed ? 'md:ml-16' : 'md:ml-64'}`}>
         <Header collapsed={collapsed} setCollapsed={setCollapsed} />
-        <main className="p-4 md:p-6 lg:p-8 pb-24 max-w-screen-2xl mx-auto w-full">
+        <main className="p-4 md:p-6 lg:p-8 max-w-screen-2xl mx-auto w-full">
           {children}
         </main>
       </div>
