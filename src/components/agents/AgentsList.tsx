@@ -19,6 +19,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface Agent {
   id: string;
@@ -33,6 +34,8 @@ interface Agent {
 }
 
 export function AgentsList() {
+  const { t } = useLanguage();
+  
   // Sample data - in a real app this would come from an API
   const agents: Agent[] = [
     {
@@ -75,10 +78,10 @@ export function AgentsList() {
       <Card className="border-0 shadow-sm bg-white">
         <CardHeader className="border-b border-gray-100 bg-gray-50/50">
           <div className="flex justify-between items-center">
-            <CardTitle className="text-lg font-medium text-gray-900">AI Agents Overview</CardTitle>
+            <CardTitle className="text-lg font-medium text-gray-900">{t('aiAgentsOverview')}</CardTitle>
             <Button className="bg-[#FDDF5C] hover:bg-[#FDDF5C]/90 text-black font-medium shadow-sm" asChild>
               <Link to="/agents/new">
-                <Plus className="mr-2 h-4 w-4" /> Create Agent
+                <Plus className="mr-2 h-4 w-4" /> {t('createAgent')}
               </Link>
             </Button>
           </div>
@@ -88,12 +91,12 @@ export function AgentsList() {
           <Table>
             <TableHeader>
               <TableRow className="hover:bg-transparent border-b border-gray-100">
-                <TableHead className="font-medium text-gray-700 py-4">Agent</TableHead>
-                <TableHead className="font-medium text-gray-700">Type</TableHead>
-                <TableHead className="font-medium text-gray-700">Phone Number</TableHead>
-                <TableHead className="font-medium text-gray-700">Performance</TableHead>
-                <TableHead className="font-medium text-gray-700">Languages</TableHead>
-                <TableHead className="text-right font-medium text-gray-700">Actions</TableHead>
+                <TableHead className="font-medium text-gray-700 py-4">{t('agent')}</TableHead>
+                <TableHead className="font-medium text-gray-700">{t('type')}</TableHead>
+                <TableHead className="font-medium text-gray-700">{t('phoneNumber')}</TableHead>
+                <TableHead className="font-medium text-gray-700">{t('performance')}</TableHead>
+                <TableHead className="font-medium text-gray-700">{t('languages')}</TableHead>
+                <TableHead className="text-right font-medium text-gray-700">{t('actions')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -117,12 +120,12 @@ export function AgentsList() {
                       {agent.callType === "inbound" ? (
                         <div className="flex items-center">
                           <Phone className="h-3 w-3 mr-1" />
-                          Inbound
+                          {t('inbound')}
                         </div>
                       ) : (
                         <div className="flex items-center">
                           <PhoneOutgoing className="h-3 w-3 mr-1" />
-                          Outbound
+                          {t('outbound')}
                         </div>
                       )}
                     </Badge>
@@ -133,12 +136,12 @@ export function AgentsList() {
                   <TableCell>
                     <div className="space-y-1">
                       <div className="flex items-center gap-3 text-sm">
-                        <span className="text-gray-900 font-medium">{agent.callCount} calls</span>
+                        <span className="text-gray-900 font-medium">{agent.callCount} {t('calls')}</span>
                         <span className="text-gray-500">•</span>
-                        <span className="text-gray-600">{agent.avgDuration} avg</span>
+                        <span className="text-gray-600">{agent.avgDuration} {t('avg')}</span>
                       </div>
                       <div className="text-xs text-gray-500">
-                        ${agent.costPerMinute.toFixed(3)}/min
+                        ${agent.costPerMinute.toFixed(3)}/{t('min')}
                       </div>
                     </div>
                   </TableCell>
@@ -162,7 +165,7 @@ export function AgentsList() {
                         asChild
                         className="text-gray-600 hover:text-gray-900 hover:bg-gray-100"
                       >
-                        <Link to={`/agents/${agent.id}`}>View</Link>
+                        <Link to={`/agents/${agent.id}`}>{t('view')}</Link>
                       </Button>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -175,11 +178,11 @@ export function AgentsList() {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="bg-white border border-gray-200 shadow-lg">
-                          <DropdownMenuItem className="hover:bg-gray-50">Edit Agent</DropdownMenuItem>
-                          <DropdownMenuItem className="hover:bg-gray-50">Configure</DropdownMenuItem>
-                          <DropdownMenuItem className="hover:bg-gray-50">Duplicate</DropdownMenuItem>
+                          <DropdownMenuItem className="hover:bg-gray-50">{t('editAgent')}</DropdownMenuItem>
+                          <DropdownMenuItem className="hover:bg-gray-50">{t('configure')}</DropdownMenuItem>
+                          <DropdownMenuItem className="hover:bg-gray-50">{t('duplicate')}</DropdownMenuItem>
                           <DropdownMenuSeparator />
-                          <DropdownMenuItem className="text-red-600 hover:bg-red-50">Delete</DropdownMenuItem>
+                          <DropdownMenuItem className="text-red-600 hover:bg-red-50">{t('delete')}</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </div>
