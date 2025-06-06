@@ -13,7 +13,7 @@ export function CreditBalance() {
           {/* Background gray circle */}
           <div className="absolute inset-0 rounded-full bg-gray-100"></div>
           
-          {/* Yellow progress arc - would be dynamic in a real app */}
+          {/* Yellow progress arc - updated to use new accent color */}
           <svg 
             className="absolute inset-0 w-full h-full -rotate-90"
             viewBox="0 0 100 100"
@@ -23,7 +23,7 @@ export function CreditBalance() {
               cy="50" 
               r="45" 
               fill="none" 
-              stroke="#FFDD33" 
+              stroke="#FDDF5C" 
               strokeWidth="10"
               strokeDasharray="280"  
               strokeDashoffset="70"  
@@ -38,7 +38,7 @@ export function CreditBalance() {
           </div>
         </div>
         
-        <Button className="w-full mt-8 bg-yellow-400 hover:bg-yellow-500 font-medium text-base h-12">
+        <Button className="w-full mt-8 bg-[#FDDF5C] hover:bg-[#FDDF5C]/90 font-medium text-base h-12 text-black">
           Guthaben kaufen
         </Button>
       </div>

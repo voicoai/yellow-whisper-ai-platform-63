@@ -63,7 +63,7 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				// VOICO brand colors - updated to match the reference image
+				// VOICO brand colors - updated accent to #FDDF5C
 				voico: {
 					yellow: {
 						50: '#FFFEF9',
@@ -72,7 +72,7 @@ export default {
 						300: '#FFF0B8',
 						400: '#FFEB9F',
 						500: '#FFE575',
-						600: '#FFD94D',
+						600: '#FDDF5C', // New accent color
 						700: '#F7C500',
 						800: '#E6B700',
 						900: '#D4A900',
