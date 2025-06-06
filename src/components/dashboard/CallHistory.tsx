@@ -1,14 +1,17 @@
 
 import { useState, useEffect } from "react";
 import { BarChart2 } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface CallHistoryProps {
   selectedMonth: string;
 }
 
 export function CallHistory({ selectedMonth }: CallHistoryProps) {
+  const { t } = useLanguage();
+  
   // Weekday abbreviations
-  const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const weekdays = [t('mon'), t('tue'), t('wed'), t('thu'), t('fri'), t('sat'), t('sun')];
   const [animatedHeights, setAnimatedHeights] = useState<number[]>([]);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
@@ -88,7 +91,7 @@ export function CallHistory({ selectedMonth }: CallHistoryProps) {
   return (
     <div className="bg-white rounded-lg border border-gray-100 p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
       <div className="mb-6 flex items-center justify-between">
-        <h3 className="text-lg font-medium">Call History</h3>
+        <h3 className="text-lg font-medium">{t('callHistory')}</h3>
         <div className="bg-voico-yellow-50 p-2 rounded-full">
           <BarChart2 size={16} className="text-voico-yellow-600" />
         </div>
@@ -111,7 +114,7 @@ export function CallHistory({ selectedMonth }: CallHistoryProps) {
               ></div>
               {/* Hover tooltip */}
               <div className="absolute bottom-full mb-2 opacity-0 group-hover:opacity-100 transition-opacity bg-black text-white text-xs rounded py-1 px-2 pointer-events-none">
-                {Math.round(animatedHeights[index] || 0)} Calls
+                {Math.round(animatedHeights[index] || 0)} {t('callsUnit')}
               </div>
             </div>
             <span className="text-xs text-gray-500 mt-2">{day}</span>
@@ -123,9 +126,9 @@ export function CallHistory({ selectedMonth }: CallHistoryProps) {
       <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-full bg-voico-yellow-600"></div>
-          <span className="text-xs text-gray-600">Avg {Math.round(animatedHeights.reduce((a, b) => a + b, 0) / 7)} calls per day</span>
+          <span className="text-xs text-gray-600">{t('avgCallsPerDay')} {Math.round(animatedHeights.reduce((a, b) => a + b, 0) / 7)} {t('callsPerDay')}</span>
         </div>
-        <span className="text-xs text-gray-500">Total: {animatedHeights.reduce((a, b) => a + b, 0)}</span>
+        <span className="text-xs text-gray-500">{t('total')}: {animatedHeights.reduce((a, b) => a + b, 0)}</span>
       </div>
     </div>
   );

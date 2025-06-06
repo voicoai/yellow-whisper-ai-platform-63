@@ -1,4 +1,3 @@
-
 import { AppLayout } from "@/components/layout/AppLayout";
 import { SpendingWidget } from "@/components/dashboard/SpendingWidget";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -9,41 +8,52 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { User, CreditCard, Bell, Settings, Mail, Shield } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { User, CreditCard, Bell, Settings, Mail, Shield, Globe } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const AccountSettings = () => {
+  const { language, setLanguage, t } = useLanguage();
+
   return (
     <AppLayout>
       <div className="space-y-8 max-w-4xl">
         <div className="space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight">Account Settings</h1>
+          <h1 className="text-3xl font-bold tracking-tight">{t('accountSettings')}</h1>
           <p className="text-muted-foreground">
-            Manage your account preferences and billing information
+            {t('manageAccountPreferences')}
           </p>
         </div>
         
         <Tabs defaultValue="billing" className="w-full">
-          <TabsList className="grid w-full grid-cols-3 h-14 bg-white border border-border rounded-lg p-1 shadow-sm">
+          <TabsList className="grid w-full grid-cols-4 h-14 bg-white border border-border rounded-lg p-1 shadow-sm">
             <TabsTrigger 
               value="profile" 
               className="flex items-center gap-2 h-10 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm data-[state=inactive]:text-muted-foreground data-[state=inactive]:hover:text-foreground data-[state=inactive]:hover:bg-accent/50"
             >
               <User className="h-4 w-4" />
-              Profile
+              {t('profile')}
             </TabsTrigger>
             <TabsTrigger 
               value="billing" 
               className="flex items-center gap-2 h-10 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm data-[state=inactive]:text-muted-foreground data-[state=inactive]:hover:text-foreground data-[state=inactive]:hover:bg-accent/50"
             >
               <CreditCard className="h-4 w-4" />
-              Billing
+              {t('billing')}
             </TabsTrigger>
             <TabsTrigger 
               value="notifications" 
               className="flex items-center gap-2 h-10 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm data-[state=inactive]:text-muted-foreground data-[state=inactive]:hover:text-foreground data-[state=inactive]:hover:bg-accent/50"
             >
               <Bell className="h-4 w-4" />
-              Notifications
+              {t('notifications')}
+            </TabsTrigger>
+            <TabsTrigger 
+              value="language" 
+              className="flex items-center gap-2 h-10 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-sm data-[state=inactive]:text-muted-foreground data-[state=inactive]:hover:text-foreground data-[state=inactive]:hover:bg-accent/50"
+            >
+              <Globe className="h-4 w-4" />
+              {t('language')}
             </TabsTrigger>
           </TabsList>
           
@@ -233,6 +243,44 @@ const AccountSettings = () => {
                 
                 <div className="flex justify-end">
                   <Button>Save Preferences</Button>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+          
+          <TabsContent value="language" className="mt-6">
+            <Card className="border-0 shadow-sm">
+              <CardHeader className="pb-4">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-primary/10 rounded-lg">
+                    <Globe className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <CardTitle className="text-xl">{t('language')}</CardTitle>
+                    <CardDescription>
+                      {t('selectLanguage')}
+                    </CardDescription>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="space-y-2">
+                  <Label htmlFor="language-select">{t('language')}</Label>
+                  <Select value={language} onValueChange={(value: 'en' | 'de') => setLanguage(value)}>
+                    <SelectTrigger id="language-select" className="w-full">
+                      <SelectValue placeholder={t('selectLanguage')} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="en">{t('english')}</SelectItem>
+                      <SelectItem value="de">{t('german')}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <Separator />
+                
+                <div className="flex justify-end">
+                  <Button>{t('savePreferences')}</Button>
                 </div>
               </CardContent>
             </Card>

@@ -4,6 +4,7 @@ import { AppLayout } from "@/components/layout/AppLayout";
 import { DashboardStats } from "@/components/dashboard/DashboardStats";
 import { CallHistory } from "@/components/dashboard/CallHistory";
 import { CreditBalance } from "@/components/dashboard/CreditBalance";
+import { useLanguage } from "@/contexts/LanguageContext";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,11 +14,13 @@ import {
 import { CalendarIcon, ChevronDownIcon } from "lucide-react";
 
 const Index = () => {
+  const { language, t } = useLanguage();
+
   // Generate last 12 months with June 2025 as the most recent
   const generateLast12Months = () => {
-    const months = [
-      "January", "February", "March", "April", "May", "June",
-      "July", "August", "September", "October", "November", "December"
+    const monthKeys = [
+      "january", "february", "march", "april", "may", "june",
+      "july", "august", "september", "october", "november", "december"
     ];
     
     const result = [];
@@ -25,7 +28,7 @@ const Index = () => {
     let currentYear = 2025;
     
     for (let i = 0; i < 12; i++) {
-      result.push(`${months[currentMonth]} ${currentYear}`);
+      result.push(`${t(monthKeys[currentMonth])} ${currentYear}`);
       currentMonth--;
       if (currentMonth < 0) {
         currentMonth = 11;
@@ -43,7 +46,7 @@ const Index = () => {
     <AppLayout>
       <div className="space-y-8">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-medium text-black">Dashboard</h1>
+          <h1 className="text-2xl font-medium text-black">{t('dashboard')}</h1>
           <div className="flex items-center gap-4">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

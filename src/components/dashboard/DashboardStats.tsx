@@ -1,6 +1,6 @@
-
 import { useState, useEffect } from "react";
 import { Phone, Users, CreditCard } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface DashboardStatsProps {
   selectedMonth: string;
@@ -13,6 +13,7 @@ interface StatsData {
 }
 
 export function DashboardStats({ selectedMonth }: DashboardStatsProps) {
+  const { t } = useLanguage();
   const [animatedStats, setAnimatedStats] = useState<{ calls: number; answered: number; costsValue: number }>({
     calls: 0,
     answered: 0,
@@ -99,7 +100,7 @@ export function DashboardStats({ selectedMonth }: DashboardStatsProps) {
       <div className="bg-white rounded-lg border border-gray-100 p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
         <div className="flex items-center justify-between">
           <div className="flex flex-col">
-            <span className="text-sm font-medium text-gray-500">Calls</span>
+            <span className="text-sm font-medium text-gray-500">{t('calls')}</span>
             <div className="mt-2 flex items-baseline">
               <span className="text-3xl font-semibold text-black transition-all duration-300">{animatedStats.calls}</span>
               <span className="ml-2 text-sm text-green-500 font-medium">+4.3%</span>
@@ -114,7 +115,7 @@ export function DashboardStats({ selectedMonth }: DashboardStatsProps) {
       <div className="bg-white rounded-lg border border-gray-100 p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
         <div className="flex items-center justify-between">
           <div className="flex flex-col">
-            <span className="text-sm font-medium text-gray-500">Answered Calls</span>
+            <span className="text-sm font-medium text-gray-500">{t('answeredCalls')}</span>
             <div className="mt-2 flex items-baseline">
               <span className="text-3xl font-semibold text-black transition-all duration-300">{animatedStats.answered}</span>
               <span className="ml-2 text-sm text-green-500 font-medium">+2.7%</span>
@@ -129,7 +130,7 @@ export function DashboardStats({ selectedMonth }: DashboardStatsProps) {
       <div className="bg-white rounded-lg border border-gray-100 p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
         <div className="flex items-center justify-between">
           <div className="flex flex-col">
-            <span className="text-sm font-medium text-gray-500">Costs</span>
+            <span className="text-sm font-medium text-gray-500">{t('costs')}</span>
             <div className="mt-2 flex items-baseline">
               <span className="text-3xl font-semibold text-black transition-all duration-300">{formatCost(animatedStats.costsValue)}</span>
               <span className="ml-2 text-sm text-green-500 font-medium">-1.2%</span>
