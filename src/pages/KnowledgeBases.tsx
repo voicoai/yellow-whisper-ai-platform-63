@@ -4,12 +4,67 @@ import { AppLayout } from "@/components/layout/AppLayout";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Plus, FileText, Globe, MessageSquare } from "lucide-react";
+import { Plus, Database, Globe, FileText, MessageSquare, ArrowLeft, ExternalLink, MoreHorizontal } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Badge } from "@/components/ui/badge";
 
 const KnowledgeBases = () => {
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState("created");
+  const [selectedKB, setSelectedKB] = useState<any>(null);
+  
+  // Mock data for knowledge bases with their contents
+  const knowledgeBases = [
+    {
+      id: "kb-1",
+      title: "Product Documentation",
+      description: "Documentation for our SaaS product",
+      type: "document" as const,
+      sources: 3,
+      files: [
+        { name: "API_Documentation.pdf", type: "pdf", size: "2.4 MB", uploadDate: "2024-06-01" },
+        { name: "User_Guide.docx", type: "docx", size: "1.8 MB", uploadDate: "2024-06-02" },
+        { name: "FAQ.txt", type: "txt", size: "45 KB", uploadDate: "2024-06-03" }
+      ],
+      urls: [],
+      texts: []
+    },
+    {
+      id: "kb-2",
+      title: "FAQ Database",
+      description: "Frequently asked questions and answers",
+      type: "text" as const,
+      sources: 12,
+      files: [],
+      urls: [],
+      texts: [
+        { title: "General FAQ", content: "What is our product?", createdDate: "2024-05-15" },
+        { title: "Billing FAQ", content: "How does billing work?", createdDate: "2024-05-16" },
+        { title: "Technical FAQ", content: "Technical support questions", createdDate: "2024-05-17" }
+      ]
+    },
+    {
+      id: "kb-3",
+      title: "Company Website",
+      description: "Content from company website and blog",
+      type: "website" as const,
+      sources: 8,
+      files: [],
+      urls: [
+        { url: "https://company.com/about", title: "About Us", lastCrawled: "2024-06-05" },
+        { url: "https://company.com/products", title: "Products", lastCrawled: "2024-06-05" },
+        { url: "https://company.com/blog", title: "Blog", lastCrawled: "2024-06-04" }
+      ],
+      texts: []
+    }
+  ];
   
   const handleCreateKnowledgeBase = () => {
     toast({
@@ -18,14 +73,163 @@ const KnowledgeBases = () => {
     });
   };
 
+  const handleViewKB = (kb: any) => {
+    setSelectedKB(kb);
+  };
+
+  const handleBackToList = () => {
+    setSelectedKB(null);
+  };
+
+  const handleConnectKB = (kbId: string) => {
+    toast({
+      title: "Coming Soon",
+      description: "Knowledge Base connection will be available soon.",
+    });
+  };
+
+  if (selectedKB) {
+    return (
+      <AppLayout>
+        <div className="space-y-6">
+          <div className="flex items-center gap-4">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={handleBackToList}
+              className="text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+            >
+              <ArrowLeft size={16} className="mr-2" />
+              Back to Knowledge Bases
+            </Button>
+            <div className="h-6 w-px bg-gray-300"></div>
+            <div>
+              <h1 className="text-2xl font-semibold text-gray-900">{selectedKB.title}</h1>
+              <p className="text-sm text-gray-600 mt-1">{selectedKB.description}</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Files Section */}
+            <Card className="border-0 shadow-sm bg-white">
+              <CardHeader className="border-b border-gray-100 bg-gray-50/50">
+                <CardTitle className="text-lg font-medium text-gray-900 flex items-center gap-2">
+                  <FileText size={20} />
+                  Files ({selectedKB.files.length})
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-4">
+                {selectedKB.files.length > 0 ? (
+                  <div className="space-y-3">
+                    {selectedKB.files.map((file: any, index: number) => (
+                      <div key={index} className="flex items-center justify-between p-3 border border-gray-100 rounded-lg hover:bg-gray-50">
+                        <div className="flex items-center gap-3">
+                          <div className="p-2 bg-blue-50 rounded-md">
+                            <FileText size={16} className="text-blue-600" />
+                          </div>
+                          <div>
+                            <p className="font-medium text-sm text-gray-900">{file.name}</p>
+                            <p className="text-xs text-gray-500">{file.size} • {file.uploadDate}</p>
+                          </div>
+                        </div>
+                        <Button variant="ghost" size="sm">
+                          <ExternalLink size={14} />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-gray-500 text-sm text-center py-8">No files uploaded</p>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* URLs Section */}
+            <Card className="border-0 shadow-sm bg-white">
+              <CardHeader className="border-b border-gray-100 bg-gray-50/50">
+                <CardTitle className="text-lg font-medium text-gray-900 flex items-center gap-2">
+                  <Globe size={20} />
+                  URLs ({selectedKB.urls.length})
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-4">
+                {selectedKB.urls.length > 0 ? (
+                  <div className="space-y-3">
+                    {selectedKB.urls.map((url: any, index: number) => (
+                      <div key={index} className="flex items-center justify-between p-3 border border-gray-100 rounded-lg hover:bg-gray-50">
+                        <div className="flex items-center gap-3">
+                          <div className="p-2 bg-green-50 rounded-md">
+                            <Globe size={16} className="text-green-600" />
+                          </div>
+                          <div>
+                            <p className="font-medium text-sm text-gray-900">{url.title}</p>
+                            <p className="text-xs text-gray-500">{url.url}</p>
+                            <p className="text-xs text-gray-400">Last crawled: {url.lastCrawled}</p>
+                          </div>
+                        </div>
+                        <Button variant="ghost" size="sm">
+                          <ExternalLink size={14} />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-gray-500 text-sm text-center py-8">No URLs added</p>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* Text Content Section */}
+            <Card className="border-0 shadow-sm bg-white">
+              <CardHeader className="border-b border-gray-100 bg-gray-50/50">
+                <CardTitle className="text-lg font-medium text-gray-900 flex items-center gap-2">
+                  <MessageSquare size={20} />
+                  Text Content ({selectedKB.texts.length})
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-4">
+                {selectedKB.texts.length > 0 ? (
+                  <div className="space-y-3">
+                    {selectedKB.texts.map((text: any, index: number) => (
+                      <div key={index} className="flex items-center justify-between p-3 border border-gray-100 rounded-lg hover:bg-gray-50">
+                        <div className="flex items-center gap-3">
+                          <div className="p-2 bg-yellow-50 rounded-md">
+                            <MessageSquare size={16} className="text-yellow-600" />
+                          </div>
+                          <div>
+                            <p className="font-medium text-sm text-gray-900">{text.title}</p>
+                            <p className="text-xs text-gray-500 line-clamp-2">{text.content}</p>
+                            <p className="text-xs text-gray-400">Created: {text.createdDate}</p>
+                          </div>
+                        </div>
+                        <Button variant="ghost" size="sm">
+                          <ExternalLink size={14} />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-gray-500 text-sm text-center py-8">No text content added</p>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </AppLayout>
+    );
+  }
+
   return (
     <AppLayout>
       <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold">Knowledge Bases</h1>
+          <div>
+            <h1 className="text-2xl font-semibold text-gray-900">Knowledge Bases</h1>
+            <p className="text-sm text-gray-600 mt-1">Manage your AI knowledge sources and content</p>
+          </div>
           <Button 
             onClick={handleCreateKnowledgeBase}
-            className="bg-voico-blue-800 hover:bg-voico-blue-700"
+            className="bg-[#FDDF5C] hover:bg-[#FDDF5C]/90 text-black font-medium shadow-sm"
           >
             <Plus className="mr-2 h-4 w-4" />
             Create Knowledge Base
@@ -33,37 +237,43 @@ const KnowledgeBases = () => {
         </div>
         
         <Tabs defaultValue="created" onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full max-w-md grid-cols-2">
-            <TabsTrigger value="created">Created</TabsTrigger>
-            <TabsTrigger value="create">Create New</TabsTrigger>
+          <TabsList className="grid w-full max-w-md grid-cols-2 bg-gray-100">
+            <TabsTrigger value="created" className="data-[state=active]:bg-white data-[state=active]:shadow-sm">
+              Created
+            </TabsTrigger>
+            <TabsTrigger value="create" className="data-[state=active]:bg-white data-[state=active]:shadow-sm">
+              Create New
+            </TabsTrigger>
           </TabsList>
           
           <TabsContent value="created" className="py-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {/* Example knowledge base cards */}
-              <KnowledgeBaseCard
-                title="Product Documentation"
-                description="Documentation for our SaaS product"
-                type="document"
-                sources={3}
-              />
-              <KnowledgeBaseCard
-                title="FAQ Database"
-                description="Frequently asked questions and answers"
-                type="text"
-                sources={12}
-              />
-              <EmptyKnowledgeBaseCard />
-            </div>
+            <Card className="border-0 shadow-sm bg-white">
+              <CardHeader className="border-b border-gray-100 bg-gray-50/50">
+                <CardTitle className="text-lg font-medium text-gray-900">Knowledge Bases Overview</CardTitle>
+              </CardHeader>
+              <CardContent className="p-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {knowledgeBases.map((kb) => (
+                    <KnowledgeBaseCard
+                      key={kb.id}
+                      kb={kb}
+                      onView={() => handleViewKB(kb)}
+                      onConnect={() => handleConnectKB(kb.id)}
+                    />
+                  ))}
+                  <EmptyKnowledgeBaseCard onClick={handleCreateKnowledgeBase} />
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
           
           <TabsContent value="create" className="py-4 space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Create a Knowledge Base</CardTitle>
-                <CardDescription>Select a source type to create your knowledge base</CardDescription>
+            <Card className="border-0 shadow-sm bg-white">
+              <CardHeader className="border-b border-gray-100 bg-gray-50/50">
+                <CardTitle className="text-lg font-medium text-gray-900">Create a Knowledge Base</CardTitle>
+                <CardDescription className="text-gray-600">Select a source type to create your knowledge base</CardDescription>
               </CardHeader>
-              <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <CardContent className="p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
                 <SourceCard
                   title="Website"
                   icon={Globe}
@@ -92,43 +302,61 @@ const KnowledgeBases = () => {
 };
 
 interface KnowledgeBaseCardProps {
-  title: string;
-  description: string;
-  type: "website" | "document" | "text";
-  sources: number;
+  kb: any;
+  onView: () => void;
+  onConnect: () => void;
 }
 
-const KnowledgeBaseCard = ({ title, description, type, sources }: KnowledgeBaseCardProps) => {
-  const getIcon = () => {
-    switch (type) {
-      case "website":
-        return <Globe className="h-4 w-4 text-voico-blue-500" />;
-      case "document":
-        return <FileText className="h-4 w-4 text-voico-yellow-500" />;
-      default:
-        return <MessageSquare className="h-4 w-4 text-voico-blue-300" />;
-    }
-  };
-
+const KnowledgeBaseCard = ({ kb, onView, onConnect }: KnowledgeBaseCardProps) => {
   return (
-    <Card>
+    <Card className="border border-gray-200 hover:shadow-md transition-all duration-200">
       <CardHeader className="pb-3">
-        <div className="flex items-center justify-between mb-2">
-          <div className="bg-muted p-2 rounded-md">
-            {getIcon()}
+        <div className="flex items-center justify-between mb-3">
+          <div className="p-2 bg-blue-50 rounded-md">
+            <Database className="h-5 w-5 text-blue-600" />
           </div>
-          <div className="text-xs text-muted-foreground px-2 py-1 rounded-full bg-muted">
-            {sources} sources
+          <div className="flex items-center gap-2">
+            <Badge variant="secondary" className="bg-gray-100 text-gray-700 text-xs">
+              {kb.sources} sources
+            </Badge>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 text-gray-400 hover:text-gray-600 hover:bg-gray-100"
+                >
+                  <MoreHorizontal size={16} />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="bg-white border border-gray-200 shadow-lg">
+                <DropdownMenuItem className="hover:bg-gray-50">Edit Knowledge Base</DropdownMenuItem>
+                <DropdownMenuItem className="hover:bg-gray-50">Configure</DropdownMenuItem>
+                <DropdownMenuItem className="hover:bg-gray-50">Duplicate</DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="text-red-600 hover:bg-red-50">Delete</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
-        <CardTitle>{title}</CardTitle>
-        <CardDescription className="text-sm line-clamp-2">{description}</CardDescription>
+        <CardTitle className="text-lg font-medium text-gray-900">{kb.title}</CardTitle>
+        <CardDescription className="text-sm text-gray-600 line-clamp-2">{kb.description}</CardDescription>
       </CardHeader>
       <CardFooter className="pt-0 flex justify-between">
-        <Button variant="ghost" size="sm">
+        <Button 
+          variant="ghost" 
+          size="sm"
+          onClick={onView}
+          className="text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+        >
           View
         </Button>
-        <Button variant="outline" size="sm">
+        <Button 
+          variant="outline" 
+          size="sm"
+          onClick={onConnect}
+          className="border-gray-200 hover:bg-gray-50"
+        >
           Connect
         </Button>
       </CardFooter>
@@ -136,15 +364,20 @@ const KnowledgeBaseCard = ({ title, description, type, sources }: KnowledgeBaseC
   );
 };
 
-const EmptyKnowledgeBaseCard = () => (
-  <Card className="border-dashed flex flex-col items-center justify-center h-[172px]">
+const EmptyKnowledgeBaseCard = ({ onClick }: { onClick: () => void }) => (
+  <Card className="border-2 border-dashed border-gray-200 flex flex-col items-center justify-center h-[200px] hover:border-gray-300 transition-colors">
     <Button 
       variant="ghost"
-      className="flex flex-col h-full w-full gap-2"
-      onClick={() => {}}
+      className="flex flex-col h-full w-full gap-3 text-gray-500 hover:text-gray-700"
+      onClick={onClick}
     >
-      <Plus className="h-6 w-6 opacity-50" />
-      <p className="text-sm font-medium">Add Knowledge Base</p>
+      <div className="p-3 bg-gray-50 rounded-full">
+        <Plus className="h-6 w-6" />
+      </div>
+      <div className="text-center">
+        <p className="text-sm font-medium">Add Knowledge Base</p>
+        <p className="text-xs text-gray-400 mt-1">Create a new knowledge source</p>
+      </div>
     </Button>
   </Card>
 );
@@ -157,15 +390,15 @@ interface SourceCardProps {
 }
 
 const SourceCard = ({ title, icon: Icon, description, onClick }: SourceCardProps) => (
-  <Card className="hover:border-primary cursor-pointer transition-all" onClick={onClick}>
-    <CardHeader>
-      <div className="bg-muted p-2 w-10 h-10 rounded-md flex items-center justify-center mb-2">
-        <Icon className="h-5 w-5" />
+  <Card className="border border-gray-200 hover:border-[#FDDF5C] hover:shadow-md cursor-pointer transition-all duration-200" onClick={onClick}>
+    <CardHeader className="text-center">
+      <div className="mx-auto p-3 bg-gray-50 rounded-full w-12 h-12 flex items-center justify-center mb-3">
+        <Icon className="h-6 w-6 text-gray-600" />
       </div>
-      <CardTitle className="text-lg">{title}</CardTitle>
+      <CardTitle className="text-lg font-medium text-gray-900">{title}</CardTitle>
     </CardHeader>
-    <CardContent>
-      <p className="text-sm text-muted-foreground">{description}</p>
+    <CardContent className="pt-0">
+      <p className="text-sm text-gray-600 text-center">{description}</p>
     </CardContent>
   </Card>
 );
