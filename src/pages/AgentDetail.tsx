@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { AgentForm } from "@/components/agents/AgentForm";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const AgentDetail = () => {
@@ -11,18 +11,25 @@ const AgentDetail = () => {
 
   return (
     <AppLayout>
-      <div className="space-y-6">
+      <div className="space-y-8">
         <div className="flex items-center justify-between">
-          <div className="flex items-center">
-            <Button variant="ghost" size="sm" asChild className="mr-2">
-              <Link to="/agents">
-                <ArrowLeft size={16} className="mr-1" />
-                Back
+          <div className="flex items-center gap-4">
+            <Button variant="ghost" size="sm" asChild className="text-gray-600 hover:text-gray-900 hover:bg-gray-100">
+              <Link to="/agents" className="flex items-center gap-2">
+                <ArrowLeft size={16} />
+                Back to Agents
               </Link>
             </Button>
-            <h1 className="text-2xl font-bold">Edit Agent</h1>
+            <div className="h-6 w-px bg-gray-300"></div>
+            <div>
+              <h1 className="text-2xl font-semibold text-gray-900">Edit Agent</h1>
+              <p className="text-sm text-gray-600 mt-1">Configure your AI agent settings and behavior</p>
+            </div>
           </div>
-          <Button variant="destructive" size="sm">Delete Agent</Button>
+          <Button variant="outline" size="sm" className="text-red-600 border-red-200 hover:bg-red-50 hover:border-red-300">
+            <Trash2 size={16} className="mr-2" />
+            Delete Agent
+          </Button>
         </div>
         
         <AgentForm />
