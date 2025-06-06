@@ -1,9 +1,24 @@
 
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
-import { Phone, PhoneOutgoing, Settings, Plus } from "lucide-react";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import { Phone, PhoneOutgoing, Settings, Plus, MoreHorizontal } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface Agent {
   id: string;
@@ -18,8 +33,6 @@ interface Agent {
 }
 
 export function AgentsList() {
-  const isMobile = useIsMobile();
-  
   // Sample data - in a real app this would come from an API
   const agents: Agent[] = [
     {
@@ -59,78 +72,122 @@ export function AgentsList() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <h2 className="text-2xl font-semibold text-gray-800">Your AI Agents</h2>
-        <Button className="bg-voico-blue-800 hover:bg-voico-blue-700 w-full sm:w-auto">
-          <Plus className="mr-2 h-4 w-4" /> Create Agent
-        </Button>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {agents.map((agent) => (
-          <Card key={agent.id} className="border border-gray-200 hover:shadow-md transition-shadow h-full flex flex-col">
-            <CardHeader>
-              <div className="flex justify-between items-start">
-                <div>
-                  <CardTitle className="text-lg">{agent.name}</CardTitle>
-                  <CardDescription className="line-clamp-2">{agent.role}</CardDescription>
-                </div>
-                <div className="inline-flex items-center px-2 py-1 rounded bg-voico-blue-50 text-voico-blue-800">
-                  {agent.callType === "inbound" ? (
-                    <div className="flex items-center text-xs font-medium">
-                      <Phone className="h-3 w-3 mr-1" />
-                      Inbound
+      <Card className="border-0 shadow-sm bg-white">
+        <CardHeader className="border-b border-gray-100 bg-gray-50/50">
+          <div className="flex justify-between items-center">
+            <CardTitle className="text-lg font-medium text-gray-900">AI Agents Overview</CardTitle>
+            <Button className="bg-[#FDDF5C] hover:bg-[#FDDF5C]/90 text-black font-medium shadow-sm">
+              <Plus className="mr-2 h-4 w-4" /> Create Agent
+            </Button>
+          </div>
+        </CardHeader>
+        
+        <CardContent className="p-0">
+          <Table>
+            <TableHeader>
+              <TableRow className="hover:bg-transparent border-b border-gray-100">
+                <TableHead className="font-medium text-gray-700 py-4">Agent</TableHead>
+                <TableHead className="font-medium text-gray-700">Type</TableHead>
+                <TableHead className="font-medium text-gray-700">Phone Number</TableHead>
+                <TableHead className="font-medium text-gray-700">Performance</TableHead>
+                <TableHead className="font-medium text-gray-700">Languages</TableHead>
+                <TableHead className="text-right font-medium text-gray-700">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {agents.map((agent) => (
+                <TableRow key={agent.id} className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
+                  <TableCell className="py-4">
+                    <div>
+                      <div className="font-medium text-gray-900">{agent.name}</div>
+                      <div className="text-sm text-gray-500 mt-0.5">{agent.role}</div>
                     </div>
-                  ) : (
-                    <div className="flex items-center text-xs font-medium">
-                      <PhoneOutgoing className="h-3 w-3 mr-1" />
-                      Outbound
+                  </TableCell>
+                  <TableCell>
+                    <Badge
+                      variant="secondary"
+                      className={
+                        agent.callType === "inbound"
+                          ? "bg-blue-50 text-blue-700 hover:bg-blue-50 border-blue-200"
+                          : "bg-green-50 text-green-700 hover:bg-green-50 border-green-200"
+                      }
+                    >
+                      {agent.callType === "inbound" ? (
+                        <div className="flex items-center">
+                          <Phone className="h-3 w-3 mr-1" />
+                          Inbound
+                        </div>
+                      ) : (
+                        <div className="flex items-center">
+                          <PhoneOutgoing className="h-3 w-3 mr-1" />
+                          Outbound
+                        </div>
+                      )}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>
+                    <span className="text-gray-900 font-mono text-sm">{agent.phoneNumber}</span>
+                  </TableCell>
+                  <TableCell>
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-3 text-sm">
+                        <span className="text-gray-900 font-medium">{agent.callCount} calls</span>
+                        <span className="text-gray-500">•</span>
+                        <span className="text-gray-600">{agent.avgDuration} avg</span>
+                      </div>
+                      <div className="text-xs text-gray-500">
+                        ${agent.costPerMinute.toFixed(3)}/min
+                      </div>
                     </div>
-                  )}
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent className="space-y-4 flex-grow">
-              <div className="flex items-center space-x-2">
-                <Phone className="h-4 w-4 text-gray-400" />
-                <span className="text-sm">{agent.phoneNumber}</span>
-              </div>
-              <div className="grid grid-cols-3 gap-2 text-sm">
-                <div>
-                  <div className="font-medium">{agent.callCount}</div>
-                  <div className="text-xs text-gray-500">Calls</div>
-                </div>
-                <div>
-                  <div className="font-medium">{agent.avgDuration}</div>
-                  <div className="text-xs text-gray-500">Avg. time</div>
-                </div>
-                <div>
-                  <div className="font-medium">${agent.costPerMinute.toFixed(3)}</div>
-                  <div className="text-xs text-gray-500">Per min</div>
-                </div>
-              </div>
-              <div>
-                <span className="text-xs font-medium text-gray-700">Languages:</span>
-                <div className="flex flex-wrap gap-1 mt-1">
-                  {agent.languages.map((lang) => (
-                    <span key={lang} className="px-2 py-0.5 bg-voico-yellow-100 text-voico-blue-800 rounded text-xs">
-                      {lang}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </CardContent>
-            <CardFooter className="flex justify-between pt-2 border-t">
-              <Button variant="ghost" size="sm" asChild className="text-voico-blue-800">
-                <Link to={`/agents/${agent.id}`}>View Details</Link>
-              </Button>
-              <Button variant="outline" size="icon" className="h-8 w-8">
-                <Settings size={16} />
-              </Button>
-            </CardFooter>
-          </Card>
-        ))}
-      </div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex flex-wrap gap-1">
+                      {agent.languages.map((lang) => (
+                        <span
+                          key={lang}
+                          className="px-2 py-1 bg-[#FDDF5C]/20 text-gray-700 rounded text-xs font-medium"
+                        >
+                          {lang}
+                        </span>
+                      ))}
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <div className="flex items-center justify-end gap-2">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        asChild
+                        className="text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                      >
+                        <Link to={`/agents/${agent.id}`}>View</Link>
+                      </Button>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8 text-gray-400 hover:text-gray-600 hover:bg-gray-100"
+                          >
+                            <MoreHorizontal size={16} />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="bg-white border border-gray-200 shadow-lg">
+                          <DropdownMenuItem className="hover:bg-gray-50">Edit Agent</DropdownMenuItem>
+                          <DropdownMenuItem className="hover:bg-gray-50">Configure</DropdownMenuItem>
+                          <DropdownMenuItem className="hover:bg-gray-50">Duplicate</DropdownMenuItem>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem className="text-red-600 hover:bg-red-50">Delete</DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
     </div>
   );
 }
