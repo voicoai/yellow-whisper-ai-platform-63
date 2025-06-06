@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { Button } from "@/components/ui/button";
@@ -14,11 +13,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
+import { KnowledgeBaseEditor } from "@/components/knowledgebases/KnowledgeBaseEditor";
+import { ConnectAgentDialog } from "@/components/knowledgebases/ConnectAgentDialog";
 
 const KnowledgeBases = () => {
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState("created");
   const [selectedKB, setSelectedKB] = useState<any>(null);
+  const [editingKB, setEditingKB] = useState<any>(null);
+  const [connectingKB, setConnectingKB] = useState<any>(null);
   
   // Mock data for knowledge bases with their contents
   const knowledgeBases = [
@@ -77,16 +80,35 @@ const KnowledgeBases = () => {
     setSelectedKB(kb);
   };
 
-  const handleBackToList = () => {
-    setSelectedKB(null);
+  const handleEditKB = (kb: any) => {
+    setEditingKB(kb);
   };
 
-  const handleConnectKB = (kbId: string) => {
-    toast({
-      title: "Coming Soon",
-      description: "Knowledge Base connection will be available soon.",
-    });
+  const handleConnectKB = (kb: any) => {
+    setConnectingKB(kb);
   };
+
+  const handleBackToList = () => {
+    setSelectedKB(null);
+    setEditingKB(null);
+    setConnectingKB(null);
+  };
+
+  if (editingKB) {
+    return (
+      <AppLayout>
+        <KnowledgeBaseEditor kb={editingKB} onBack={handleBackToList} />
+      </AppLayout>
+    );
+  }
+
+  if (connectingKB) {
+    return (
+      <AppLayout>
+        <ConnectAgentDialog kb={connectingKB} onBack={handleBackToList} />
+      </AppLayout>
+    );
+  }
 
   if (selectedKB) {
     return (
@@ -114,7 +136,7 @@ const KnowledgeBases = () => {
             <Card className="border-0 shadow-sm bg-white">
               <CardHeader className="border-b border-gray-100 bg-gray-50/50">
                 <CardTitle className="text-lg font-medium text-gray-900 flex items-center gap-2">
-                  <FileText size={20} />
+                  <FileText size={20} className="text-[#FDDF5C]" />
                   Files ({selectedKB.files.length})
                 </CardTitle>
               </CardHeader>
@@ -124,8 +146,8 @@ const KnowledgeBases = () => {
                     {selectedKB.files.map((file: any, index: number) => (
                       <div key={index} className="flex items-center justify-between p-3 border border-gray-100 rounded-lg hover:bg-gray-50">
                         <div className="flex items-center gap-3">
-                          <div className="p-2 bg-blue-50 rounded-md">
-                            <FileText size={16} className="text-blue-600" />
+                          <div className="p-2 bg-[#FDDF5C]/20 rounded-md">
+                            <FileText size={16} className="text-[#FDDF5C]" />
                           </div>
                           <div>
                             <p className="font-medium text-sm text-gray-900">{file.name}</p>
@@ -148,7 +170,7 @@ const KnowledgeBases = () => {
             <Card className="border-0 shadow-sm bg-white">
               <CardHeader className="border-b border-gray-100 bg-gray-50/50">
                 <CardTitle className="text-lg font-medium text-gray-900 flex items-center gap-2">
-                  <Globe size={20} />
+                  <Globe size={20} className="text-[#FDDF5C]" />
                   URLs ({selectedKB.urls.length})
                 </CardTitle>
               </CardHeader>
@@ -158,8 +180,8 @@ const KnowledgeBases = () => {
                     {selectedKB.urls.map((url: any, index: number) => (
                       <div key={index} className="flex items-center justify-between p-3 border border-gray-100 rounded-lg hover:bg-gray-50">
                         <div className="flex items-center gap-3">
-                          <div className="p-2 bg-green-50 rounded-md">
-                            <Globe size={16} className="text-green-600" />
+                          <div className="p-2 bg-[#FDDF5C]/20 rounded-md">
+                            <Globe size={16} className="text-[#FDDF5C]" />
                           </div>
                           <div>
                             <p className="font-medium text-sm text-gray-900">{url.title}</p>
@@ -183,7 +205,7 @@ const KnowledgeBases = () => {
             <Card className="border-0 shadow-sm bg-white">
               <CardHeader className="border-b border-gray-100 bg-gray-50/50">
                 <CardTitle className="text-lg font-medium text-gray-900 flex items-center gap-2">
-                  <MessageSquare size={20} />
+                  <MessageSquare size={20} className="text-[#FDDF5C]" />
                   Text Content ({selectedKB.texts.length})
                 </CardTitle>
               </CardHeader>
@@ -193,8 +215,8 @@ const KnowledgeBases = () => {
                     {selectedKB.texts.map((text: any, index: number) => (
                       <div key={index} className="flex items-center justify-between p-3 border border-gray-100 rounded-lg hover:bg-gray-50">
                         <div className="flex items-center gap-3">
-                          <div className="p-2 bg-yellow-50 rounded-md">
-                            <MessageSquare size={16} className="text-yellow-600" />
+                          <div className="p-2 bg-[#FDDF5C]/20 rounded-md">
+                            <MessageSquare size={16} className="text-[#FDDF5C]" />
                           </div>
                           <div>
                             <p className="font-medium text-sm text-gray-900">{text.title}</p>
@@ -258,7 +280,8 @@ const KnowledgeBases = () => {
                       key={kb.id}
                       kb={kb}
                       onView={() => handleViewKB(kb)}
-                      onConnect={() => handleConnectKB(kb.id)}
+                      onEdit={() => handleEditKB(kb)}
+                      onConnect={() => handleConnectKB(kb)}
                     />
                   ))}
                   <EmptyKnowledgeBaseCard onClick={handleCreateKnowledgeBase} />
@@ -304,16 +327,17 @@ const KnowledgeBases = () => {
 interface KnowledgeBaseCardProps {
   kb: any;
   onView: () => void;
+  onEdit: () => void;
   onConnect: () => void;
 }
 
-const KnowledgeBaseCard = ({ kb, onView, onConnect }: KnowledgeBaseCardProps) => {
+const KnowledgeBaseCard = ({ kb, onView, onEdit, onConnect }: KnowledgeBaseCardProps) => {
   return (
     <Card className="border border-gray-200 hover:shadow-md transition-all duration-200">
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between mb-3">
-          <div className="p-2 bg-blue-50 rounded-md">
-            <Database className="h-5 w-5 text-blue-600" />
+          <div className="p-2 bg-[#FDDF5C]/20 rounded-md">
+            <Database className="h-5 w-5 text-[#FDDF5C]" />
           </div>
           <div className="flex items-center gap-2">
             <Badge variant="secondary" className="bg-gray-100 text-gray-700 text-xs">
@@ -330,7 +354,7 @@ const KnowledgeBaseCard = ({ kb, onView, onConnect }: KnowledgeBaseCardProps) =>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="bg-white border border-gray-200 shadow-lg">
-                <DropdownMenuItem className="hover:bg-gray-50">Edit Knowledge Base</DropdownMenuItem>
+                <DropdownMenuItem onClick={onEdit} className="hover:bg-gray-50">Edit Knowledge Base</DropdownMenuItem>
                 <DropdownMenuItem className="hover:bg-gray-50">Configure</DropdownMenuItem>
                 <DropdownMenuItem className="hover:bg-gray-50">Duplicate</DropdownMenuItem>
                 <DropdownMenuSeparator />
@@ -392,8 +416,8 @@ interface SourceCardProps {
 const SourceCard = ({ title, icon: Icon, description, onClick }: SourceCardProps) => (
   <Card className="border border-gray-200 hover:border-[#FDDF5C] hover:shadow-md cursor-pointer transition-all duration-200" onClick={onClick}>
     <CardHeader className="text-center">
-      <div className="mx-auto p-3 bg-gray-50 rounded-full w-12 h-12 flex items-center justify-center mb-3">
-        <Icon className="h-6 w-6 text-gray-600" />
+      <div className="mx-auto p-3 bg-[#FDDF5C]/20 rounded-full w-12 h-12 flex items-center justify-center mb-3">
+        <Icon className="h-6 w-6 text-[#FDDF5C]" />
       </div>
       <CardTitle className="text-lg font-medium text-gray-900">{title}</CardTitle>
     </CardHeader>
