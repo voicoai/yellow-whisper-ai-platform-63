@@ -28,7 +28,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { Plus, SearchIcon, UserPlus, Settings, MoreHorizontal } from "lucide-react";
+import { Plus, SearchIcon, UserPlus, Settings, MoreHorizontal, Users, Shield, Eye, CheckCircle, Clock } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -84,71 +84,95 @@ export function TeamMembers() {
   ];
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
-          <h2 className="text-2xl font-semibold text-gray-800">Team Management</h2>
-          <p className="text-gray-600">Manage your workspace members and their permissions</p>
-        </div>
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button className="bg-voico-blue-800 hover:bg-voico-blue-700">
-              <UserPlus className="mr-2 h-4 w-4" />
-              Invite Member
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Invite Team Member</DialogTitle>
-              <DialogDescription>
-                Send an invitation to join your VOICO workspace.
-              </DialogDescription>
-            </DialogHeader>
-            <div className="space-y-4 py-4">
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input id="email" placeholder="colleague@example.com" />
+    <div className="space-y-8 max-w-7xl mx-auto">
+      {/* Header Section */}
+      <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-8">
+        <div className="flex justify-between items-start">
+          <div className="space-y-2">
+            <div className="flex items-center space-x-3">
+              <div className="p-2 bg-primary/10 rounded-lg">
+                <Users className="h-6 w-6 text-primary" />
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="role">Role</Label>
-                <Select defaultValue="agent">
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="admin">Admin</SelectItem>
-                    <SelectItem value="manager">Manager</SelectItem>
-                    <SelectItem value="agent">Agent</SelectItem>
-                  </SelectContent>
-                </Select>
+              <h1 className="text-3xl font-bold text-gray-900">Team Management</h1>
+            </div>
+            <p className="text-lg text-gray-600 max-w-2xl">
+              Manage your workspace members and their permissions to collaborate effectively on your AI voice assistant platform.
+            </p>
+            <div className="flex items-center space-x-6 mt-4">
+              <div className="flex items-center space-x-2 text-sm text-gray-500">
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <span>{members.filter(m => m.status === 'Active').length} Active Members</span>
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="message">Personal Message (Optional)</Label>
-                <Input id="message" placeholder="Join our AI voice assistant platform!" />
+              <div className="flex items-center space-x-2 text-sm text-gray-500">
+                <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                <span>{members.filter(m => m.status === 'Invited').length} Pending Invitations</span>
               </div>
             </div>
-            <DialogFooter>
-              <Button variant="outline">Cancel</Button>
-              <Button className="bg-voico-blue-800 hover:bg-voico-blue-700">Send Invitation</Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+          </div>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg">
+                <UserPlus className="mr-2 h-4 w-4" />
+                Invite Member
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-md">
+              <DialogHeader>
+                <DialogTitle className="text-xl">Invite Team Member</DialogTitle>
+                <DialogDescription className="text-base">
+                  Send an invitation to join your VOICO workspace.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="space-y-6 py-4">
+                <div className="space-y-2">
+                  <Label htmlFor="email" className="text-sm font-medium">Email Address</Label>
+                  <Input id="email" placeholder="colleague@example.com" className="h-11" />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="role" className="text-sm font-medium">Role</Label>
+                  <Select defaultValue="agent">
+                    <SelectTrigger className="h-11">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="admin">Admin</SelectItem>
+                      <SelectItem value="manager">Manager</SelectItem>
+                      <SelectItem value="agent">Agent</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="message" className="text-sm font-medium">Personal Message (Optional)</Label>
+                  <Input id="message" placeholder="Join our AI voice assistant platform!" className="h-11" />
+                </div>
+              </div>
+              <DialogFooter className="gap-3">
+                <Button variant="outline" className="h-11">Cancel</Button>
+                <Button className="bg-primary hover:bg-primary/90 h-11">Send Invitation</Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
 
-      <Card>
-        <CardHeader className="pb-3">
+      {/* Team Members Table */}
+      <Card className="shadow-xl border-0 bg-white">
+        <CardHeader className="pb-6 bg-gray-50/50 rounded-t-lg">
           <div className="flex justify-between items-center">
-            <CardTitle className="text-lg">Workspace Members</CardTitle>
-            <div className="flex space-x-2">
+            <CardTitle className="text-xl text-gray-900 flex items-center space-x-2">
+              <Users className="h-5 w-5" />
+              <span>Workspace Members</span>
+            </CardTitle>
+            <div className="flex space-x-3">
               <div className="relative">
                 <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />
                 <Input 
                   placeholder="Search members..." 
-                  className="pl-9 w-64" 
+                  className="pl-10 w-64 h-10 bg-white border-gray-200" 
                 />
               </div>
               <Select defaultValue="all">
-                <SelectTrigger className="w-[120px]">
+                <SelectTrigger className="w-[140px] h-10 bg-white border-gray-200">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -161,62 +185,80 @@ export function TeamMembers() {
             </div>
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-0">
           <Table>
             <TableHeader>
-              <TableRow>
-                <TableHead>Name</TableHead>
-                <TableHead>Email</TableHead>
-                <TableHead>Role</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Added</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+              <TableRow className="bg-gray-50/30 border-b">
+                <TableHead className="font-semibold text-gray-700 py-4">Member</TableHead>
+                <TableHead className="font-semibold text-gray-700">Role</TableHead>
+                <TableHead className="font-semibold text-gray-700">Status</TableHead>
+                <TableHead className="font-semibold text-gray-700">Date Added</TableHead>
+                <TableHead className="text-right font-semibold text-gray-700">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {members.map((member) => (
-                <TableRow key={member.id}>
-                  <TableCell className="font-medium">{member.name}</TableCell>
-                  <TableCell>{member.email}</TableCell>
+                <TableRow key={member.id} className="border-b border-gray-100 hover:bg-gray-50/50 transition-colors">
+                  <TableCell className="py-4">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-10 h-10 bg-gradient-to-br from-primary/20 to-primary/30 rounded-full flex items-center justify-center">
+                        <span className="text-sm font-semibold text-primary">
+                          {member.name.split(' ').map(n => n[0]).join('')}
+                        </span>
+                      </div>
+                      <div>
+                        <div className="font-medium text-gray-900">{member.name}</div>
+                        <div className="text-sm text-gray-500">{member.email}</div>
+                      </div>
+                    </div>
+                  </TableCell>
                   <TableCell>
                     <Badge
                       variant="secondary"
-                      className={
+                      className={`font-medium ${
                         member.role === "Admin"
-                          ? "bg-voico-blue-100 text-voico-blue-800 hover:bg-voico-blue-100"
+                          ? "bg-red-50 text-red-700 border-red-200"
                           : member.role === "Manager"
-                          ? "bg-voico-yellow-100 text-voico-blue-800 hover:bg-voico-yellow-100"
-                          : ""
-                      }
+                          ? "bg-blue-50 text-blue-700 border-blue-200"
+                          : "bg-gray-50 text-gray-700 border-gray-200"
+                      }`}
                     >
+                      {member.role === "Admin" && <Shield className="w-3 h-3 mr-1" />}
+                      {member.role === "Manager" && <Eye className="w-3 h-3 mr-1" />}
+                      {member.role === "Agent" && <Users className="w-3 h-3 mr-1" />}
                       {member.role}
                     </Badge>
                   </TableCell>
                   <TableCell>
                     <Badge
                       variant={member.status === "Active" ? "default" : "outline"}
-                      className={
+                      className={`font-medium ${
                         member.status === "Active"
-                          ? "bg-green-100 text-green-800 hover:bg-green-100"
-                          : ""
-                      }
+                          ? "bg-green-50 text-green-700 border-green-200"
+                          : "bg-yellow-50 text-yellow-700 border-yellow-200"
+                      }`}
                     >
+                      {member.status === "Active" ? (
+                        <CheckCircle className="w-3 h-3 mr-1" />
+                      ) : (
+                        <Clock className="w-3 h-3 mr-1" />
+                      )}
                       {member.status}
                     </Badge>
                   </TableCell>
-                  <TableCell>{member.dateAdded}</TableCell>
+                  <TableCell className="text-gray-600">{member.dateAdded}</TableCell>
                   <TableCell className="text-right">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon" className="h-8 w-8">
+                        <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-gray-100">
                           <MoreHorizontal size={16} />
                         </Button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem>Edit</DropdownMenuItem>
-                        <DropdownMenuItem>Change Role</DropdownMenuItem>
+                      <DropdownMenuContent align="end" className="w-40">
+                        <DropdownMenuItem className="text-sm">Edit Profile</DropdownMenuItem>
+                        <DropdownMenuItem className="text-sm">Change Role</DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem className="text-red-600">Remove</DropdownMenuItem>
+                        <DropdownMenuItem className="text-red-600 text-sm">Remove</DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
@@ -225,116 +267,111 @@ export function TeamMembers() {
             </TableBody>
           </Table>
           
-          <div className="mt-4 text-center text-sm text-gray-500">
-            Showing 4 members of 4 total
+          <div className="px-6 py-4 bg-gray-50/30 border-t text-center text-sm text-gray-500">
+            Showing {members.length} members of {members.length} total
           </div>
         </CardContent>
       </Card>
       
-      <Card>
-        <CardHeader className="pb-3">
-          <CardTitle className="text-lg">Roles and Permissions</CardTitle>
+      {/* Roles and Permissions */}
+      <Card className="shadow-xl border-0 bg-white">
+        <CardHeader className="pb-6 bg-gray-50/50 rounded-t-lg">
+          <CardTitle className="text-xl text-gray-900 flex items-center space-x-2">
+            <Shield className="h-5 w-5" />
+            <span>Roles and Permissions</span>
+          </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="p-4 border rounded-md">
-              <div className="mb-2 flex items-center justify-between">
-                <h3 className="font-medium">Admin</h3>
-                <Badge className="bg-voico-blue-100 text-voico-blue-800 hover:bg-voico-blue-100">Full Access</Badge>
+        <CardContent className="p-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Admin Role */}
+            <div className="bg-gradient-to-br from-red-50 to-red-100/50 border border-red-200 rounded-xl p-6">
+              <div className="mb-4 flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <div className="p-2 bg-red-100 rounded-lg">
+                    <Shield className="h-4 w-4 text-red-600" />
+                  </div>
+                  <h3 className="font-semibold text-gray-900">Admin</h3>
+                </div>
+                <Badge className="bg-red-100 text-red-700 border-red-200">Full Access</Badge>
               </div>
-              <ul className="space-y-1 text-sm">
+              <ul className="space-y-3 text-sm">
                 <li className="flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-green-600 mr-2">
-                    <path d="M20 6L9 17l-5-5" />
-                  </svg>
-                  Manage team members
+                  <CheckCircle className="text-green-600 mr-3 h-4 w-4" />
+                  <span>Manage team members</span>
                 </li>
                 <li className="flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-green-600 mr-2">
-                    <path d="M20 6L9 17l-5-5" />
-                  </svg>
-                  Create/edit all agents
+                  <CheckCircle className="text-green-600 mr-3 h-4 w-4" />
+                  <span>Create/edit all agents</span>
                 </li>
                 <li className="flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-green-600 mr-2">
-                    <path d="M20 6L9 17l-5-5" />
-                  </svg>
-                  Manage phone numbers
+                  <CheckCircle className="text-green-600 mr-3 h-4 w-4" />
+                  <span>Manage phone numbers</span>
                 </li>
                 <li className="flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-green-600 mr-2">
-                    <path d="M20 6L9 17l-5-5" />
-                  </svg>
-                  API and webhook access
+                  <CheckCircle className="text-green-600 mr-3 h-4 w-4" />
+                  <span>API and webhook access</span>
                 </li>
               </ul>
             </div>
             
-            <div className="p-4 border rounded-md">
-              <div className="mb-2 flex items-center justify-between">
-                <h3 className="font-medium">Manager</h3>
-                <Badge className="bg-voico-yellow-100 text-voico-blue-800 hover:bg-voico-yellow-100">Limited Access</Badge>
+            {/* Manager Role */}
+            <div className="bg-gradient-to-br from-blue-50 to-blue-100/50 border border-blue-200 rounded-xl p-6">
+              <div className="mb-4 flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <div className="p-2 bg-blue-100 rounded-lg">
+                    <Eye className="h-4 w-4 text-blue-600" />
+                  </div>
+                  <h3 className="font-semibold text-gray-900">Manager</h3>
+                </div>
+                <Badge className="bg-blue-100 text-blue-700 border-blue-200">Limited Access</Badge>
               </div>
-              <ul className="space-y-1 text-sm">
+              <ul className="space-y-3 text-sm">
                 <li className="flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-green-600 mr-2">
-                    <path d="M20 6L9 17l-5-5" />
-                  </svg>
-                  View team members
+                  <CheckCircle className="text-green-600 mr-3 h-4 w-4" />
+                  <span>View team members</span>
                 </li>
                 <li className="flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-green-600 mr-2">
-                    <path d="M20 6L9 17l-5-5" />
-                  </svg>
-                  Create/edit assigned agents
+                  <CheckCircle className="text-green-600 mr-3 h-4 w-4" />
+                  <span>Create/edit assigned agents</span>
                 </li>
                 <li className="flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-green-600 mr-2">
-                    <path d="M20 6L9 17l-5-5" />
-                  </svg>
-                  View all call data
+                  <CheckCircle className="text-green-600 mr-3 h-4 w-4" />
+                  <span>View all call data</span>
                 </li>
-                <li className="flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-red-600 mr-2">
-                    <path d="M18 6L6 18" />
-                    <path d="M6 6l12 12" />
-                  </svg>
-                  No billing or API access
+                <li className="flex items-center text-gray-500">
+                  <div className="w-4 h-4 mr-3 rounded-full border-2 border-gray-300"></div>
+                  <span>No billing or API access</span>
                 </li>
               </ul>
             </div>
             
-            <div className="p-4 border rounded-md">
-              <div className="mb-2 flex items-center justify-between">
-                <h3 className="font-medium">Agent</h3>
-                <Badge>Basic Access</Badge>
+            {/* Agent Role */}
+            <div className="bg-gradient-to-br from-gray-50 to-gray-100/50 border border-gray-200 rounded-xl p-6">
+              <div className="mb-4 flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <div className="p-2 bg-gray-100 rounded-lg">
+                    <Users className="h-4 w-4 text-gray-600" />
+                  </div>
+                  <h3 className="font-semibold text-gray-900">Agent</h3>
+                </div>
+                <Badge className="bg-gray-100 text-gray-700 border-gray-200">Basic Access</Badge>
               </div>
-              <ul className="space-y-1 text-sm">
+              <ul className="space-y-3 text-sm">
                 <li className="flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-green-600 mr-2">
-                    <path d="M20 6L9 17l-5-5" />
-                  </svg>
-                  View assigned agents
+                  <CheckCircle className="text-green-600 mr-3 h-4 w-4" />
+                  <span>View assigned agents</span>
                 </li>
                 <li className="flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-green-600 mr-2">
-                    <path d="M20 6L9 17l-5-5" />
-                  </svg>
-                  View assigned call data
+                  <CheckCircle className="text-green-600 mr-3 h-4 w-4" />
+                  <span>View assigned call data</span>
                 </li>
-                <li className="flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-red-600 mr-2">
-                    <path d="M18 6L6 18" />
-                    <path d="M6 6l12 12" />
-                  </svg>
-                  No editing capabilities
+                <li className="flex items-center text-gray-500">
+                  <div className="w-4 h-4 mr-3 rounded-full border-2 border-gray-300"></div>
+                  <span>No editing capabilities</span>
                 </li>
-                <li className="flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-red-600 mr-2">
-                    <path d="M18 6L6 18" />
-                    <path d="M6 6l12 12" />
-                  </svg>
-                  No settings or billing
+                <li className="flex items-center text-gray-500">
+                  <div className="w-4 h-4 mr-3 rounded-full border-2 border-gray-300"></div>
+                  <span>No settings or billing</span>
                 </li>
               </ul>
             </div>
