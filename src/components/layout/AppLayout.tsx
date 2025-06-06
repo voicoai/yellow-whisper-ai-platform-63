@@ -1,7 +1,6 @@
 
 import React from "react";
 import { Sidebar } from "./Sidebar";
-import { Header } from "./Header";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 interface AppLayoutProps {
@@ -29,7 +28,6 @@ export function AppLayout({ children }: AppLayoutProps) {
       
       {/* Add padding to the main content area to prevent sidebar overlap */}
       <div className={`flex-1 flex flex-col w-full ${collapsed ? 'md:ml-16' : 'md:ml-64'}`}>
-        <Header collapsed={collapsed} setCollapsed={setCollapsed} />
         <main className="p-4 md:p-6 lg:p-8 max-w-screen-2xl mx-auto w-full">
           {children}
         </main>
