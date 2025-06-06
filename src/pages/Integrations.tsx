@@ -88,7 +88,7 @@ const IntegrationCard = ({
         <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent>
-        <Button className="w-full">Connect</Button>
+        <Button variant="outline" className="w-full">Connect</Button>
       </CardContent>
     </Card>
   );
