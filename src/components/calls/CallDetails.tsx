@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Download, Share, User, Phone, Calendar, Clock, FileText } from "lucide-react";
+import { Download, Share, User, Phone, Calendar, Clock, FileText, Play, SkipBack, SkipForward } from "lucide-react";
 
 interface CallDetailsProps {
   callId?: string;
@@ -35,105 +35,116 @@ export function CallDetails({ callId = "call-001" }: CallDetailsProps) {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
-          <h2 className="text-2xl font-semibold text-gray-800">Call Details</h2>
-          <p className="text-gray-600">Call #{call.id} with {call.agent}</p>
+    <div className="space-y-8">
+      {/* Header Section */}
+      <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
+        <div className="space-y-1">
+          <h2 className="text-3xl font-bold text-gray-900">Call Details</h2>
+          <p className="text-gray-600 text-lg">Call #{call.id}</p>
+          <div className="flex items-center gap-2 mt-2">
+            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+            <span className="text-sm font-medium text-green-700 capitalize">{call.status}</span>
+          </div>
         </div>
-        <div className="flex space-x-3">
-          <Button variant="outline" size="sm">
+        <div className="flex gap-3">
+          <Button variant="outline" size="sm" className="h-10">
             <Download className="mr-2 h-4 w-4" />
             Export
           </Button>
-          <Button variant="outline" size="sm">
+          <Button variant="outline" size="sm" className="h-10">
             <Share className="mr-2 h-4 w-4" />
             Share
           </Button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2">
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-lg">Call Recording</CardTitle>
+      <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
+        {/* Main Content */}
+        <div className="xl:col-span-3 space-y-8">
+          {/* Call Recording Section */}
+          <Card className="overflow-hidden border-0 shadow-lg">
+            <CardHeader className="bg-gradient-to-r from-gray-50 to-gray-100 border-b">
+              <CardTitle className="text-xl font-semibold text-gray-900 flex items-center gap-2">
+                <Play className="h-5 w-5 text-blue-600" />
+                Call Recording
+              </CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="bg-gray-50 rounded-md p-4 flex flex-col items-center justify-center">
-                <div className="w-full max-w-md bg-white rounded-lg shadow-sm p-3">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-sm font-medium text-gray-800">Call {call.id}</span>
-                    <span className="text-sm text-gray-500">{call.duration}</span>
-                  </div>
-                  
-                  <div className="relative w-full h-12 bg-gray-100 rounded">
-                    <div className="absolute top-0 left-0 h-full w-3/4 bg-voico-blue-200 rounded"></div>
-                    <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
-                      <div className="flex space-x-4">
-                        <button className="bg-voico-blue-800 text-white w-8 h-8 rounded-full flex items-center justify-center">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                          </svg>
-                        </button>
-                        <div className="flex items-center text-sm text-gray-700">02:24 / 03:12</div>
-                      </div>
+            <CardContent className="p-8">
+              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-8">
+                <div className="max-w-2xl mx-auto">
+                  {/* Audio Player */}
+                  <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+                    <div className="flex justify-between items-center mb-4">
+                      <span className="text-sm font-semibold text-gray-700">Call #{call.id}</span>
+                      <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">{call.duration}</span>
                     </div>
+                    
+                    {/* Progress Bar */}
+                    <div className="relative w-full h-2 bg-gray-200 rounded-full mb-4">
+                      <div className="absolute top-0 left-0 h-full w-3/4 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full"></div>
+                      <div className="absolute top-1/2 left-3/4 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-blue-600 rounded-full border-2 border-white shadow-lg"></div>
+                    </div>
+                    
+                    {/* Controls */}
+                    <div className="flex items-center justify-center gap-6 mb-4">
+                      <button className="p-2 text-gray-600 hover:text-blue-600 transition-colors">
+                        <SkipBack size={20} />
+                      </button>
+                      <button className="bg-blue-600 hover:bg-blue-700 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-all transform hover:scale-105">
+                        <Play size={20} />
+                      </button>
+                      <button className="p-2 text-gray-600 hover:text-blue-600 transition-colors">
+                        <SkipForward size={20} />
+                      </button>
+                    </div>
+                    
+                    <div className="text-center text-sm text-gray-600 font-medium">02:24 / 03:12</div>
                   </div>
                   
-                  <div className="flex justify-between mt-3">
-                    <button className="text-gray-600 hover:text-gray-900">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <polygon points="19 20 9 12 19 4 19 20"></polygon>
-                        <line x1="5" y1="19" x2="5" y2="5"></line>
-                      </svg>
-                    </button>
-                    <button className="text-gray-600 hover:text-gray-900">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <polygon points="5 4 15 12 5 20 5 4"></polygon>
-                        <line x1="19" y1="5" x2="19" y2="19"></line>
-                      </svg>
-                    </button>
+                  <div className="text-center">
+                    <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg shadow-lg">
+                      <Download className="mr-2 h-4 w-4" />
+                      Download Recording
+                    </Button>
                   </div>
-                </div>
-                
-                <div className="mt-6 text-center">
-                  <Button className="bg-voico-blue-800 hover:bg-voico-blue-700">
-                    <Download className="mr-2 h-4 w-4" />
-                    Download Recording
-                  </Button>
                 </div>
               </div>
             </CardContent>
           </Card>
           
-          <Card className="mt-6">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-lg">Transcript</CardTitle>
+          {/* Transcript Section */}
+          <Card className="overflow-hidden border-0 shadow-lg">
+            <CardHeader className="bg-gradient-to-r from-gray-50 to-gray-100 border-b">
+              <CardTitle className="text-xl font-semibold text-gray-900 flex items-center gap-2">
+                <FileText className="h-5 w-5 text-green-600" />
+                Conversation Transcript
+              </CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
+            <CardContent className="p-8">
+              <div className="space-y-6">
                 {call.transcript.map((entry, index) => (
                   <div key={index} className={`flex ${entry.speaker === 'agent' ? 'justify-start' : 'justify-end'}`}>
-                    <div className={`max-w-[80%] p-3 rounded-lg ${
+                    <div className={`max-w-[85%] p-4 rounded-2xl shadow-sm ${
                       entry.speaker === 'agent' 
-                        ? 'bg-voico-yellow-100 text-gray-800' 
-                        : 'bg-voico-blue-100 text-gray-800'
+                        ? 'bg-gradient-to-br from-yellow-50 to-yellow-100 border border-yellow-200' 
+                        : 'bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200'
                     }`}>
-                      <div className="flex justify-between items-center mb-1">
-                        <span className="text-xs font-medium">
+                      <div className="flex justify-between items-center mb-2">
+                        <span className={`text-xs font-semibold uppercase tracking-wide ${
+                          entry.speaker === 'agent' ? 'text-yellow-800' : 'text-blue-800'
+                        }`}>
                           {entry.speaker === 'agent' ? 'AI Agent' : 'Caller'}
                         </span>
-                        <span className="text-xs text-gray-500">{entry.time}</span>
+                        <span className="text-xs text-gray-500 bg-white px-2 py-1 rounded-full">{entry.time}</span>
                       </div>
-                      <p className="text-sm">{entry.text}</p>
+                      <p className="text-sm leading-relaxed text-gray-800">{entry.text}</p>
                     </div>
                   </div>
                 ))}
               </div>
               
-              <div className="mt-6 flex justify-center">
-                <Button variant="outline">
+              <div className="mt-8 text-center">
+                <Button variant="outline" className="px-6 py-3">
                   <FileText className="mr-2 h-4 w-4" />
                   Export Transcript
                 </Button>
@@ -142,109 +153,118 @@ export function CallDetails({ callId = "call-001" }: CallDetailsProps) {
           </Card>
         </div>
         
-        <div>
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-lg">Call Information</CardTitle>
+        {/* Sidebar */}
+        <div className="xl:col-span-1 space-y-6">
+          {/* Call Information */}
+          <Card className="border-0 shadow-lg">
+            <CardHeader className="bg-gradient-to-r from-gray-50 to-gray-100 border-b">
+              <CardTitle className="text-lg font-semibold text-gray-900">Call Information</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <div className="flex items-center">
-                  <User className="h-4 w-4 mr-2 text-gray-500" />
-                  <span className="text-sm font-medium">Agent</span>
+            <CardContent className="p-6 space-y-6">
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <div className="p-2 bg-blue-100 rounded-lg">
+                    <User className="h-4 w-4 text-blue-600" />
+                  </div>
+                  <div>
+                    <span className="text-sm font-medium text-gray-700 block">Agent</span>
+                    <p className="text-sm text-gray-900 mt-1">{call.agent}</p>
+                  </div>
                 </div>
-                <p className="text-sm ml-6 mt-1">{call.agent}</p>
-              </div>
-              
-              <div>
-                <div className="flex items-center">
-                  <Phone className="h-4 w-4 mr-2 text-gray-500" />
-                  <span className="text-sm font-medium">Phone Numbers</span>
+                
+                <div className="flex items-start gap-3">
+                  <div className="p-2 bg-green-100 rounded-lg">
+                    <Phone className="h-4 w-4 text-green-600" />
+                  </div>
+                  <div>
+                    <span className="text-sm font-medium text-gray-700 block">Phone Numbers</span>
+                    <div className="mt-1 space-y-1">
+                      <p className="text-sm text-gray-900">From: {call.callerNumber}</p>
+                      <p className="text-sm text-gray-900">To: {call.phoneNumber}</p>
+                    </div>
+                  </div>
                 </div>
-                <div className="ml-6 mt-1">
-                  <p className="text-sm">From: {call.callerNumber}</p>
-                  <p className="text-sm">To: {call.phoneNumber}</p>
+                
+                <div className="flex items-start gap-3">
+                  <div className="p-2 bg-purple-100 rounded-lg">
+                    <Calendar className="h-4 w-4 text-purple-600" />
+                  </div>
+                  <div>
+                    <span className="text-sm font-medium text-gray-700 block">Date & Time</span>
+                    <p className="text-sm text-gray-900 mt-1">{call.date} at {call.time}</p>
+                  </div>
                 </div>
-              </div>
-              
-              <div>
-                <div className="flex items-center">
-                  <Calendar className="h-4 w-4 mr-2 text-gray-500" />
-                  <span className="text-sm font-medium">Date & Time</span>
+                
+                <div className="flex items-start gap-3">
+                  <div className="p-2 bg-orange-100 rounded-lg">
+                    <Clock className="h-4 w-4 text-orange-600" />
+                  </div>
+                  <div>
+                    <span className="text-sm font-medium text-gray-700 block">Duration</span>
+                    <p className="text-sm text-gray-900 mt-1">{call.duration}</p>
+                  </div>
                 </div>
-                <p className="text-sm ml-6 mt-1">{call.date} at {call.time}</p>
-              </div>
-              
-              <div>
-                <div className="flex items-center">
-                  <Clock className="h-4 w-4 mr-2 text-gray-500" />
-                  <span className="text-sm font-medium">Duration</span>
-                </div>
-                <p className="text-sm ml-6 mt-1">{call.duration}</p>
               </div>
               
               <Separator />
               
-              <div className="pt-2">
-                <p className="text-sm font-medium">Call Status</p>
-                <div className="flex items-center mt-1">
-                  <div className="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
-                  <span className="text-sm capitalize">{call.status}</span>
-                </div>
-              </div>
-              
-              <div>
-                <p className="text-sm font-medium">Cost</p>
-                <p className="text-xl font-bold text-voico-blue-800 mt-1">${call.cost.toFixed(2)}</p>
+              <div className="text-center p-4 bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg border border-green-200">
+                <p className="text-sm font-medium text-gray-700 mb-2">Total Cost</p>
+                <p className="text-3xl font-bold text-green-700">${call.cost.toFixed(2)}</p>
               </div>
             </CardContent>
           </Card>
           
-          <Card className="mt-6">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-lg">Analytics</CardTitle>
+          {/* Analytics */}
+          <Card className="border-0 shadow-lg">
+            <CardHeader className="bg-gradient-to-r from-gray-50 to-gray-100 border-b">
+              <CardTitle className="text-lg font-semibold text-gray-900">Call Analytics</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="p-6 space-y-6">
               <div>
-                <p className="text-sm font-medium">Sentiment Analysis</p>
-                <div className="h-2 bg-gray-200 rounded-full mt-2">
-                  <div className="h-2 bg-green-500 rounded-full" style={{ width: '75%' }}></div>
+                <p className="text-sm font-semibold text-gray-700 mb-3">Sentiment Analysis</p>
+                <div className="relative h-3 bg-gray-200 rounded-full overflow-hidden">
+                  <div className="absolute h-full bg-gradient-to-r from-red-400 via-yellow-400 to-green-500 rounded-full" style={{ width: '75%' }}></div>
                 </div>
-                <div className="flex justify-between text-xs mt-1">
+                <div className="flex justify-between text-xs mt-2 text-gray-600">
                   <span>Negative</span>
                   <span>Neutral</span>
-                  <span>Positive</span>
+                  <span className="font-medium text-green-600">Positive</span>
                 </div>
               </div>
               
               <div>
-                <p className="text-sm font-medium">Speaking Time</p>
-                <div className="bg-gray-100 rounded-md p-3 mt-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs">AI Agent</span>
-                    <span className="text-xs font-medium">68%</span>
-                  </div>
-                  <div className="h-2 bg-voico-yellow-200 rounded-full mt-1">
-                    <div className="h-2 bg-voico-yellow-500 rounded-full" style={{ width: '68%' }}></div>
+                <p className="text-sm font-semibold text-gray-700 mb-3">Speaking Time Distribution</p>
+                <div className="space-y-4">
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-xs font-medium text-gray-700">AI Agent</span>
+                      <span className="text-xs font-bold text-yellow-700">68%</span>
+                    </div>
+                    <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                      <div className="h-full bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full" style={{ width: '68%' }}></div>
+                    </div>
                   </div>
                   
-                  <div className="flex items-center justify-between mt-3">
-                    <span className="text-xs">Caller</span>
-                    <span className="text-xs font-medium">32%</span>
-                  </div>
-                  <div className="h-2 bg-voico-blue-200 rounded-full mt-1">
-                    <div className="h-2 bg-voico-blue-500 rounded-full" style={{ width: '32%' }}></div>
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-xs font-medium text-gray-700">Caller</span>
+                      <span className="text-xs font-bold text-blue-700">32%</span>
+                    </div>
+                    <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                      <div className="h-full bg-gradient-to-r from-blue-400 to-blue-500 rounded-full" style={{ width: '32%' }}></div>
+                    </div>
                   </div>
                 </div>
               </div>
               
               <div>
-                <p className="text-sm font-medium">Key Topics</p>
-                <div className="flex flex-wrap gap-1 mt-2">
-                  <span className="px-2 py-1 bg-voico-yellow-100 text-voico-blue-800 rounded text-xs">Order Status</span>
-                  <span className="px-2 py-1 bg-voico-yellow-100 text-voico-blue-800 rounded text-xs">Shipping</span>
-                  <span className="px-2 py-1 bg-voico-yellow-100 text-voico-blue-800 rounded text-xs">Tracking</span>
-                  <span className="px-2 py-1 bg-voico-yellow-100 text-voico-blue-800 rounded text-xs">SMS</span>
+                <p className="text-sm font-semibold text-gray-700 mb-3">Key Topics</p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs font-medium border border-yellow-200">Order Status</span>
+                  <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium border border-blue-200">Shipping</span>
+                  <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium border border-green-200">Tracking</span>
+                  <span className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-xs font-medium border border-purple-200">SMS</span>
                 </div>
               </div>
             </CardContent>
