@@ -11,21 +11,21 @@ export function CallHistory({ selectedMonth }: CallHistoryProps) {
   const [animatedHeights, setAnimatedHeights] = useState<number[]>([]);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
-  // Mock data for different months - heights represent relative call volumes
+  // Mock data for different months - heights represent relative call volumes with more dramatic variations
   const getCallDataForMonth = (month: string) => {
     const callData: Record<string, number[]> = {
-      "Juni 2025": [80, 60, 100, 70, 50, 30, 40],
-      "Mai 2025": [68, 48, 85, 58, 38, 22, 28],
-      "April 2025": [75, 55, 95, 65, 45, 25, 35],
-      "März 2025": [70, 50, 90, 60, 40, 20, 30],
-      "Februar 2025": [65, 50, 80, 60, 40, 25, 30],
-      "Januar 2025": [60, 45, 75, 55, 35, 20, 25],
-      "Dezember 2024": [76, 56, 94, 66, 46, 28, 36],
-      "November 2024": [73, 53, 91, 63, 43, 27, 33],
-      "Oktober 2024": [71, 51, 89, 61, 41, 25, 31],
-      "September 2024": [69, 49, 86, 59, 39, 23, 29],
-      "August 2024": [74, 54, 92, 64, 44, 26, 34],
-      "Juli 2024": [72, 52, 88, 62, 42, 24, 32]
+      "Juni 2025": [85, 45, 120, 65, 95, 25, 35],
+      "Mai 2025": [70, 30, 100, 40, 80, 15, 20],
+      "April 2025": [90, 55, 110, 75, 60, 35, 45],
+      "März 2025": [65, 40, 85, 50, 70, 20, 25],
+      "Februar 2025": [75, 25, 95, 45, 85, 10, 30],
+      "Januar 2025": [55, 35, 75, 40, 65, 15, 20],
+      "Dezember 2024": [95, 60, 130, 80, 105, 40, 50],
+      "November 2024": [80, 45, 115, 70, 90, 30, 40],
+      "Oktober 2024": [70, 35, 105, 55, 75, 25, 35],
+      "September 2024": [85, 50, 125, 65, 95, 35, 45],
+      "August 2024": [60, 25, 90, 35, 70, 15, 25],
+      "Juli 2024": [100, 65, 140, 85, 110, 45, 55]
     };
 
     return callData[month] || callData["Juni 2025"];
@@ -43,7 +43,7 @@ export function CallHistory({ selectedMonth }: CallHistoryProps) {
     
     // Animate to new heights over time
     const startTime = Date.now();
-    const duration = 1200; // Longer animation duration for smoother effect
+    const duration = 600; // Much faster animation duration
     const startHeights = animatedHeights.length > 0 ? [...animatedHeights] : new Array(7).fill(0);
     
     // If this is first render, initialize with target heights
@@ -58,13 +58,13 @@ export function CallHistory({ selectedMonth }: CallHistoryProps) {
       const elapsed = Date.now() - startTime;
       const progress = Math.min(elapsed / duration, 1);
       
-      // More sophisticated easing function for smoother animation
-      const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+      // Smoother easing function for more fluid animation
+      const easeOutCubic = 1 - Math.pow(1 - progress, 3);
       
       // Calculate current heights based on animation progress
       const currentHeights = startHeights.map((startHeight, index) => {
         const targetHeight = targetHeights[index];
-        return startHeight + (targetHeight - startHeight) * easeOutQuart;
+        return startHeight + (targetHeight - startHeight) * easeOutCubic;
       });
       
       setAnimatedHeights(currentHeights);
@@ -91,7 +91,7 @@ export function CallHistory({ selectedMonth }: CallHistoryProps) {
         {weekdays.map((day, index) => (
           <div key={day} className="flex flex-col items-center">
             <div 
-              className="w-10 bg-gradient-to-t from-voico-yellow-600 to-voico-yellow-500 rounded-t-md transition-all duration-1200 ease-out"
+              className="w-10 bg-gradient-to-t from-voico-yellow-600 to-voico-yellow-500 rounded-t-md transition-all duration-600 ease-out"
               style={{ 
                 height: `${animatedHeights[index] || 0}px`,
                 transformOrigin: 'bottom'
