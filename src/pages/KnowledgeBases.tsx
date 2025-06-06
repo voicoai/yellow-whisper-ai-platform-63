@@ -517,16 +517,16 @@ const KnowledgeBases = () => {
         </div>
         
         <Tabs defaultValue="created" onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full max-w-md grid-cols-2 bg-gray-100 rounded-lg">
+          <TabsList className="inline-flex h-12 items-center justify-center rounded-lg bg-white border border-gray-200 p-1 text-gray-600 shadow-sm w-auto">
             <TabsTrigger 
               value="created" 
-              className="data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-md text-sm font-medium"
+              className="inline-flex items-center justify-center whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-[#FDDF5C] data-[state=active]:text-black data-[state=active]:shadow-sm data-[state=active]:font-semibold hover:bg-gray-50"
             >
               Created
             </TabsTrigger>
             <TabsTrigger 
               value="create" 
-              className="data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-md text-sm font-medium"
+              className="inline-flex items-center justify-center whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-[#FDDF5C] data-[state=active]:text-black data-[state=active]:shadow-sm data-[state=active]:font-semibold hover:bg-gray-50"
             >
               Create New
             </TabsTrigger>
