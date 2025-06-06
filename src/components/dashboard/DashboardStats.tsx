@@ -1,14 +1,40 @@
 
 import { ArrowUpRight } from "lucide-react";
 
-export function DashboardStats() {
+interface DashboardStatsProps {
+  selectedMonth: string;
+}
+
+export function DashboardStats({ selectedMonth }: DashboardStatsProps) {
+  // Mock data for different months
+  const getStatsForMonth = (month: string) => {
+    const statsData: Record<string, { calls: number; answered: number; costs: string }> = {
+      "Januar 2025": { calls: 285, answered: 230, costs: "298,50€" },
+      "Februar 2025": { calls: 315, answered: 265, costs: "342,75€" },
+      "März 2025": { calls: 392, answered: 320, costs: "374,40€" },
+      "April 2025": { calls: 420, answered: 350, costs: "412,80€" },
+      "Mai 2025": { calls: 365, answered: 295, costs: "356,25€" },
+      "Juni 2025": { calls: 445, answered: 380, costs: "425,60€" },
+      "Juli 2025": { calls: 398, answered: 330, costs: "389,20€" },
+      "August 2025": { calls: 410, answered: 345, costs: "402,50€" },
+      "September 2025": { calls: 375, answered: 310, costs: "367,85€" },
+      "Oktober 2025": { calls: 385, answered: 315, costs: "378,90€" },
+      "November 2025": { calls: 395, answered: 325, costs: "387,45€" },
+      "Dezember 2025": { calls: 405, answered: 340, costs: "396,75€" }
+    };
+
+    return statsData[month] || statsData["Juni 2025"];
+  };
+
+  const stats = getStatsForMonth(selectedMonth);
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       <div className="bg-white rounded-lg border border-gray-100 p-5 shadow-sm">
         <div className="flex items-center justify-between">
           <div className="flex flex-col">
             <span className="text-gray-500 text-sm">Anrufe</span>
-            <span className="text-3xl font-semibold mt-2">392</span>
+            <span className="text-3xl font-semibold mt-2">{stats.calls}</span>
           </div>
           <div className="flex items-start gap-3">
             <div className="bg-amber-50 p-2 rounded-full">
@@ -27,7 +53,7 @@ export function DashboardStats() {
         <div className="flex items-center justify-between">
           <div className="flex flex-col">
             <span className="text-gray-500 text-sm">Beantwortete Anrufe</span>
-            <span className="text-3xl font-semibold mt-2">320</span>
+            <span className="text-3xl font-semibold mt-2">{stats.answered}</span>
           </div>
           <div className="flex items-start gap-3">
             <div className="bg-amber-50 p-2 rounded-full">
@@ -50,7 +76,7 @@ export function DashboardStats() {
         <div className="flex items-center justify-between">
           <div className="flex flex-col">
             <span className="text-gray-500 text-sm">Kosten</span>
-            <span className="text-3xl font-semibold mt-2">374,40€</span>
+            <span className="text-3xl font-semibold mt-2">{stats.costs}</span>
           </div>
           <div className="flex items-start gap-3">
             <div className="bg-amber-50 p-2 rounded-full">

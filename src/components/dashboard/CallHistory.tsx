@@ -1,7 +1,33 @@
 
-export function CallHistory() {
+interface CallHistoryProps {
+  selectedMonth: string;
+}
+
+export function CallHistory({ selectedMonth }: CallHistoryProps) {
   // Weekday abbreviations
   const weekdays = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
+
+  // Mock data for different months - heights represent relative call volumes
+  const getCallDataForMonth = (month: string) => {
+    const callData: Record<string, number[]> = {
+      "Januar 2025": [60, 45, 75, 55, 35, 20, 25],
+      "Februar 2025": [65, 50, 80, 60, 40, 25, 30],
+      "März 2025": [70, 50, 90, 60, 40, 20, 30],
+      "April 2025": [75, 55, 95, 65, 45, 25, 35],
+      "Mai 2025": [68, 48, 85, 58, 38, 22, 28],
+      "Juni 2025": [80, 60, 100, 70, 50, 30, 40],
+      "Juli 2025": [72, 52, 88, 62, 42, 24, 32],
+      "August 2025": [74, 54, 92, 64, 44, 26, 34],
+      "September 2025": [69, 49, 86, 59, 39, 23, 29],
+      "Oktober 2025": [71, 51, 89, 61, 41, 25, 31],
+      "November 2025": [73, 53, 91, 63, 43, 27, 33],
+      "Dezember 2025": [76, 56, 94, 66, 46, 28, 36]
+    };
+
+    return callData[month] || callData["Juni 2025"];
+  };
+
+  const callHeights = getCallDataForMonth(selectedMonth);
 
   return (
     <div className="bg-white rounded-lg border border-gray-100 p-6 shadow-sm">
@@ -10,35 +36,15 @@ export function CallHistory() {
       </div>
 
       <div className="flex items-end justify-between h-40 mb-4">
-        {/* This would normally be generated from real data */}
-        <div className="flex flex-col items-center">
-          <div className="w-10 bg-gray-100 rounded-t-md" style={{ height: '70px' }}></div>
-          <span className="text-xs text-gray-500 mt-2">{weekdays[0]}</span>
-        </div>
-        <div className="flex flex-col items-center">
-          <div className="w-10 bg-gray-100 rounded-t-md" style={{ height: '50px' }}></div>
-          <span className="text-xs text-gray-500 mt-2">{weekdays[1]}</span>
-        </div>
-        <div className="flex flex-col items-center">
-          <div className="w-10 bg-gray-100 rounded-t-md" style={{ height: '90px' }}></div>
-          <span className="text-xs text-gray-500 mt-2">{weekdays[2]}</span>
-        </div>
-        <div className="flex flex-col items-center">
-          <div className="w-10 bg-gray-100 rounded-t-md" style={{ height: '60px' }}></div>
-          <span className="text-xs text-gray-500 mt-2">{weekdays[3]}</span>
-        </div>
-        <div className="flex flex-col items-center">
-          <div className="w-10 bg-gray-100 rounded-t-md" style={{ height: '40px' }}></div>
-          <span className="text-xs text-gray-500 mt-2">{weekdays[4]}</span>
-        </div>
-        <div className="flex flex-col items-center">
-          <div className="w-10 bg-gray-100 rounded-t-md" style={{ height: '20px' }}></div>
-          <span className="text-xs text-gray-500 mt-2">{weekdays[5]}</span>
-        </div>
-        <div className="flex flex-col items-center">
-          <div className="w-10 bg-gray-100 rounded-t-md" style={{ height: '30px' }}></div>
-          <span className="text-xs text-gray-500 mt-2">{weekdays[6]}</span>
-        </div>
+        {weekdays.map((day, index) => (
+          <div key={day} className="flex flex-col items-center">
+            <div 
+              className="w-10 bg-gray-100 rounded-t-md" 
+              style={{ height: `${callHeights[index]}px` }}
+            ></div>
+            <span className="text-xs text-gray-500 mt-2">{day}</span>
+          </div>
+        ))}
       </div>
     </div>
   );
