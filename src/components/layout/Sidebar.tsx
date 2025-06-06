@@ -1,8 +1,17 @@
 
 import { Link, useLocation } from "react-router-dom";
-import { Phone, Users, List, BarChart3, PhoneCall, Settings, CreditCard, Webhook, BookOpen } from "lucide-react";
+import { Phone, Users, List, BarChart3, PhoneCall, Settings, CreditCard, Webhook, BookOpen, ChevronUp, LogOut, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface SidebarProps {
   collapsed: boolean;
@@ -124,6 +133,71 @@ export function Sidebar({
             ))}
           </ul>
         </nav>
+
+        {/* Account Box */}
+        <div className="p-2 border-t border-voico-gray-200">
+          {collapsed ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="w-full h-12 p-0 justify-center hover:bg-voico-gray-50">
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage src="/placeholder.svg" alt="User" />
+                    <AvatarFallback className="bg-primary text-primary-foreground text-sm">JD</AvatarFallback>
+                  </Avatar>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent side="right" align="end" className="w-56 mb-2">
+                <div className="px-2 py-1.5">
+                  <p className="text-sm font-medium">John Doe</p>
+                  <p className="text-xs text-muted-foreground">john@example.com</p>
+                </div>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link to="/account-settings" className="flex items-center">
+                    <User className="mr-2 h-4 w-4" />
+                    Account Settings
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="text-red-600">
+                  <LogOut className="mr-2 h-4 w-4" />
+                  Sign Out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="w-full h-12 px-3 justify-between hover:bg-voico-gray-50">
+                  <div className="flex items-center space-x-3">
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage src="/placeholder.svg" alt="User" />
+                      <AvatarFallback className="bg-primary text-primary-foreground text-sm">JD</AvatarFallback>
+                    </Avatar>
+                    <div className="flex flex-col items-start text-left">
+                      <span className="text-sm font-medium text-black">John Doe</span>
+                      <span className="text-xs text-voico-gray-500">john@example.com</span>
+                    </div>
+                  </div>
+                  <ChevronUp className="h-4 w-4 text-voico-gray-500" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent side="top" align="start" className="w-56 mb-2">
+                <DropdownMenuItem asChild>
+                  <Link to="/account-settings" className="flex items-center">
+                    <User className="mr-2 h-4 w-4" />
+                    Account Settings
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="text-red-600">
+                  <LogOut className="mr-2 h-4 w-4" />
+                  Sign Out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
+        </div>
       </aside>
     </>
   );
