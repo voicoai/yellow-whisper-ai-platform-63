@@ -136,8 +136,10 @@ export function Sidebar({
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="w-full h-12 p-0 justify-center hover:bg-voico-gray-50">
-                  <div className="h-8 w-8 bg-yellow-400 rounded-full flex items-center justify-center">
-                    <User className="h-5 w-5 text-white" />
+                  <div className="w-8 h-8 bg-gradient-to-br from-primary/20 to-primary/30 rounded-full flex items-center justify-center">
+                    <span className="text-sm font-semibold text-primary">
+                      JD
+                    </span>
                   </div>
                 </Button>
               </DropdownMenuTrigger>
@@ -169,8 +171,10 @@ export function Sidebar({
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="w-full h-12 px-3 justify-between hover:bg-voico-gray-50">
                   <div className="flex items-center space-x-3">
-                    <div className="h-8 w-8 bg-yellow-400 rounded-full flex items-center justify-center">
-                      <User className="h-5 w-5 text-white" />
+                    <div className="w-8 h-8 bg-gradient-to-br from-primary/20 to-primary/30 rounded-full flex items-center justify-center">
+                      <span className="text-sm font-semibold text-primary">
+                        JD
+                      </span>
                     </div>
                     <div className="flex flex-col items-start text-left">
                       <span className="text-sm font-medium text-black">John Doe</span>
