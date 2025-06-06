@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -74,25 +73,10 @@ export function NumbersManagement() {
   return (
     <div className="space-y-8">
       <Tabs defaultValue="manage" className="w-full">
-        <TabsList className="grid w-full grid-cols-3 bg-white border border-gray-200 p-1 rounded-lg">
-          <TabsTrigger 
-            value="manage"
-            className="data-[state=active]:bg-gray-900 data-[state=active]:text-white data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:text-gray-900 rounded-md transition-all"
-          >
-            Manage Numbers
-          </TabsTrigger>
-          <TabsTrigger 
-            value="purchase"
-            className="data-[state=active]:bg-gray-900 data-[state=active]:text-white data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:text-gray-900 rounded-md transition-all"
-          >
-            Buy Numbers
-          </TabsTrigger>
-          <TabsTrigger 
-            value="connect"
-            className="data-[state=active]:bg-gray-900 data-[state=active]:text-white data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:text-gray-900 rounded-md transition-all"
-          >
-            Connect SIP
-          </TabsTrigger>
+        <TabsList className="grid w-full grid-cols-3">
+          <TabsTrigger value="manage">Manage Numbers</TabsTrigger>
+          <TabsTrigger value="purchase">Buy Numbers</TabsTrigger>
+          <TabsTrigger value="connect">Connect SIP</TabsTrigger>
         </TabsList>
         
         <TabsContent value="manage" className="space-y-6">
