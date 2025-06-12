@@ -54,7 +54,6 @@ const translations = {
     configure: 'Configure',
     duplicate: 'Duplicate',
     delete: 'Delete',
-    calls: 'calls',
     avg: 'avg',
     min: 'min',
     
@@ -94,7 +93,7 @@ const translations = {
     dateAdded: 'Date Added',
     admin: 'Admin',
     manager: 'Manager',
-    agent: 'Agent',
+    agentRole: 'Agent',
     invited: 'Invited',
     rolesAndPermissions: 'Roles and Permissions',
     fullAccess: 'Full Access',
@@ -117,7 +116,6 @@ const translations = {
     createNewAgent: 'Create New Agent',
     backToAgents: 'Back to Agents',
     configureNewAgent: 'Configure your new AI agent settings and behavior',
-    editAgent: 'Edit Agent',
     configureAgent: 'Configure your AI agent settings and behavior',
     deleteAgent: 'Delete Agent',
     
@@ -198,7 +196,6 @@ const translations = {
     configure: 'Konfigurieren',
     duplicate: 'Duplizieren',
     delete: 'Löschen',
-    calls: 'Anrufe',
     avg: 'Ø',
     min: 'Min',
     
@@ -238,7 +235,7 @@ const translations = {
     dateAdded: 'Hinzugefügt am',
     admin: 'Administrator',
     manager: 'Manager',
-    agent: 'Agent',
+    agentRole: 'Agent',
     invited: 'Eingeladen',
     rolesAndPermissions: 'Rollen und Berechtigungen',
     fullAccess: 'Vollzugriff',
@@ -261,7 +258,6 @@ const translations = {
     createNewAgent: 'Neuen Agent erstellen',
     backToAgents: 'Zurück zu Agenten',
     configureNewAgent: 'Konfigurieren Sie die Einstellungen und das Verhalten Ihres neuen KI-Agenten',
-    editAgent: 'Agent bearbeiten',
     configureAgent: 'Konfigurieren Sie die Einstellungen und das Verhalten Ihres KI-Agenten',
     deleteAgent: 'Agent löschen',
     
