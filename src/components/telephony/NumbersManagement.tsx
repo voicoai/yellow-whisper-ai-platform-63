@@ -1,3 +1,5 @@
+
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -6,6 +8,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Trash } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+
 interface PhoneNumber {
   id: string;
   number: string;
@@ -15,46 +19,73 @@ interface PhoneNumber {
   assignedAgent: string | null;
   status: "active" | "inactive";
 }
+
 export function NumbersManagement() {
-  // Sample data
-  const phoneNumbers: PhoneNumber[] = [{
-    id: "pn-1",
-    number: "+1 (555) 123-4567",
-    country: "United States",
-    monthlyPrice: 1.00,
-    provider: "twilio",
-    assignedAgent: "Customer Support",
-    status: "active"
-  }, {
-    id: "pn-2",
-    number: "+1 (555) 234-5678",
-    country: "United States",
-    monthlyPrice: 1.00,
-    provider: "twilio",
-    assignedAgent: "Appointment Scheduler",
-    status: "active"
-  }, {
-    id: "pn-3",
-    number: "+1 (555) 345-6789",
-    country: "United States",
-    monthlyPrice: 1.00,
-    provider: "vonage",
-    assignedAgent: "Sales Assistant",
-    status: "active"
-  }, {
-    id: "pn-4",
-    number: "+49 (555) 456-7890",
-    country: "Germany",
-    monthlyPrice: 1.50,
-    provider: "vonage",
-    assignedAgent: null,
-    status: "inactive"
-  }];
+  const { toast } = useToast();
+  
+  // Initial sample data with state management
+  const [phoneNumbers, setPhoneNumbers] = useState<PhoneNumber[]>([
+    {
+      id: "pn-1",
+      number: "+1 (555) 123-4567",
+      country: "United States",
+      monthlyPrice: 1.00,
+      provider: "twilio",
+      assignedAgent: "Customer Support",
+      status: "active"
+    },
+    {
+      id: "pn-2",
+      number: "+1 (555) 234-5678",
+      country: "United States",
+      monthlyPrice: 1.00,
+      provider: "twilio",
+      assignedAgent: "Appointment Scheduler",
+      status: "active"
+    },
+    {
+      id: "pn-3",
+      number: "+1 (555) 345-6789",
+      country: "United States",
+      monthlyPrice: 1.00,
+      provider: "vonage",
+      assignedAgent: "Sales Assistant",
+      status: "active"
+    },
+    {
+      id: "pn-4",
+      number: "+49 (555) 456-7890",
+      country: "Germany",
+      monthlyPrice: 1.50,
+      provider: "vonage",
+      assignedAgent: null,
+      status: "inactive"
+    }
+  ]);
+
   const handleDeleteNumber = (numberId: string) => {
+    const numberToDelete = phoneNumbers.find(num => num.id === numberId);
+    if (!numberToDelete) return;
+    
+    // Remove the number from the state
+    setPhoneNumbers(prevNumbers => prevNumbers.filter(num => num.id !== numberId));
+    
+    // Show success toast
+    toast({
+      title: "Phone number deleted",
+      description: `${numberToDelete.number} has been removed from your account.`,
+    });
+    
     console.log(`Deleting number with ID: ${numberId}`);
-    // Delete functionality would be implemented here
   };
-  return <div className="space-y-8">
+
+  // Calculate total monthly cost
+  const totalMonthlyCost = phoneNumbers
+    .filter(num => num.status === "active")
+    .reduce((sum, num) => sum + num.monthlyPrice, 0);
+
+  return (
+    <div className="space-y-8">
       <Tabs defaultValue="manage" className="w-full">
         <TabsList className="inline-flex h-12 items-center justify-center rounded-lg bg-white border border-gray-200 p-1 text-gray-600 shadow-sm w-auto">
           <TabsTrigger value="manage" className="inline-flex items-center justify-center whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-[#FDDF5C] data-[state=active]:text-black data-[state=active]:shadow-sm data-[state=active]:font-semibold hover:bg-gray-50">
@@ -103,7 +134,8 @@ export function NumbersManagement() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {phoneNumbers.map(number => <TableRow key={number.id} className="border-b border-gray-100 hover:bg-gray-50">
+                {phoneNumbers.map(number => (
+                  <TableRow key={number.id} className="border-b border-gray-100 hover:bg-gray-50">
                     <TableCell className="font-medium text-black">{number.number}</TableCell>
                     <TableCell className="text-gray-700">{number.country}</TableCell>
                     <TableCell className="capitalize text-gray-700">{number.provider}</TableCell>
@@ -111,17 +143,29 @@ export function NumbersManagement() {
                       {number.assignedAgent || <span className="text-gray-400">Unassigned</span>}
                     </TableCell>
                     <TableCell>
-                      <Badge variant={number.status === "active" ? "default" : "outline"} className={number.status === "active" ? "bg-green-100 text-green-800 hover:bg-green-100 border-green-200" : "border-gray-300 text-gray-600"}>
+                      <Badge 
+                        variant={number.status === "active" ? "default" : "outline"} 
+                        className={number.status === "active" ? 
+                          "bg-green-100 text-green-800 hover:bg-green-100 border-green-200" : 
+                          "border-gray-300 text-gray-600"
+                        }
+                      >
                         {number.status}
                       </Badge>
                     </TableCell>
                     <TableCell className="text-right text-gray-700">${number.monthlyPrice.toFixed(2)}</TableCell>
                     <TableCell className="text-right">
-                      <Button variant="ghost" size="sm" className="text-gray-600 hover:text-red-600 hover:bg-red-50" onClick={() => handleDeleteNumber(number.id)}>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="text-gray-600 hover:text-red-600 hover:bg-red-50"
+                        onClick={() => handleDeleteNumber(number.id)}
+                      >
                         <Trash size={16} />
                       </Button>
                     </TableCell>
-                  </TableRow>)}
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           </Card>
@@ -131,7 +175,7 @@ export function NumbersManagement() {
               <h4 className="font-medium text-black">Monthly Telephony Cost</h4>
               <p className="text-sm text-gray-600">Total for all active numbers</p>
             </div>
-            <div className="text-xl font-bold text-black">$4.50</div>
+            <div className="text-xl font-bold text-black">${totalMonthlyCost.toFixed(2)}</div>
           </div>
         </TabsContent>
         
@@ -282,5 +326,6 @@ export function NumbersManagement() {
           </Card>
         </TabsContent>
       </Tabs>
-    </div>;
+    </div>
+  );
 }
