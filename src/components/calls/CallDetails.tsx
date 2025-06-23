@@ -1,14 +1,13 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Download, Share, User, Phone, Calendar, Clock, FileText, Play, SkipBack, SkipForward } from "lucide-react";
-
 interface CallDetailsProps {
   callId?: string;
 }
-
-export function CallDetails({ callId = "call-001" }: CallDetailsProps) {
+export function CallDetails({
+  callId = "call-001"
+}: CallDetailsProps) {
   // Mock data for a call - in a real app, this would be fetched from an API based on callId
   const call = {
     id: callId,
@@ -20,22 +19,49 @@ export function CallDetails({ callId = "call-001" }: CallDetailsProps) {
     duration: "3m 12s",
     cost: 0.18,
     status: 'completed',
-    transcript: [
-      { speaker: "agent", text: "Hello, this is Customer Support AI Assistant. How can I help you today?", time: "00:00" },
-      { speaker: "caller", text: "Hi, I'm calling about my recent order #45678. I haven't received a shipping confirmation yet.", time: "00:04" },
-      { speaker: "agent", text: "I'd be happy to help you with that. Let me check the status of your order #45678.", time: "00:10" },
-      { speaker: "agent", text: "I can see that your order has been processed and is scheduled for shipping tomorrow. You should receive an email confirmation by the end of today.", time: "00:18" },
-      { speaker: "caller", text: "That's great news! I was worried because I ordered it last week.", time: "00:28" },
-      { speaker: "agent", text: "I understand your concern. There was a slight delay in our warehouse due to high volume, but your order is prioritized now. Would you like me to send you the tracking details as soon as they're available?", time: "00:32" },
-      { speaker: "caller", text: "Yes, that would be great. Could you send it via text message?", time: "00:45" },
-      { speaker: "agent", text: "Absolutely. I'll arrange for the tracking information to be sent to this phone number via SMS as soon as it's available. Is there anything else I can assist you with today?", time: "00:49" },
-      { speaker: "caller", text: "No, that's all. Thank you for your help!", time: "01:03" },
-      { speaker: "agent", text: "You're welcome! Thank you for calling Customer Support. Have a wonderful day!", time: "01:06" }
-    ]
+    transcript: [{
+      speaker: "agent",
+      text: "Hello, this is Customer Support AI Assistant. How can I help you today?",
+      time: "00:00"
+    }, {
+      speaker: "caller",
+      text: "Hi, I'm calling about my recent order #45678. I haven't received a shipping confirmation yet.",
+      time: "00:04"
+    }, {
+      speaker: "agent",
+      text: "I'd be happy to help you with that. Let me check the status of your order #45678.",
+      time: "00:10"
+    }, {
+      speaker: "agent",
+      text: "I can see that your order has been processed and is scheduled for shipping tomorrow. You should receive an email confirmation by the end of today.",
+      time: "00:18"
+    }, {
+      speaker: "caller",
+      text: "That's great news! I was worried because I ordered it last week.",
+      time: "00:28"
+    }, {
+      speaker: "agent",
+      text: "I understand your concern. There was a slight delay in our warehouse due to high volume, but your order is prioritized now. Would you like me to send you the tracking details as soon as they're available?",
+      time: "00:32"
+    }, {
+      speaker: "caller",
+      text: "Yes, that would be great. Could you send it via text message?",
+      time: "00:45"
+    }, {
+      speaker: "agent",
+      text: "Absolutely. I'll arrange for the tracking information to be sent to this phone number via SMS as soon as it's available. Is there anything else I can assist you with today?",
+      time: "00:49"
+    }, {
+      speaker: "caller",
+      text: "No, that's all. Thank you for your help!",
+      time: "01:03"
+    }, {
+      speaker: "agent",
+      text: "You're welcome! Thank you for calling Customer Support. Have a wonderful day!",
+      time: "01:06"
+    }]
   };
-
-  return (
-    <div className="space-y-8">
+  return <div className="space-y-8">
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
         <div className="space-y-1">
@@ -51,10 +77,7 @@ export function CallDetails({ callId = "call-001" }: CallDetailsProps) {
             <Download className="mr-2 h-4 w-4" />
             Export
           </Button>
-          <Button variant="outline" size="sm" className="h-10">
-            <Share className="mr-2 h-4 w-4" />
-            Share
-          </Button>
+          
         </div>
       </div>
 
@@ -122,25 +145,17 @@ export function CallDetails({ callId = "call-001" }: CallDetailsProps) {
             </CardHeader>
             <CardContent className="p-8">
               <div className="space-y-6">
-                {call.transcript.map((entry, index) => (
-                  <div key={index} className={`flex ${entry.speaker === 'agent' ? 'justify-start' : 'justify-end'}`}>
-                    <div className={`max-w-[85%] p-4 rounded-2xl shadow-sm ${
-                      entry.speaker === 'agent' 
-                        ? 'bg-gradient-to-br from-yellow-50 to-yellow-100 border border-yellow-200' 
-                        : 'bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200'
-                    }`}>
+                {call.transcript.map((entry, index) => <div key={index} className={`flex ${entry.speaker === 'agent' ? 'justify-start' : 'justify-end'}`}>
+                    <div className={`max-w-[85%] p-4 rounded-2xl shadow-sm ${entry.speaker === 'agent' ? 'bg-gradient-to-br from-yellow-50 to-yellow-100 border border-yellow-200' : 'bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200'}`}>
                       <div className="flex justify-between items-center mb-2">
-                        <span className={`text-xs font-semibold uppercase tracking-wide ${
-                          entry.speaker === 'agent' ? 'text-yellow-800' : 'text-blue-800'
-                        }`}>
+                        <span className={`text-xs font-semibold uppercase tracking-wide ${entry.speaker === 'agent' ? 'text-yellow-800' : 'text-blue-800'}`}>
                           {entry.speaker === 'agent' ? 'AI Agent' : 'Caller'}
                         </span>
                         <span className="text-xs text-gray-500 bg-white px-2 py-1 rounded-full">{entry.time}</span>
                       </div>
                       <p className="text-sm leading-relaxed text-gray-800">{entry.text}</p>
                     </div>
-                  </div>
-                ))}
+                  </div>)}
               </div>
               
               <div className="mt-8 text-center">
@@ -224,7 +239,9 @@ export function CallDetails({ callId = "call-001" }: CallDetailsProps) {
               <div>
                 <p className="text-sm font-semibold text-gray-700 mb-3">Sentiment Analysis</p>
                 <div className="relative h-3 bg-gray-200 rounded-full overflow-hidden">
-                  <div className="absolute h-full bg-gradient-to-r from-red-400 via-yellow-400 to-green-500 rounded-full" style={{ width: '75%' }}></div>
+                  <div className="absolute h-full bg-gradient-to-r from-red-400 via-yellow-400 to-green-500 rounded-full" style={{
+                  width: '75%'
+                }}></div>
                 </div>
                 <div className="flex justify-between text-xs mt-2 text-gray-600">
                   <span>Negative</span>
@@ -242,7 +259,9 @@ export function CallDetails({ callId = "call-001" }: CallDetailsProps) {
                       <span className="text-xs font-bold text-yellow-700">68%</span>
                     </div>
                     <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-                      <div className="h-full bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full" style={{ width: '68%' }}></div>
+                      <div className="h-full bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full" style={{
+                      width: '68%'
+                    }}></div>
                     </div>
                   </div>
                   
@@ -252,7 +271,9 @@ export function CallDetails({ callId = "call-001" }: CallDetailsProps) {
                       <span className="text-xs font-bold text-blue-700">32%</span>
                     </div>
                     <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-                      <div className="h-full bg-gradient-to-r from-blue-400 to-blue-500 rounded-full" style={{ width: '32%' }}></div>
+                      <div className="h-full bg-gradient-to-r from-blue-400 to-blue-500 rounded-full" style={{
+                      width: '32%'
+                    }}></div>
                     </div>
                   </div>
                 </div>
@@ -271,6 +292,5 @@ export function CallDetails({ callId = "call-001" }: CallDetailsProps) {
           </Card>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 }
