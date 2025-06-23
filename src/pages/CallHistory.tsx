@@ -1,4 +1,3 @@
-
 import { AppLayout } from "@/components/layout/AppLayout";
 import { CallDetails } from "@/components/calls/CallDetails";
 import { Card } from "@/components/ui/card";
@@ -13,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { Play, FileText, Filter } from "lucide-react";
+import { Filter } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "@/hooks/use-toast";
 
@@ -214,7 +213,6 @@ const CallHistory = () => {
                       <TableHead>Duration</TableHead>
                       <TableHead className="text-right">Cost</TableHead>
                       <TableHead>Status</TableHead>
-                      <TableHead>Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -235,20 +233,6 @@ const CallHistory = () => {
                             </span>
                           )}
                         </TableCell>
-                        <TableCell>
-                          <div className="flex space-x-2">
-                            {call.hasRecording && (
-                              <Button variant="ghost" size="icon" className="h-8 w-8" onClick={(e) => e.stopPropagation()}>
-                                <Play size={16} />
-                              </Button>
-                            )}
-                            {call.hasTranscript && (
-                              <Button variant="ghost" size="icon" className="h-8 w-8" onClick={(e) => e.stopPropagation()}>
-                                <FileText size={16} />
-                              </Button>
-                            )}
-                          </div>
-                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -266,7 +250,6 @@ const CallHistory = () => {
                       <TableHead>Duration</TableHead>
                       <TableHead className="text-right">Cost</TableHead>
                       <TableHead>Status</TableHead>
-                      <TableHead>Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -280,20 +263,6 @@ const CallHistory = () => {
                           <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                             Completed
                           </span>
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex space-x-2">
-                            {call.hasRecording && (
-                              <Button variant="ghost" size="icon" className="h-8 w-8" onClick={(e) => e.stopPropagation()}>
-                                <Play size={16} />
-                              </Button>
-                            )}
-                            {call.hasTranscript && (
-                              <Button variant="ghost" size="icon" className="h-8 w-8" onClick={(e) => e.stopPropagation()}>
-                                <FileText size={16} />
-                              </Button>
-                            )}
-                          </div>
                         </TableCell>
                       </TableRow>
                     ))}
@@ -312,7 +281,6 @@ const CallHistory = () => {
                       <TableHead>Duration</TableHead>
                       <TableHead className="text-right">Cost</TableHead>
                       <TableHead>Status</TableHead>
-                      <TableHead>Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -326,20 +294,6 @@ const CallHistory = () => {
                           <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
                             Failed
                           </span>
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex space-x-2">
-                            {call.hasRecording && (
-                              <Button variant="ghost" size="icon" className="h-8 w-8" onClick={(e) => e.stopPropagation()}>
-                                <Play size={16} />
-                              </Button>
-                            )}
-                            {call.hasTranscript && (
-                              <Button variant="ghost" size="icon" className="h-8 w-8" onClick={(e) => e.stopPropagation()}>
-                                <FileText size={16} />
-                              </Button>
-                            )}
-                          </div>
                         </TableCell>
                       </TableRow>
                     ))}
