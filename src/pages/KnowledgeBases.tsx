@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { Button } from "@/components/ui/button";
@@ -352,9 +351,6 @@ const KnowledgeBases = () => {
                             id="file-upload"
                             accept=".pdf,.doc,.docx,.txt"
                           />
-                          <Button variant="outline" onClick={() => document.getElementById('file-upload')?.click()}>
-                            Choose Files
-                          </Button>
                         </div>
                       )}
                       
