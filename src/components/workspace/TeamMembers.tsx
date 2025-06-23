@@ -36,6 +36,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useState } from "react";
+import { toast } from "sonner";
 
 interface TeamMember {
   id: string;
@@ -47,8 +49,7 @@ interface TeamMember {
 }
 
 export function TeamMembers() {
-  // Sample data
-  const members: TeamMember[] = [
+  const [members, setMembers] = useState<TeamMember[]>([
     {
       id: "user-1",
       name: "Alex Johnson",
@@ -81,7 +82,82 @@ export function TeamMembers() {
       status: "Invited",
       dateAdded: "May 5, 2025"
     }
-  ];
+  ]);
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [roleFilter, setRoleFilter] = useState("all");
+  const [inviteDialogOpen, setInviteDialogOpen] = useState(false);
+  const [inviteForm, setInviteForm] = useState({
+    email: "",
+    role: "agent",
+    message: ""
+  });
+
+  // Filter members based on search and role filter
+  const filteredMembers = members.filter(member => {
+    const matchesSearch = member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         member.email.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesRole = roleFilter === "all" || member.role.toLowerCase() === roleFilter;
+    return matchesSearch && matchesRole;
+  });
+
+  const handleInviteMember = () => {
+    if (!inviteForm.email) {
+      toast.error("Please enter an email address");
+      return;
+    }
+
+    // Check if email already exists
+    const existingMember = members.find(m => m.email.toLowerCase() === inviteForm.email.toLowerCase());
+    if (existingMember) {
+      toast.error("A member with this email already exists");
+      return;
+    }
+
+    // Create new member
+    const newMember: TeamMember = {
+      id: `user-${Date.now()}`,
+      name: inviteForm.email.split('@')[0], // Use email prefix as temporary name
+      email: inviteForm.email,
+      role: inviteForm.role.charAt(0).toUpperCase() + inviteForm.role.slice(1) as "Admin" | "Manager" | "Agent",
+      status: "Invited",
+      dateAdded: new Date().toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric' 
+      })
+    };
+
+    setMembers(prev => [...prev, newMember]);
+    setInviteDialogOpen(false);
+    setInviteForm({ email: "", role: "agent", message: "" });
+    toast.success(`Invitation sent to ${inviteForm.email}`);
+  };
+
+  const handleRemoveMember = (memberId: string) => {
+    const member = members.find(m => m.id === memberId);
+    if (!member) return;
+
+    setMembers(prev => prev.filter(m => m.id !== memberId));
+    toast.success(`${member.name} has been removed from the team`);
+  };
+
+  const handleChangeRole = (memberId: string, newRole: "Admin" | "Manager" | "Agent") => {
+    const member = members.find(m => m.id === memberId);
+    if (!member) return;
+
+    setMembers(prev => prev.map(m => 
+      m.id === memberId ? { ...m, role: newRole } : m
+    ));
+    toast.success(`${member.name}'s role has been changed to ${newRole}`);
+  };
+
+  const handleEditProfile = (memberId: string) => {
+    const member = members.find(m => m.id === memberId);
+    if (!member) return;
+    
+    toast.info(`Edit profile for ${member.name} - This would open an edit dialog`);
+  };
 
   return (
     <div className="space-y-8 max-w-7xl mx-auto">
@@ -109,7 +185,7 @@ export function TeamMembers() {
               </div>
             </div>
           </div>
-          <Dialog>
+          <Dialog open={inviteDialogOpen} onOpenChange={setInviteDialogOpen}>
             <DialogTrigger asChild>
               <Button className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg">
                 <UserPlus className="mr-2 h-4 w-4" />
@@ -126,11 +202,20 @@ export function TeamMembers() {
               <div className="space-y-6 py-4">
                 <div className="space-y-2">
                   <Label htmlFor="email" className="text-sm font-medium">Email Address</Label>
-                  <Input id="email" placeholder="colleague@example.com" className="h-11" />
+                  <Input 
+                    id="email" 
+                    placeholder="colleague@example.com" 
+                    className="h-11"
+                    value={inviteForm.email}
+                    onChange={(e) => setInviteForm(prev => ({ ...prev, email: e.target.value }))}
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="role" className="text-sm font-medium">Role</Label>
-                  <Select defaultValue="agent">
+                  <Select 
+                    value={inviteForm.role} 
+                    onValueChange={(value) => setInviteForm(prev => ({ ...prev, role: value }))}
+                  >
                     <SelectTrigger className="h-11">
                       <SelectValue />
                     </SelectTrigger>
@@ -143,12 +228,29 @@ export function TeamMembers() {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="message" className="text-sm font-medium">Personal Message (Optional)</Label>
-                  <Input id="message" placeholder="Join our AI voice assistant platform!" className="h-11" />
+                  <Input 
+                    id="message" 
+                    placeholder="Join our AI voice assistant platform!" 
+                    className="h-11"
+                    value={inviteForm.message}
+                    onChange={(e) => setInviteForm(prev => ({ ...prev, message: e.target.value }))}
+                  />
                 </div>
               </div>
               <DialogFooter className="gap-3">
-                <Button variant="outline" className="h-11">Cancel</Button>
-                <Button className="bg-primary hover:bg-primary/90 h-11">Send Invitation</Button>
+                <Button 
+                  variant="outline" 
+                  className="h-11"
+                  onClick={() => setInviteDialogOpen(false)}
+                >
+                  Cancel
+                </Button>
+                <Button 
+                  className="bg-primary hover:bg-primary/90 h-11"
+                  onClick={handleInviteMember}
+                >
+                  Send Invitation
+                </Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
@@ -168,10 +270,12 @@ export function TeamMembers() {
                 <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />
                 <Input 
                   placeholder="Search members..." 
-                  className="pl-10 w-64 h-10 bg-white border-gray-200" 
+                  className="pl-10 w-64 h-10 bg-white border-gray-200"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
                 />
               </div>
-              <Select defaultValue="all">
+              <Select value={roleFilter} onValueChange={setRoleFilter}>
                 <SelectTrigger className="w-[140px] h-10 bg-white border-gray-200">
                   <SelectValue />
                 </SelectTrigger>
@@ -197,7 +301,7 @@ export function TeamMembers() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {members.map((member) => (
+              {filteredMembers.map((member) => (
                 <TableRow key={member.id} className="border-b border-gray-100 hover:bg-gray-50/50 transition-colors">
                   <TableCell className="py-4">
                     <div className="flex items-center space-x-3">
@@ -255,10 +359,31 @@ export function TeamMembers() {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end" className="w-40">
-                        <DropdownMenuItem className="text-sm">Edit Profile</DropdownMenuItem>
-                        <DropdownMenuItem className="text-sm">Change Role</DropdownMenuItem>
+                        <DropdownMenuItem 
+                          className="text-sm"
+                          onClick={() => handleEditProfile(member.id)}
+                        >
+                          Edit Profile
+                        </DropdownMenuItem>
+                        <DropdownMenuItem className="text-sm" asChild>
+                          <Select onValueChange={(value) => handleChangeRole(member.id, value as "Admin" | "Manager" | "Agent")}>
+                            <SelectTrigger className="w-full h-auto p-0 border-0 bg-transparent">
+                              <SelectValue placeholder="Change Role" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="Admin">Admin</SelectItem>
+                              <SelectItem value="Manager">Manager</SelectItem>
+                              <SelectItem value="Agent">Agent</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem className="text-red-600 text-sm">Remove</DropdownMenuItem>
+                        <DropdownMenuItem 
+                          className="text-red-600 text-sm"
+                          onClick={() => handleRemoveMember(member.id)}
+                        >
+                          Remove
+                        </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
@@ -268,7 +393,7 @@ export function TeamMembers() {
           </Table>
           
           <div className="px-6 py-4 bg-gray-50/30 border-t text-center text-sm text-gray-500">
-            Showing {members.length} members of {members.length} total
+            Showing {filteredMembers.length} members of {members.length} total
           </div>
         </CardContent>
       </Card>
