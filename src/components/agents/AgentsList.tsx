@@ -165,7 +165,7 @@ export function AgentsList() {
                         asChild
                         className="text-gray-600 hover:text-gray-900 hover:bg-gray-100"
                       >
-                        <Link to={`/agents/${agent.id}`}>{t('view')}</Link>
+                        <Link to={`/agents/${agent.id}`}>Edit</Link>
                       </Button>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
