@@ -12,7 +12,6 @@ import { Badge } from "@/components/ui/badge";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { ConnectAgentDialog } from "@/components/knowledgebases/ConnectAgentDialog";
 import { useForm } from "react-hook-form";
-
 const KnowledgeBases = () => {
   const {
     toast
@@ -137,11 +136,8 @@ const KnowledgeBases = () => {
     setSelectedKB(null);
     setIsEditing(false);
   };
-  
   const updateKnowledgeBase = (updatedKB: any) => {
-    setKnowledgeBasesState(prev => 
-      prev.map(kb => kb.id === updatedKB.id ? updatedKB : kb)
-    );
+    setKnowledgeBasesState(prev => prev.map(kb => kb.id === updatedKB.id ? updatedKB : kb));
     setSelectedKB(updatedKB);
   };
 
@@ -174,11 +170,13 @@ const KnowledgeBases = () => {
         };
         const newFiles = [...files, newFile];
         setFiles(newFiles);
-        
+
         // Update the knowledge base state
-        const updatedKB = { ...kb, files: newFiles };
+        const updatedKB = {
+          ...kb,
+          files: newFiles
+        };
         updateKnowledgeBase(updatedKB);
-        
         toast({
           title: "File uploaded",
           description: `${file.name} has been added to the knowledge base.`
@@ -195,11 +193,13 @@ const KnowledgeBases = () => {
         const newUrls = [...urls, newUrlObj];
         setUrls(newUrls);
         setNewUrl("");
-        
+
         // Update the knowledge base state
-        const updatedKB = { ...kb, urls: newUrls };
+        const updatedKB = {
+          ...kb,
+          urls: newUrls
+        };
         updateKnowledgeBase(updatedKB);
-        
         toast({
           title: "URL added",
           description: "The URL has been added to the knowledge base."
@@ -217,11 +217,13 @@ const KnowledgeBases = () => {
         setTexts(newTexts);
         setNewTextTitle("");
         setNewTextContent("");
-        
+
         // Update the knowledge base state
-        const updatedKB = { ...kb, texts: newTexts };
+        const updatedKB = {
+          ...kb,
+          texts: newTexts
+        };
         updateKnowledgeBase(updatedKB);
-        
         toast({
           title: "Text content added",
           description: "The text content has been added to the knowledge base."
@@ -231,19 +233,28 @@ const KnowledgeBases = () => {
     const handleRemoveFile = (index: number) => {
       const newFiles = files.filter((_, i) => i !== index);
       setFiles(newFiles);
-      const updatedKB = { ...kb, files: newFiles };
+      const updatedKB = {
+        ...kb,
+        files: newFiles
+      };
       updateKnowledgeBase(updatedKB);
     };
     const handleRemoveUrl = (index: number) => {
       const newUrls = urls.filter((_, i) => i !== index);
       setUrls(newUrls);
-      const updatedKB = { ...kb, urls: newUrls };
+      const updatedKB = {
+        ...kb,
+        urls: newUrls
+      };
       updateKnowledgeBase(updatedKB);
     };
     const handleRemoveText = (index: number) => {
       const newTexts = texts.filter((_, i) => i !== index);
       setTexts(newTexts);
-      const updatedKB = { ...kb, texts: newTexts };
+      const updatedKB = {
+        ...kb,
+        texts: newTexts
+      };
       updateKnowledgeBase(updatedKB);
     };
     return <div className="space-y-6">
@@ -301,7 +312,7 @@ const KnowledgeBases = () => {
                   </div>
                   <div>
                     <label className="text-sm font-medium text-gray-700">Total Sources</label>
-                    <p className="text-sm text-gray-900 mt-1">{(files.length + urls.length + texts.length)} sources</p>
+                    <p className="text-sm text-gray-900 mt-1">{files.length + urls.length + texts.length} sources</p>
                   </div>
                   <div className="flex flex-col gap-2 pt-2">
                     <Button onClick={() => setIsEditing(true)} className="w-full bg-[#FDDF5C] hover:bg-[#FDDF5C]/90 text-black font-medium">
@@ -314,22 +325,18 @@ const KnowledgeBases = () => {
                 </>}
               
               {/* URLs Overview */}
-              {urls.length > 0 && (
-                <div className="mt-6 pt-4 border-t border-gray-100">
+              {urls.length > 0 && <div className="mt-6 pt-4 border-t border-gray-100">
                   <label className="text-sm font-medium text-gray-700 mb-3 block">URLs ({urls.length})</label>
                   <div className="space-y-2">
-                    {urls.map((url: any, index: number) => (
-                      <div key={index} className="flex items-center gap-2 p-2 bg-gray-50 rounded-md">
+                    {urls.map((url: any, index: number) => <div key={index} className="flex items-center gap-2 p-2 bg-gray-50 rounded-md">
                         <Globe size={14} className="text-[#FDDF5C] flex-shrink-0" />
                         <div className="min-w-0 flex-1">
                           <p className="text-xs text-gray-900 truncate">{url.title}</p>
                           <p className="text-xs text-gray-500 truncate">{url.url}</p>
                         </div>
-                      </div>
-                    ))}
+                      </div>)}
                   </div>
-                </div>
-              )}
+                </div>}
             </CardContent>
           </Card>
 
@@ -423,9 +430,7 @@ const KnowledgeBases = () => {
                               </div>
                             </div>
                             <div className="flex items-center gap-2">
-                              <Button variant="ghost" size="sm">
-                                <ExternalLink size={14} />
-                              </Button>
+                              
                               {isEditing && <Button variant="ghost" size="sm" onClick={() => handleRemoveUrl(index)}>
                                   <Trash2 size={14} className="text-red-500" />
                                 </Button>}
@@ -520,7 +525,6 @@ const KnowledgeBases = () => {
       <ConnectAgentDialog kb={connectingKB} open={connectDialogOpen} onOpenChange={setConnectDialogOpen} />
     </AppLayout>;
 };
-
 interface KnowledgeBaseCardProps {
   kb: any;
   onView: () => void;
@@ -575,7 +579,6 @@ const KnowledgeBaseCard = ({
       </CardFooter>
     </Card>;
 };
-
 const EmptyKnowledgeBaseCard = ({
   onClick
 }: {
@@ -591,7 +594,6 @@ const EmptyKnowledgeBaseCard = ({
       </div>
     </Button>
   </Card>;
-
 interface SourceCardProps {
   title: string;
   icon: React.FC<{
@@ -616,5 +618,4 @@ const SourceCard = ({
       <p className="text-sm text-gray-600 text-center">{description}</p>
     </CardContent>
   </Card>;
-
 export default KnowledgeBases;
