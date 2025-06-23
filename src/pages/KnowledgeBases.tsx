@@ -27,9 +27,7 @@ const KnowledgeBases = () => {
   const [connectDialogOpen, setConnectDialogOpen] = useState(false);
   const [detailActiveTab, setDetailActiveTab] = useState("files");
   const [isEditing, setIsEditing] = useState(false);
-  
-  // Mock data for knowledge bases with their contents
-  const knowledgeBases = [
+  const [knowledgeBasesState, setKnowledgeBasesState] = useState([
     {
       id: "kb-1",
       title: "Product Documentation",
@@ -72,7 +70,7 @@ const KnowledgeBases = () => {
       ],
       texts: []
     }
-  ];
+  ]);
   
   const handleCreateKnowledgeBase = () => {
     toast({
@@ -94,6 +92,37 @@ const KnowledgeBases = () => {
   const handleConnectKB = (kb: any) => {
     setConnectingKB(kb);
     setConnectDialogOpen(true);
+  };
+
+  const handleDuplicateKB = (kb: any) => {
+    const duplicatedKB = {
+      ...kb,
+      id: `kb-${Date.now()}`,
+      title: `${kb.title} (Copy)`,
+    };
+    
+    setKnowledgeBasesState(prev => [...prev, duplicatedKB]);
+    
+    toast({
+      title: "Knowledge Base Duplicated",
+      description: `"${kb.title}" has been successfully duplicated.`,
+    });
+  };
+
+  const handleDeleteKB = (kb: any) => {
+    setKnowledgeBasesState(prev => prev.filter(item => item.id !== kb.id));
+    
+    // If we're currently viewing the deleted KB, go back to list
+    if (selectedKB && selectedKB.id === kb.id) {
+      setSelectedKB(null);
+      setIsEditing(false);
+    }
+    
+    toast({
+      title: "Knowledge Base Deleted",
+      description: `"${kb.title}" has been permanently deleted.`,
+      variant: "destructive"
+    });
   };
 
   const handleBackToList = () => {
@@ -522,13 +551,15 @@ const KnowledgeBases = () => {
           </CardHeader>
           <CardContent className="p-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {knowledgeBases.map((kb) => (
+              {knowledgeBasesState.map((kb) => (
                 <KnowledgeBaseCard
                   key={kb.id}
                   kb={kb}
                   onView={() => handleViewKB(kb)}
                   onEdit={() => handleEditKB(kb)}
                   onConnect={() => handleConnectKB(kb)}
+                  onDuplicate={() => handleDuplicateKB(kb)}
+                  onDelete={() => handleDeleteKB(kb)}
                 />
               ))}
               <EmptyKnowledgeBaseCard onClick={handleCreateKnowledgeBase} />
@@ -551,9 +582,11 @@ interface KnowledgeBaseCardProps {
   onView: () => void;
   onEdit: () => void;
   onConnect: () => void;
+  onDuplicate: () => void;
+  onDelete: () => void;
 }
 
-const KnowledgeBaseCard = ({ kb, onView, onEdit, onConnect }: KnowledgeBaseCardProps) => {
+const KnowledgeBaseCard = ({ kb, onView, onEdit, onConnect, onDuplicate, onDelete }: KnowledgeBaseCardProps) => {
   return (
     <Card className="border border-gray-200 hover:shadow-md transition-all duration-200">
       <CardHeader className="pb-3">
@@ -577,9 +610,9 @@ const KnowledgeBaseCard = ({ kb, onView, onEdit, onConnect }: KnowledgeBaseCardP
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="bg-white border border-gray-200 shadow-lg">
                 <DropdownMenuItem onClick={onEdit} className="hover:bg-gray-50">Edit Knowledge Base</DropdownMenuItem>
-                <DropdownMenuItem className="hover:bg-gray-50">Duplicate</DropdownMenuItem>
+                <DropdownMenuItem onClick={onDuplicate} className="hover:bg-gray-50">Duplicate</DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="text-red-600 hover:bg-red-50">Delete</DropdownMenuItem>
+                <DropdownMenuItem onClick={onDelete} className="text-red-600 hover:bg-red-50">Delete</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
