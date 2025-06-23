@@ -12,88 +12,91 @@ import { Badge } from "@/components/ui/badge";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { ConnectAgentDialog } from "@/components/knowledgebases/ConnectAgentDialog";
 import { useForm } from "react-hook-form";
+
 const KnowledgeBases = () => {
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
   const [selectedKB, setSelectedKB] = useState<any>(null);
   const [connectingKB, setConnectingKB] = useState<any>(null);
   const [connectDialogOpen, setConnectDialogOpen] = useState(false);
   const [detailActiveTab, setDetailActiveTab] = useState("files");
   const [isEditing, setIsEditing] = useState(false);
-  const [knowledgeBasesState, setKnowledgeBasesState] = useState([{
-    id: "kb-1",
-    title: "Product Documentation",
-    description: "Documentation for our SaaS product",
-    type: "document" as const,
-    sources: 3,
-    files: [{
-      name: "API_Documentation.pdf",
-      type: "pdf",
-      size: "2.4 MB",
-      uploadDate: "2024-06-01"
-    }, {
-      name: "User_Guide.docx",
-      type: "docx",
-      size: "1.8 MB",
-      uploadDate: "2024-06-02"
-    }, {
-      name: "FAQ.txt",
-      type: "txt",
-      size: "45 KB",
-      uploadDate: "2024-06-03"
-    }],
-    urls: [],
-    texts: []
-  }, {
-    id: "kb-2",
-    title: "FAQ Database",
-    description: "Frequently asked questions and answers",
-    type: "text" as const,
-    sources: 12,
-    files: [],
-    urls: [],
-    texts: [{
-      title: "General FAQ",
-      content: "What is our product?",
-      createdDate: "2024-05-15"
-    }, {
-      title: "Billing FAQ",
-      content: "How does billing work?",
-      createdDate: "2024-05-16"
-    }, {
-      title: "Technical FAQ",
-      content: "Technical support questions",
-      createdDate: "2024-05-17"
-    }]
-  }, {
-    id: "kb-3",
-    title: "Company Website",
-    description: "Content from company website and blog",
-    type: "website" as const,
-    sources: 8,
-    files: [],
-    urls: [{
-      url: "https://company.com/about",
-      title: "About Us",
-      lastCrawled: "2024-06-05"
-    }, {
-      url: "https://company.com/products",
-      title: "Products",
-      lastCrawled: "2024-06-05"
-    }, {
-      url: "https://company.com/blog",
-      title: "Blog",
-      lastCrawled: "2024-06-04"
-    }],
-    texts: []
-  }]);
+  const [showCreateForm, setShowCreateForm] = useState(false);
+  const [knowledgeBasesState, setKnowledgeBasesState] = useState([
+    {
+      id: "kb-1",
+      title: "Product Documentation",
+      description: "Documentation for our SaaS product",
+      type: "document" as const,
+      sources: 3,
+      files: [{
+        name: "API_Documentation.pdf",
+        type: "pdf",
+        size: "2.4 MB",
+        uploadDate: "2024-06-01"
+      }, {
+        name: "User_Guide.docx",
+        type: "docx",
+        size: "1.8 MB",
+        uploadDate: "2024-06-02"
+      }, {
+        name: "FAQ.txt",
+        type: "txt",
+        size: "45 KB",
+        uploadDate: "2024-06-03"
+      }],
+      urls: [],
+      texts: []
+    },
+    {
+      id: "kb-2",
+      title: "FAQ Database",
+      description: "Frequently asked questions and answers",
+      type: "text" as const,
+      sources: 12,
+      files: [],
+      urls: [],
+      texts: [{
+        title: "General FAQ",
+        content: "What is our product?",
+        createdDate: "2024-05-15"
+      }, {
+        title: "Billing FAQ",
+        content: "How does billing work?",
+        createdDate: "2024-05-16"
+      }, {
+        title: "Technical FAQ",
+        content: "Technical support questions",
+        createdDate: "2024-05-17"
+      }]
+    },
+    {
+      id: "kb-3",
+      title: "Company Website",
+      description: "Content from company website and blog",
+      type: "website" as const,
+      sources: 8,
+      files: [],
+      urls: [{
+        url: "https://company.com/about",
+        title: "About Us",
+        lastCrawled: "2024-06-05"
+      }, {
+        url: "https://company.com/products",
+        title: "Products",
+        lastCrawled: "2024-06-05"
+      }, {
+        url: "https://company.com/blog",
+        title: "Blog",
+        lastCrawled: "2024-06-04"
+      }],
+      texts: []
+    }
+  ]);
+
   const handleCreateKnowledgeBase = () => {
-    toast({
-      title: "Coming Soon",
-      description: "Knowledge Base creation will be available soon."
-    });
+    setShowCreateForm(true);
   };
+
   const handleViewKB = (kb: any) => {
     setSelectedKB(kb);
     setIsEditing(false);
@@ -135,10 +138,126 @@ const KnowledgeBases = () => {
   const handleBackToList = () => {
     setSelectedKB(null);
     setIsEditing(false);
+    setShowCreateForm(false);
   };
   const updateKnowledgeBase = (updatedKB: any) => {
     setKnowledgeBasesState(prev => prev.map(kb => kb.id === updatedKB.id ? updatedKB : kb));
     setSelectedKB(updatedKB);
+  };
+
+  // Create Knowledge Base Form Component
+  const CreateKnowledgeBaseForm = () => {
+    const form = useForm({
+      defaultValues: {
+        title: "",
+        description: "",
+        type: "document"
+      }
+    });
+
+    const handleSubmit = (data: any) => {
+      const newKB = {
+        id: `kb-${Date.now()}`,
+        title: data.title,
+        description: data.description,
+        type: data.type,
+        sources: 0,
+        files: [],
+        urls: [],
+        texts: []
+      };
+
+      setKnowledgeBasesState(prev => [...prev, newKB]);
+      setShowCreateForm(false);
+      setSelectedKB(newKB);
+      setIsEditing(true);
+
+      toast({
+        title: "Knowledge Base Created",
+        description: `"${data.title}" has been successfully created.`
+      });
+    };
+
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center gap-4">
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            onClick={handleBackToList} 
+            className="text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+          >
+            <ArrowLeft size={16} className="mr-2" />
+            Back to Knowledge Bases
+          </Button>
+          <div className="h-6 w-px bg-gray-300"></div>
+          <div>
+            <h1 className="text-2xl font-semibold text-gray-900">Create Knowledge Base</h1>
+            <p className="text-sm text-gray-600 mt-1">Set up a new knowledge source for your AI agents</p>
+          </div>
+        </div>
+
+        <Card className="max-w-2xl border-0 shadow-sm bg-white">
+          <CardHeader className="border-b border-gray-100 bg-gray-50/50">
+            <CardTitle className="text-lg font-medium text-gray-900">Basic Information</CardTitle>
+            <CardDescription>Provide basic details about your knowledge base</CardDescription>
+          </CardHeader>
+          <CardContent className="p-6">
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="title"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Title</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter knowledge base title" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Description</FormLabel>
+                      <FormControl>
+                        <Textarea 
+                          placeholder="Describe what this knowledge base contains"
+                          rows={3}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <div className="flex gap-3 pt-4">
+                  <Button 
+                    type="submit" 
+                    className="bg-[#FDDF5C] hover:bg-[#FDDF5C]/90 text-black font-medium"
+                  >
+                    Create Knowledge Base
+                  </Button>
+                  <Button 
+                    type="button" 
+                    variant="outline" 
+                    onClick={handleBackToList}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </form>
+            </Form>
+          </CardContent>
+        </Card>
+      </div>
+    );
   };
 
   // Knowledge Base Detail/Edit Component
@@ -489,11 +608,22 @@ const KnowledgeBases = () => {
         </div>
       </div>;
   };
+
+  // Show create form if in create mode
+  if (showCreateForm) {
+    return (
+      <AppLayout>
+        <CreateKnowledgeBaseForm />
+      </AppLayout>
+    );
+  }
+
   if (selectedKB) {
     return <AppLayout>
         <KnowledgeBaseDetailEdit kb={selectedKB} />
       </AppLayout>;
   }
+
   return <AppLayout>
       <div className="space-y-6">
         <div className="flex items-center justify-between">
@@ -523,6 +653,8 @@ const KnowledgeBases = () => {
       <ConnectAgentDialog kb={connectingKB} open={connectDialogOpen} onOpenChange={setConnectDialogOpen} />
     </AppLayout>;
 };
+
+// Knowledge Base Card Component
 interface KnowledgeBaseCardProps {
   kb: any;
   onView: () => void;
@@ -577,6 +709,8 @@ const KnowledgeBaseCard = ({
       </CardFooter>
     </Card>;
 };
+
+// Empty Knowledge Base Card Component
 const EmptyKnowledgeBaseCard = ({
   onClick
 }: {
@@ -592,6 +726,8 @@ const EmptyKnowledgeBaseCard = ({
       </div>
     </Button>
   </Card>;
+
+// Source Card Component
 interface SourceCardProps {
   title: string;
   icon: React.FC<{
@@ -616,4 +752,5 @@ const SourceCard = ({
       <p className="text-sm text-gray-600 text-center">{description}</p>
     </CardContent>
   </Card>;
+
 export default KnowledgeBases;
