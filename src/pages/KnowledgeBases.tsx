@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { Button } from "@/components/ui/button";
@@ -576,7 +577,6 @@ const KnowledgeBaseCard = ({ kb, onView, onEdit, onConnect }: KnowledgeBaseCardP
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="bg-white border border-gray-200 shadow-lg">
                 <DropdownMenuItem onClick={onEdit} className="hover:bg-gray-50">Edit Knowledge Base</DropdownMenuItem>
-                <DropdownMenuItem className="hover:bg-gray-50">Configure</DropdownMenuItem>
                 <DropdownMenuItem className="hover:bg-gray-50">Duplicate</DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className="text-red-600 hover:bg-red-50">Delete</DropdownMenuItem>
