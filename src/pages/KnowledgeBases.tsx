@@ -474,9 +474,7 @@ const KnowledgeBases = () => {
                               </div>
                             </div>
                             <div className="flex items-center gap-2">
-                              <Button variant="ghost" size="sm">
-                                <ExternalLink size={14} />
-                              </Button>
+                              
                               {isEditing && <Button variant="ghost" size="sm" onClick={() => handleRemoveText(index)}>
                                   <Trash2 size={14} className="text-red-500" />
                                 </Button>}
