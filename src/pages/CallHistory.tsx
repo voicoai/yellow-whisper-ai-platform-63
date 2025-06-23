@@ -1,3 +1,4 @@
+
 import { AppLayout } from "@/components/layout/AppLayout";
 import { CallDetails } from "@/components/calls/CallDetails";
 import { Card } from "@/components/ui/card";
@@ -14,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Play, FileText, Filter } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { toast } from "@/hooks/use-toast";
 
 interface Call {
   id: string;
@@ -113,6 +115,44 @@ const CallHistory = () => {
     },
   ];
 
+  const exportToCSV = () => {
+    // Create CSV headers
+    const headers = ['Call ID', 'Date & Time', 'Agent', 'Duration', 'Cost', 'Status', 'Has Recording', 'Has Transcript'];
+    
+    // Convert data to CSV format
+    const csvData = calls.map(call => [
+      call.id,
+      call.date,
+      call.agent,
+      call.duration,
+      `$${call.cost.toFixed(2)}`,
+      call.status,
+      call.hasRecording ? 'Yes' : 'No',
+      call.hasTranscript ? 'Yes' : 'No'
+    ]);
+    
+    // Combine headers and data
+    const csvContent = [headers, ...csvData]
+      .map(row => row.map(field => `"${field}"`).join(','))
+      .join('\n');
+    
+    // Create and download the file
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', `call-history-${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    toast({
+      title: "Export Successful",
+      description: "Call history has been exported to CSV file.",
+    });
+  };
+
   return (
     <AppLayout>
       {selectedCall ? (
@@ -138,7 +178,7 @@ const CallHistory = () => {
                 <Filter className="mr-2 h-4 w-4" />
                 Filter
               </Button>
-              <Button variant="outline" size="sm">Export</Button>
+              <Button variant="outline" size="sm" onClick={exportToCSV}>Export</Button>
             </div>
           </div>
           
