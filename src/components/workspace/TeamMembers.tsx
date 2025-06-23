@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import {
@@ -87,10 +86,16 @@ export function TeamMembers() {
   const [searchTerm, setSearchTerm] = useState("");
   const [roleFilter, setRoleFilter] = useState("all");
   const [inviteDialogOpen, setInviteDialogOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [editingMember, setEditingMember] = useState<TeamMember | null>(null);
   const [inviteForm, setInviteForm] = useState({
     email: "",
     role: "agent",
     message: ""
+  });
+  const [editForm, setEditForm] = useState({
+    name: "",
+    email: ""
   });
 
   // Filter members based on search and role filter
@@ -156,7 +161,46 @@ export function TeamMembers() {
     const member = members.find(m => m.id === memberId);
     if (!member) return;
     
-    toast.info(`Edit profile for ${member.name} - This would open an edit dialog`);
+    setEditingMember(member);
+    setEditForm({
+      name: member.name,
+      email: member.email
+    });
+    setEditDialogOpen(true);
+  };
+
+  const handleSaveEdit = () => {
+    if (!editingMember) return;
+    
+    if (!editForm.name.trim()) {
+      toast.error("Please enter a name");
+      return;
+    }
+    
+    if (!editForm.email.trim()) {
+      toast.error("Please enter an email address");
+      return;
+    }
+
+    // Check if email already exists (excluding current member)
+    const existingMember = members.find(m => 
+      m.email.toLowerCase() === editForm.email.toLowerCase() && m.id !== editingMember.id
+    );
+    if (existingMember) {
+      toast.error("A member with this email already exists");
+      return;
+    }
+
+    setMembers(prev => prev.map(m => 
+      m.id === editingMember.id 
+        ? { ...m, name: editForm.name.trim(), email: editForm.email.trim() }
+        : m
+    ));
+    
+    setEditDialogOpen(false);
+    setEditingMember(null);
+    setEditForm({ name: "", email: "" });
+    toast.success("Member profile updated successfully");
   };
 
   return (
@@ -358,9 +402,9 @@ export function TeamMembers() {
                           <MoreHorizontal size={16} />
                         </Button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="w-40">
+                      <DropdownMenuContent align="end" className="w-40 bg-white shadow-lg border z-50">
                         <DropdownMenuItem 
-                          className="text-sm"
+                          className="text-sm cursor-pointer"
                           onClick={() => handleEditProfile(member.id)}
                         >
                           Edit Profile
@@ -370,7 +414,7 @@ export function TeamMembers() {
                             <SelectTrigger className="w-full h-auto p-0 border-0 bg-transparent">
                               <SelectValue placeholder="Change Role" />
                             </SelectTrigger>
-                            <SelectContent>
+                            <SelectContent className="bg-white shadow-lg border z-50">
                               <SelectItem value="Admin">Admin</SelectItem>
                               <SelectItem value="Manager">Manager</SelectItem>
                               <SelectItem value="Agent">Agent</SelectItem>
@@ -379,7 +423,7 @@ export function TeamMembers() {
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem 
-                          className="text-red-600 text-sm"
+                          className="text-red-600 text-sm cursor-pointer"
                           onClick={() => handleRemoveMember(member.id)}
                         >
                           Remove
@@ -503,6 +547,56 @@ export function TeamMembers() {
           </div>
         </CardContent>
       </Card>
+      
+      {/* Edit Profile Dialog */}
+      <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-xl">Edit Profile</DialogTitle>
+            <DialogDescription className="text-base">
+              Update member information for {editingMember?.name}.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-6 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="edit-name" className="text-sm font-medium">Full Name</Label>
+              <Input 
+                id="edit-name" 
+                placeholder="Enter full name" 
+                className="h-11"
+                value={editForm.name}
+                onChange={(e) => setEditForm(prev => ({ ...prev, name: e.target.value }))}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="edit-email" className="text-sm font-medium">Email Address</Label>
+              <Input 
+                id="edit-email" 
+                type="email"
+                placeholder="Enter email address" 
+                className="h-11"
+                value={editForm.email}
+                onChange={(e) => setEditForm(prev => ({ ...prev, email: e.target.value }))}
+              />
+            </div>
+          </div>
+          <DialogFooter className="gap-3">
+            <Button 
+              variant="outline" 
+              className="h-11"
+              onClick={() => setEditDialogOpen(false)}
+            >
+              Cancel
+            </Button>
+            <Button 
+              className="bg-primary hover:bg-primary/90 h-11"
+              onClick={handleSaveEdit}
+            >
+              Save Changes
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
