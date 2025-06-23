@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
@@ -177,7 +178,6 @@ export function AgentsList() {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="bg-white border border-gray-200 shadow-lg">
-                          <DropdownMenuItem className="hover:bg-gray-50">{t('configure')}</DropdownMenuItem>
                           <DropdownMenuItem className="hover:bg-gray-50">{t('duplicate')}</DropdownMenuItem>
                           <DropdownMenuSeparator />
                           <DropdownMenuItem className="text-red-600 hover:bg-red-50">{t('delete')}</DropdownMenuItem>
