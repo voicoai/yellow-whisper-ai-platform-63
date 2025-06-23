@@ -73,10 +73,7 @@ export function CallDetails({
           </div>
         </div>
         <div className="flex gap-3">
-          <Button variant="outline" size="sm" className="h-10">
-            <Download className="mr-2 h-4 w-4" />
-            Export
-          </Button>
+          
           
         </div>
       </div>
