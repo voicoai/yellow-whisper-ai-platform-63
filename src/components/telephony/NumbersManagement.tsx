@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -19,6 +18,7 @@ import {
 } from "@/components/ui/table";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Trash } from "lucide-react";
 
 interface PhoneNumber {
   id: string;
@@ -70,6 +70,11 @@ export function NumbersManagement() {
       status: "inactive"
     },
   ];
+
+  const handleDeleteNumber = (numberId: string) => {
+    console.log(`Deleting number with ID: ${numberId}`);
+    // Delete functionality would be implemented here
+  };
 
   return (
     <div className="space-y-8">
@@ -148,7 +153,14 @@ export function NumbersManagement() {
                     </TableCell>
                     <TableCell className="text-right text-gray-700">${number.monthlyPrice.toFixed(2)}</TableCell>
                     <TableCell className="text-right">
-                      <Button variant="ghost" size="sm" className="text-gray-600 hover:text-black">Edit</Button>
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        className="text-gray-600 hover:text-red-600 hover:bg-red-50"
+                        onClick={() => handleDeleteNumber(number.id)}
+                      >
+                        <Trash size={16} />
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}
